@@ -1,0 +1,11 @@
+<script>
+    var memberSelect = document.getElementById('id_member_type');
+    memberSelect.onchange = function(){
+        selected = memberSelect.options[memberSelect.selectedIndex].text.toLowerCase();
+        rows = document.getElementById('member_type_info').rows;
+        for(x=0; x<rows.length; x+=1){
+        rows[x].classList.add('hidden');
+        }
+        document.getElementById(selected+'_info').classList.remove('hidden');
+    };
+</script>

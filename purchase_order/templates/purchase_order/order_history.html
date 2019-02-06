@@ -1,0 +1,192 @@
+{% extends "keskei/base-full.html" %}
+{% load int_to_rupiah int_to_quantity int_to_kilogram humanize %}
+  {% block title %}
+    <title>Riwayat Pembelian | kei-partner.com</title>
+  {% endblock %}
+  {% block content %}
+    <div id="mainContainer" class="container container-form container-bg" style="width:100%;padding-bottom: 0">
+      <section name="header">
+        <div class="container" style="width:100%;background: #fff; padding-bottom: 20px"> 
+        <div class="row" style="margin: 0">
+            <div class="col-xs-12" style="padding: 0; overflow-x: auto">
+                <h4 class="title" style="font-size:20px">Riwayat Transaksi</h4>
+                <p>Total Nilai Transaksi = {{ request.user.member.get_total_spent | int_to_rupiah }}</p>
+                <p>Jumlah Transaksi = {{ request.user.users_order.all.count }} invoice </p>
+                <table class="table table-responsive table-striped">
+                    <tbody>
+                        <tr>
+                            <th>
+                                No Invoice
+                            </th>
+                            <th>
+                                Tanggal Checkout
+                            </th>
+                            <th>
+                                Tanggal Bayar
+                            </th>
+                            <th>
+                                Jumlah Pembelian
+                            </th>
+                            <th>
+                                Diskon
+                            </th>
+                            <th>
+                                Ongkos Kirim
+                            </th>
+                            <th>
+                                Total Pembayaran
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th>
+                                Verifikasi
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                        {% for order in products %}
+                        <tr  {% if not order.is_paid %} class="bg-danger" {% endif %}>
+                                <td style="min-width:150px">
+                                    <a href="{% url 'order:detail' order_number=order.order_number.lower %}">
+                                    {{ order.order_number }}
+                                    </a><br>
+                                    {% if order.is_set_as_dropship %}
+                                        Dropship : <br>{{ order.customer.name | title }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ order.created_date | date:"d/m/Y" | title }}
+                                </td>
+                                <td>
+                                    {{ order.payment_date | date:"d/m/Y" | title }}
+                                </td>
+                                <td>
+                                    {{ order.total_price | int_to_rupiah }}
+                                </td>
+                                <td>
+                                    {{ order.discount | int_to_rupiah }}
+                                </td>
+                                <td>
+                                    {{ order.shipping_cost | int_to_rupiah }}
+                                </td>
+                                <td>
+                                    {{ order.total_payment | int_to_rupiah }}
+                                </td>
+                                <td>
+                                    {% if order.is_paid %}
+                                    Sudah Dibayar
+                                    {% else %}
+                                    <span class="hot">Belum Dibayar</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if order.is_verified %}
+                                    Terverifikasi
+                                    {% else %}
+                                    <span class="hot">Belum Diverifikasi</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'order:detail' order_number=order.order_number.lower %}"  class="btn btn-primary btn-xs">Detail</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% include "shopping_cart/pagination.html" %}
+        </div>
+        </div>
+        </section>
+    </div>
+<script src="/static/javascript/jquery-3.2.1.min.js"></script> 
+<script src="/static/javascript/bootstrap.min.js"></script>  
+<script>
+    function checkout(){
+        $.post("{% url 'checkout' %}",
+            {
+                csrfmiddlewaretoken:"{{token}}",
+            },
+            function (data, status){         
+                if(data!=0){       
+                    var modal = $('#myModal');
+                    modal.removeClass('hidden');
+                    var modalBody = $('#modal-body')
+                    var results = "<div class='row' style='margin: 0;padding:5px 0'>";
+                        results += "<div class='col-xs-12' style='padding: 0'>";
+                        results += "<p><strong style='font-size: 120%'> Nomor Invoice : "+ data['order_number']+"</strong><br>";
+                        results += "<strong style='font-size: 220%'>";
+                        results += "Jumlah Tagihan: <br>"+data['total_payment'] + " </strong>";
+                        results += "<hr>Keterangan : <br></p></div>";
+                        results += "<div class='col-xs-4' style='padding: 0'>";
+                        results += "<p>Jumlah Belanja <br>";
+                        results += "Discount <br>";
+                        results += "Ongkos Kirim</p>";
+                        results += "<hr><p>Penyedia Jasa <br>";
+                        results += "Jenis Layanan <br>";
+                        results += "Alamat Tujuan </p>";
+                        results += "</div>";
+                        results += "<div class='col-xs-8' style='padding: 0'>";
+                        results += "<p>: "+data['total_price']+"<br>";
+                        results += ": "+data['discount']+"<br>";
+                        results += ": "+data['shipping_cost']+"</p>";
+                        results += "<hr><p>: "+data['service']+"<br>";
+                        results += ": "+data['sub_service']+"<br>";
+                        results += ": "+data['alamat_tujuan']+"</p>";
+                        results += "</div>";
+                        results += "</div>";
+                    modalBody.html(results);
+                    modal.modal('show');
+                }
+            },
+        );
+    }
+</script>
+<script>
+    $('#getServices').click(function(){
+        $("#getServices").addClass('disabled');
+        $('#getServices').text("Please Wait...");
+        $('#selectServiceBox').addClass('hidden');
+        var courier = $('#courier').find(":selected").val();
+        var selectService = $('#selectService');
+        var results = '';
+        $.post('',
+            {
+                csrfmiddlewaretoken:"{{token}}",
+                courier:courier,
+                method:'check_shipping'
+            },
+            function (data, status){         
+                if(data!=0){       
+                    for(var i=0; i < data.length; i++){
+                        results += "<div class='row' style='margin: 0;padding:5px 0'>";
+                        results += "<div class='col-xs-12' style='padding: 0'>";
+                        results += "<p> Kode Layanan :"+ data[i]['service']+" ";
+                        results += "<strong style='font-size: 120%'>";
+                        results += "Ongkos Kirim : "+data[i]['cost'][0]['value'] + " </strong>";
+                        results += "<br>Keterangan : "+data[i]['description']+"<br></p></div>";
+                        results += "<br>";
+                        results += "<form method='post'>";
+                        results += "<input type='hidden' name='csrfmiddlewaretoken' value='{{token}}'>";
+                        results += "<input type='hidden' name='method' value='set_shipping'>";
+                        results += "<input type='hidden' name='service' value='"+ data[i]['service'] +"'>";
+                        results += "<button type='submit'";
+                        results += "class='btn btn-xs btn-primary' style='margin:auto;'>Pilih Layanan Ini</button>";
+                        results += "</form>";
+                        results += "</div></div>";
+                    }
+                    selectService.html(results);
+                }
+                else{
+                    selectService.html('<p style="padding-top:10px">Layanan ini tidak tersedia</p>')
+                }
+                $('#selectServiceBox').removeClass('hidden');
+                $("#getServices").removeClass('disabled');
+                $('#getServices').text('Cek Layanan Lain');
+            },
+        );
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,92 @@
+
+<div class="row"  style="margin:0; margin-top: 10px;
+background: #f7540f;">
+  <div class="col-lg-10 col-lg-offset-2" style="padding:10px;
+  text-align: center; 
+  background: #147D08;">
+    <a href="/store/">
+        <img src="/media/logo-w.png" style="width:50%;height:auto;">
+    </a>
+  </div>
+</div>
+<div class="row" style="margin:0">
+  {% for category in categories %}
+  <div class="col-lg-12" style="padding:5px 10px;
+  background: #999999;border-bottom:1px solid #fff;
+  text-align: center; ">
+    <a href="{{ category.get_url }}">
+      <p style="color:white; margin:0">{{category.name | title}}</p>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+<div class="row"  style="margin:0; margin-top: 2px;
+background: #f7540f;">
+  <div class="col-lg-10 col-lg-offset-2" style="padding:10px;
+  text-align: center; 
+  background: #147D08;">
+    <p style="color:white; margin:0">Filter By Brand</p>
+  </div>
+</div>
+<div class="row" style="margin:0">
+  {% for brand in brands %}
+  <div class="col-lg-12" style="padding:5px 10px;
+  background: #999999;border-bottom:1px solid #fff;
+  text-align: center; ">
+    <a href="{{ brand.get_url }}">
+      <p style="color:white; margin:0">{{brand.name | title}}</p>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+<div class="row"  style="margin:0; margin-top: 2px;
+background: #f7540f;">
+  <div class="col-lg-10  col-lg-offset-2" style="padding:10px;
+  text-align: center; 
+  background: #147D08;">
+    <p style="color:white; margin:0">Filter By Price</p>
+  </div>
+</div>
+<div class="row" style="margin:0">
+  <div class="col-lg-12" style="padding:5px 10px;
+  background: #999999;border-bottom:1px solid #fff;
+  text-align: center; ">
+    <a href="/store/price/50000/200000/">
+        <p style="color:white; margin:0">50.000 - 200.000</p>
+    </a>
+  </div>
+  <div class="col-lg-12" style="padding:5px 10px;
+  background: #999999;border-bottom:1px solid #fff;
+  text-align: center; ">
+    <a href="/store/price/200001/500000/">
+        <p style="color:white; margin:0">201.000 - 500.000</p>
+    </a>
+  </div>
+  <div class="col-lg-12" style="padding:5px 10px;
+  background: #999999;border-bottom:1px solid #fff;
+  text-align: center; ">
+    <a href="/store/price/500001/1000000/">
+        <p style="color:white; margin:0">501.000 - 1.000.000</p>
+    </a>
+  </div>
+  <div class="col-lg-12" style="padding:5px 10px;
+  background: #999999;border-bottom:1px solid #fff;
+  text-align: center; ">
+    <a href="/store/price/1000001/5000000/">
+        <p style="color:white; margin:0">1.000.000 - 5.000.000</p>
+    </a>
+  </div>
+  <div class="col-lg-12" style="padding:5px 10px;
+  background: #999999;border-bottom:1px solid #fff;
+  text-align: center; ">
+    <a href="/store/price/5000001/0/">
+        <p style="color:white; margin:0">&gt; 5.000.000</p>
+    </a>
+  </div>
+</div>
+<div class="row" style="margin:0">
+  <div class="col-lg-12" style="padding:5px 0;
+  text-align: center; ">
+      <img src="/media/adst.png" style="width:100%;height:auto;">
+  </div>
+</div>

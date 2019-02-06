@@ -1,0 +1,133 @@
+{% extends "keskei/base-full.html" %}
+  {% block title %}
+    <title>Daftar | kei-partner.com</title>
+  {% endblock %}
+  {% block content %}
+    <div class="container container-form container-bg">
+    <div class="hidden-xs col-sm-1 col-lg-2"></div>
+    <div class="col-xs-12 col-sm-10 col-lg-8" style="padding: 0">
+      <div class="col-xs-12 card-bottom" style="background:#fff">
+        <form method="POST">
+            {% csrf_token %}
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                           {{ field.name }}
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div>
+            </div>
+          <fieldset id="membership-set" style="width: 100%; margin:20px 0">
+              <legend style="margin-bottom:0">Data Membership :</legend>
+              <div class="col-xs-12">
+                <div><p style="font-size:8pt;margin-top:13px;text-align:left">Kode Sponsor *(kosongkan jika tidak ada)</p>  
+                  {{ form.sponsor_code }}
+                </div>
+              </div>
+          </fieldset>
+
+          <fieldset id="account-set" style="width: 100%; margin: 20px 0">
+              <legend>Data Akun :</legend>
+
+              <div class="row" style="margin: 0">
+                <div class="col-xs-12 col-sm-6">
+                  <div><p style="font-size:8pt;margin-bottom:3px;text-align:left">Username *(untuk login, maks 20 karakter tanpa spasi)<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>  
+                    {{ form.username }}  
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                  <div><p style="font-size:8pt;margin-bottom:3px;text-align:left">Email valid *(untuk konfimasi akun)<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>  
+                    {{ form.email }}  
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" style="margin: 0">
+                  <div class="col-xs-12 col-sm-6">
+                    <div><p style="font-size:8pt;margin-bottom:3px;text-align:left">Nama Lengkap *(sesuai dengan ktp)<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>  
+                      {{ form.first_name }}
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6">
+                      <div><p style="font-size:8pt;margin-bottom:3px;text-align:left">Nomor HP/ Whatsapp <i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>  
+                      {{ form.phone_number }}
+                    </div>
+                  </div>
+               </div>
+
+              <div class="row" style="margin: 0">
+                <div class="col-xs-12 col-sm-6">
+                  <div><p style="font-size:8pt;margin-bottom:3px;text-align:left">Kata Sandi (min 6 karakter)<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>
+                    {{ form.password }}  
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                  <div><p style="font-size:8pt;margin-bottom:3px;text-align:left">Masukan ulang kata sandi<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>
+                    <input class="input-text" style="width:100%" type="password" placeholder="Ulangi Kata Sandi" name="psw2"></div>
+                </div>
+              </div>
+
+  
+          </fieldset>
+
+          <fieldset id="address-set" style="width: 100%; margin: 20px 0">
+            <legend>Data Alamat :</legend>
+
+            <div class="row" style="margin: 0;">
+                <div class="col-xs-12 col-sm-6" style="padding:0 15px;display:block;text-align:left;z-index:3000">
+                  <p style="font-size:8pt;margin-bottom:3px;text-align:left">Provinsi :<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>
+                  {{ form.provinsi_home }}
+                </div>
+
+                <div class="col-xs-12 col-sm-6" style="padding:0 15px;display:block;text-align:left;z-index:3000">
+                  <p style="font-size:8pt;margin-bottom:3px;text-align:left">Kota/ Kabupaten :<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>
+                  
+                  <select style="width:100%" name="kota_home" style="background-color:#f1f1f1;" onClick=getKecamatan(this.id) id="id_kota_home">
+                    <option value="..."> </option>
+                  </select>
+                </div>
+            </div>
+
+            <div class="row" style="margin: 0;">
+                <div class="col-xs-12 col-sm-6" style="padding:0 15px;display:block;text-align:left;z-index:3000">
+                  <p style="font-size:8pt;margin-bottom:3px;text-align:left">Kecamatan/ Subdistrik :<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>
+                  
+                  <select style="width:100%" name="kecamatan_home"  style="background-color:#f1f1f1"  onClick=getKelurahan(this.id)  id="id_kecamatan_home">
+                    <option value="..."> </option>         
+                  </select>
+                </div>
+
+                <div class="col-xs-12 col-sm-6" style="padding:0 15px;display:block;text-align:left;z-index:3000">
+                  <p style="font-size:8pt;margin-bottom:3px;text-align:left">Kelurahan/ Desa :<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>
+                  
+                  <select style="width:100%"  name="kelurahan_home" style="background-color:#f1f1f1" id="id_kelurahan_home">
+                    <option value="..."> </option>                  
+                  </select>
+                </div>
+            </div>
+        
+            <div class="row" style="margin: 0;">
+                <div class="col-xs-12" style="text-align: left">
+                  <div><p style="font-size:8pt;margin-bottom:3px;text-align:left">Alamat Lengkap *(sesuai dengan KTP)<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>
+                  </div>
+                  {{ form.home_address }}
+                </div>
+            </div>
+        </fieldset>
+
+           <div class="col-xs-12" style="margin:20px 0; display: flex; justify-content: center;"> 
+            <button class="btn btn-danger" onClick="history.go(-1);" style="width:auto; min-width: 120px;">Batal</button>
+             <button class="btn btn-primary" style="width:auto; min-width: 120px; margin: 0 15px" type="submit">Kirim</button></div>
+         </form></div></div>
+    <div class="hidden-xs col-sm-1 col-lg-2"></div></div>
+{% include "membership/get_area_script.html" %}
+{% endblock %}

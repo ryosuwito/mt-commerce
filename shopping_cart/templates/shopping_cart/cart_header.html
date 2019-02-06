@@ -1,0 +1,98 @@
+{% load int_to_rupiah int_to_kilogram int_to_quantity%}
+<div class="top-cart-contain"> 
+<!-- Top Cart -->
+<div class="mini-cart">
+    <div data-toggle="dropdown" data-hover="dropdown" class="basket dropdown-toggle"> 
+        <a href="shopping_cart.html"><span>Shopping Cart</span> 
+            <span class="cart_count">{{ cart.get_total_items_in_cart }}</span>
+    <div class="price" style="color: #333">{{ cart.get_total_price | int_to_rupiah }}</div>
+    </a> </div>
+    <div>
+    <div class="top-cart-content"> 
+        <!--block-subtitle-->
+        <ul class="mini-products-list" id="cart-sidebar">
+        {% for item in cart.get_items_in_cart %}
+            {% if forloop.counter < 5 %}
+                <form action="{% url 'cart:index' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="item" value="item_{{item.pk}}">
+                {% if forloop.first %}
+                <li class="item first">
+                {% elif forloop.last %}
+                <li class="item last">
+                {% else %}
+                <li class="item">
+                {% endif %}
+                    <div class="item-inner"> 
+                        <a class="product-image" href="{{ item.product.get_detail_url }}">
+                            <img alt="{{ item.product.name | truncatechars:20}}" src="{{ item.product.get_photo_url }}"> </a>
+                    <div class="product-details">
+                        <div class="access"><button class="btn-remove1" type="submit">X</button>  </div>
+                        <p class="product-name"><a href="{{ item.product.get_detail_url }}">{{ item.product.name | truncatechars:20}}</a> </p>
+                        {{ item.quantity | int_to_quantity }} x <span class="price">{{ item.get_item_details.subtotal | int_to_rupiah}}</span>
+                    </div>
+                    </div>
+                </li>
+                </form>
+            {% endif %}
+        {% endfor %}
+        </ul>
+        <!--actions-->
+        <div class="actions">
+        <a href="{% url 'cart:index' %}" class="view-cart"><span>View Cart</span></a> 
+    </div>
+    </div>
+    </div>
+</div>
+</div>
+<!-- thm wishlist --> 
+{% comment %}
+<ul class="nav navbar-nav navbar-right" style="margin-bottom: 0">
+<li class="dropdown dr-two">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+       {{ cart.get_total_products }} items <span class="glyphicon glyphicon-shopping-cart"></span>
+       {% if cart.get_total_products > 0%}
+            <span style="min-width:8px;
+            position: absolute;
+            top: 6px;
+            right: 11px;
+            min-height: 8px;  
+            padding: 2px;
+            border-radius: 5px; 
+            background-color: #ff4545;"></span>
+        {% endif %}
+    </a>
+    {% if cart.get_total_products > 0%}
+    <ul class="dropdown-menu dr-menu-two dropdown-cart" role="menu" style="padding-bottom: 0">
+        {% for item in cart.get_items_in_cart %}
+            {% if forloop.counter < 5 %}
+            <form action="{% url 'cart:index' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="item" value="item_{{item.pk}}">
+                <li>
+                    <span class="item">
+                    <span class="item-left">
+                        <img src="{{ item.product.get_photo_url }}" width="50" height="50" alt="" />
+                        <span class="item-info">
+                            <span><a href="{{ item.product.get_detail_url }}">{{ item.product.name | truncatechars:20}}</a></span>
+                            <span>{{ item.get_item_details.subtotal | int_to_rupiah}}</span>
+                            <span style="font-size: 80%">Banyaknya: {{ item.quantity | int_to_quantity }}</span>
+                            <span style="font-size: 80%">Berat: {{ item.get_item_details.total_weight | int_to_kilogram }}</span>
+                        </span>
+                    </span>
+                    <span class="item-right">
+                        <button class="btn btn-xs btn-danger pull-right" type="submit">x</button>
+                    </span>
+                </span>
+                </li>
+            </form>
+            {% endif %}
+        {% endfor %}
+        <li><a href="{% url 'cart:index' %}"class="text-center">View Cart</a></li>
+    </ul>
+    {% endif %}
+</li>
+</ul>
+{% endcomment %}
+
+    

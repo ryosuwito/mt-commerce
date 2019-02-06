@@ -1,0 +1,126 @@
+{% extends "keskei/base-full.html" %}
+  {% block title %}
+    <title>Daftar | kei-partner.com</title>
+  {% endblock %}
+  {% block content %}
+  <div class="container container-form container-bg" style="padding:0">
+    <div class="container"  style="background:#fff">
+      <div class="row">
+        <div class="col-xs-12" style="padding: 40px 15px; text-align:center">
+          <h4>Pilih Tipe Akun</h4><br>
+          <div class="row">
+            <div class="hidden-xs col-sm-2" style="margin:20px 0"></div>
+            <div class="col-xs-12 col-sm-4" style="margin:20px 0"> 
+              <div style="height: auto; display: flex; justify-content: center">
+                <a href="{{ link.guest }}{% if next %}?next={{ next }}{% endif %}">
+                  <div class="card card-bottom effect7" style="position:relative; min-height:430px; padding:0; width:300px">
+                      <div style="width:100%; background:#4b8b78; padding-top: 25px">
+                        <h4 class="title white">
+                          <span style="font-size:240%; margin-bottom: 5px" class="fa fa-user"></span>
+                          <br>
+                          GUEST
+                        </h4>
+                        <div style="width:100%; background:#2d6b59; padding-bottom: 5px">
+                            <h2 class="white" style="margin:0 0 5px 0"><span style="font-size:50%">Biaya Pendaftaran</span><br>Gratis</h2>
+                        </div>
+                      </div>
+                      <div style="text-align: left; padding:5px 10px">
+                        <h4 class="desc" style="margin:0">
+                          Fitur
+                        </h4>
+                      </div>
+                      <div style="text-align: left;">
+                        <ul style="color:#777; list-style-type:none; padding-left:20px">
+                          <li>
+                            <span class="fa fa-check desc cool"></span>
+                            Pembayaran Otomatis
+                          </li>
+                          <li>
+                            <span class="fa fa-check desc cool"></span>
+                            Pengiriman Seluruh Indonesia
+                          </li>
+                          <li>
+                            <span class="fa fa-check desc cool"></span>
+                            Pengiriman Luar Negeri
+                          </li>
+                          <li>
+                            <span class="fa fa-check desc cool"></span>
+                            Cek Ongkos Kirim
+                          </li>
+                          <li>
+                            <span class="fa fa-check desc cool"></span>
+                            Tracking Resi Pengiriman
+                          </li>
+                        </ul>
+                      </div>
+                      <div style="position: absolute; bottom: 0; padding:5px 0;width:100%; background:#4b8b78">
+                      </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-4" style="margin:20px 0"> 
+              <div style="height: auto; display: flex; justify-content: center">
+                <a href="{{ link.member }}{% if next %}?next={{ next }}{% endif %}">
+                  <div class="card card-bottom effect7" style="position:relative; min-height:430px; padding:0; width:300px">
+                      <div style="width:100%; background: #4b8b78; padding-top: 25px">
+                        <h4 class="title white">
+                          <span style="font-size:240%; margin-bottom: 5px" class="fa fa-group"></span>
+                          <br>
+                          MEMBER
+                        </h4>
+                        <div style="width:100%; margin-bottom:0px; background:#2d6b59; padding-bottom: 5px">
+                          <h2 class="white" style="margin:0 0 5px 0"><span style="font-size:50%">Mulai dari</span><br>Rp. 190.000</h2>
+                        </div>
+                      </div>
+                      <div style="text-align: left; padding:5px 10px">
+                        <h4 class="desc" style="margin:0">
+                          Fitur
+                        </h4>
+                      </div>
+                      <div style="text-align: left;">
+                        <ul style="color:#777; list-style-type:none; padding-left:20px">
+                          <li>
+                            <span class="fa fa-check desc cool"></span>
+                            Semua Fitur Guest
+                          </li>
+                          <li>
+                            <span class="fa fa-check desc cool"></span>
+                            Toko Replika
+                          </li>
+                          <li>
+                            <span class="fa fa-check desc cool"></span>
+                            Diskon Member
+                          </li>
+                          <li>
+                            <span class="fa fa-check desc cool"></span>
+                            Bonus Penjualan
+                          </li>
+                          <li>
+                            <span class="fa fa-check desc cool"></span>
+                            Bonus Poin Pembelian
+                          </li>
+                          <li>
+                            <span class="fa fa-check desc cool"></span>
+                            Bonus Referral
+                          </li>
+                          <li>
+                            <span class="fa fa-check desc cool"></span>
+                            Gratis Ongkos Kirim<span class="hot"> *<br>
+                            <sub>*untuk transaksi pertama</sub></span>
+                          </li>
+                        </ul>
+                      </div>
+                      <div style="position: absolute; bottom: 0; padding:5px 0;width:100%; background: #4b8b78">
+                      </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="hidden-xs col-sm-2" style="margin:20px 0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

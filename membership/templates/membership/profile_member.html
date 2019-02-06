@@ -1,0 +1,375 @@
+{% extends "membership/member_area_base.html" %}
+{% load humanize int_to_rupiah %}
+{% block title %}
+  <title>{{ user.member.get_full_name | title }} | kei-partner.com</title>
+{% endblock %}
+{% block main_content %}
+  <style>
+  input.input-text, select, textarea{
+    width: 100%
+  }
+  </style>
+  <div class="col-xs-12" style="padding: 0; background: #fff; height:auto; min-height: 600px;">
+      <div class="row" style="margin: 0;">
+        <div class="col-xs-12 col-sm-12">
+          {% if not user.member.is_email_verified %}
+            <div class="alert alert-danger">
+                <p><strong>Email Anda belum diverifikasi. Cek kotak masuk email Anda</strong></p>
+                <p>Akun yang belum terverifikasi tidak dapat menyelesaikan pembelian.</p>
+                <button onclick="window.open('/member/verify')" class="btn btn-xs btn-success">Verifikasi</button>
+            </div>
+          {% endif %}
+          {% if not user.member.is_phone_verified %}
+            <div class="alert alert-danger">
+                <p><strong>Nomor telepon Anda belum diverifikasi. </strong></p>
+                <p>Segera verifikasi nomor telepon, demi keamanan akun Anda.</p>
+                <button onclick="window.open('/member/phone-verify')" class="btn btn-xs btn-success">Verifikasi</button>
+            </div>
+          {% endif %}
+        </div>
+      <div class="hidden-xs col-sm-10" style="padding: 0 15px">
+        <h2>Profil dan Data Akun
+        {% if user == request.user %}
+          <a href="{{ link_edit }}"><span style="width: auto; padding:5px 15px; margin:0 15px" class="btn btn-primary btn-xs"><span class="fa fa-edit"></span> Sunting Profil</span></a>
+        {% endif %}
+      </h2>
+      </div>
+      <div class="hidden-xs col-sm-2" style="padding: 0 15px; text-align: right">
+      </div>
+    </div>
+                      
+    <div style="width: 100%; border-top: 1px solid #ccc; display: block; margin-top:5px"></div>
+    <div class="col-xs-12" style="padding: 0 25px">
+      <div class="col-xs-12 card-bottom" style="padding:0; margin-bottom:0px;display:block;height:auto">
+        <div class="row" >
+          {% if request.user.member.get_member_type_display != 'Guest' %}
+          <div class="col-xs-12">
+            <h4 class="title" style="margin:10px 0;  text-align: left"> <span class="fa fa-money"></span> Target SMART SELLING Bulan Ini</h4>
+            <p>{{ current_selling_target | int_to_rupiah}} / {{member_selling_target | int_to_rupiah}}</p>
+          </div>
+          <div class="col-xs-12" style="min-height:0;margin:5px 0">
+            <div class="progress">
+              <div class="progress-bar"
+              style="background-color:
+              {% if target > 0 and target < 40 %}
+              #de5b5b
+              {% elif target >= 40 and target < 60 %}
+              #dcde5b
+              {% elif target >= 60 and target < 80 %}
+              #5b9bde
+              {% elif target >= 80 %}
+              #5dde5b
+              {% endif %};
+              color:#333;
+              width:{{selling_target}}%
+              "
+              role="progressbar" aria-valuenow="{{selling_target}}"
+              aria-valuemin="0" aria-valuemax="100">
+              {{selling_target}}%
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12">
+            <h4 class="title" style="margin:10px 0;  text-align: left"> <span class="fa fa-money"></span> Target MY REWARD Bulan Ini</h4>
+            <p>{{ current_target | int_to_rupiah}} / {{member_target | int_to_rupiah}}</p>
+          </div>
+          <div class="col-xs-12" style="min-height:0;margin:5px 0">
+            <div class="progress">
+              <div class="progress-bar"
+              style="background-color:
+              {% if target > 0 and target < 40 %}
+              #de5b5b
+              {% elif target >= 40 and target < 60 %}
+              #dcde5b
+              {% elif target >= 60 and target < 80 %}
+              #5b9bde
+              {% elif target >= 80 %}
+              #5dde5b
+              {% endif %};
+              color:#333;
+              width:{{target}}%
+              "
+              role="progressbar" aria-valuenow="{{target}}"
+              aria-valuemin="0" aria-valuemax="100">
+              {{target}}%
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-12" style="min-height:0;margin:5px 0">
+            <div class="row" style="margin: 0 0 15px 0">
+            {% if user.member.reward.current_point %}
+                <div class="col-xs-12 col-md-5">
+                  <div class="row">
+                    <h4 class="title" style="margin:10px 0;  text-align: left"> <span class="fa fa-money"></span> 
+                      Bonus POIN REWARD
+                    </h4>
+                    {% if user.member.reward.current_point < 5000 %}
+                    <p class="hot">Minimum penukaran adalah 5000 poin</p>
+                    {% endif %}
+                  </div>
+                  <div class="col-xs-10">
+                    <input class="input-text" type="number" readonly value="{{ user.member.reward.current_point }}" style="width:100%"> 
+                  </div>
+                  <div class="col-xs-2" style="text-align: right"> 
+                    {% if user.member.reward.current_point > 5000 %}
+                    <p class="btn btn-xs btn-success">REDEEM</p>
+                    {% else %}
+                    <p class="btn btn-xs btn-danger disabled">REDEEM</p>
+                    {% endif %}
+                  </div>
+                </div>
+            {% endif %}
+            {% if user.member.reward.bonus_purchasing %}
+                <div class="col-xs-12 col-md-5">
+                  <h4 class="title" style="margin:10px 0;  text-align: left"> <span class="fa fa-money"></span> 
+                    Bonus MY REWARD
+                  </h4>
+                  <div class="col-xs-10">
+                    <input class="input-text" type="text" readonly value="{{ user.member.reward.bonus_purchasing | int_to_rupiah }}" style="width:100%"> 
+                  </div>
+                  <div class="col-xs-2" style="text-align: right"> 
+                    <p class="btn btn-xs btn-success">REDEEM</p>
+                  </div>
+                </div>
+            {% endif %}
+                <div class="col-xs-12 col-md-2" style="padding: 0"></div>
+            </div>
+            <hr>
+          </div>
+          {% endif %}
+          <div class="col-xs-12 col-sm-5" style="min-height:0;margin:5px 0">
+              <div class="row" style="margin: 0 0 15px 0">
+              {% if user.member.sponsor %}
+              <h4 class="title" style="margin:10px 0;  text-align: left"> <span class="fa fa-group"></span> Sponsor</h4>
+              <div class="col-xs-12">
+                <div class="col-xs-2" style="padding: 0">
+                    
+                  {% if user.member.sponsor.member.get_profile_photo_url %}
+                    <div style="width: 70px; height: 70px; border-radius: 45px; border: 1px solid #ddd; background-position: center;
+                      background-image: url('{{ user.member.sponsor.member.get_profile_photo_url }}'); background-size: cover">
+                    </div>
+                  {% else %}
+                  <div style="width: 70px; height: 70px; border-radius: 45px; border: 1px solid #ddd; background-position: center;
+                    background-image: url('/media/pictures/user.gif'); background-size: cover">
+                  </div>
+                  {% endif %}
+                </div>
+                <div class="col-xs-10" style="padding-left:25px">
+                  <h5 class="desc cool" style="margin:0 0 10px 0">
+                    <a href="{{ link_sponsor }}">
+                      {{ user.member.sponsor.get_full_name | title }}
+                    </a>
+                  </h5>
+                  <p>
+                    <strong>Bergabung sejak</strong><br>
+                    {{ user.member.sponsor.date_joined | naturalday }}
+                  </p>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+            <div class="row" style="margin: 0">
+              <div class="col-xs-12" style="padding: 0">
+                  <h4 class="title" style="margin:10px 0;  text-align: left"> <span class="fa fa-link"></span> 
+                    {% if user == request.user %}
+                    Kode Referral Anda
+                    {% else %}
+                    Kode Referral {{ user.member.get_full_name | title}}
+                    {% endif %}
+                  </h4>
+                </div>
+                <div class="col-xs-10" style="padding-right:0">
+                  <input class="input-text" style="width:100%" id="ref-code" readonly type="text" value="{{ user.member.referal_code}}">
+                </div>
+                <div class="col-xs-2" style="padding:0; text-align:right">
+                    <p class="btn btn-primary btn-xs" data-input="ref-code" onclick="writeText(this)"><span class="fa fa-copy"></span> copy</p>
+                </div>
+                <div class="col-xs-12" style="padding: 0; margin-top: 15px">
+                  <h4 class="title" style="margin:10px 0;  text-align: left"> <span class="fa fa-link"></span> Link Referral</h4>
+                </div>
+                <div class="col-xs-12" style="margin-bottom: 15px">
+                  <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ request.scheme }}://{{ default_host }}{% url 'membership:pre_register' %}{{ user.member.referal_code}}">
+                    <p style="background-color: #3b5998" class="btn btn-primary btn-xs"> 
+                      <span style="font-size: 110%" class="fa fa-facebook"></span> bagikan
+                    </p>
+                  </a>
+                  <a target="_blank" href="http://twitter.com/share?text=Bergabunglah%20bersama%20Keskei%20di%20sini&url={{ request.scheme }}://{{ default_host }}{% url 'membership:pre_register' %}{{ user.member.referal_code}}">
+                    <p style="background-color: #36a9ff" class="btn btn-primary btn-xs">
+                      <span style="font-size: 110%" class="fa fa-twitter"></span> tweet
+                    </p>
+                  </a>
+                </div>
+                {% comment %}
+                <div class="col-xs-10" style="padding-right:0">
+                  <input class="input-text" style="width:100%" id="ref-link-1" readonly type="text" value="{{ request.scheme }}://{{ default_host }}{% url 'membership:pre_register' %}{{ user.member.referal_code}}">
+                </div>
+                <div class="col-xs-2" style="padding:0; text-align: right">
+                    <p class="btn btn-primary btn-xs" data-input="ref-link-1" onclick="writeText(this)"><span class="fa fa-copy"></span> copy</p>
+                </div>
+              </div>
+              <div class="row" style="margin: 15px 0">
+                <div class="col-xs-12">
+                  <h5 class="desc cool" style="margin:0">
+                      Alternatif :
+                  </h5>
+                </div>
+                {% endcomment %}
+                <div class="col-xs-10" style="padding-right:0">
+                  <input class="input-text" style="width:100%" id="ref-link-2" readonly type="text" value="{{ request.scheme }}://{{ user.username }}.{{ default_host }}{% url 'membership:pre_register' %}">
+                </div>
+                <div class="col-xs-2" style="padding:0; text-align: right">
+                  <p class="btn btn-primary btn-xs" data-input="ref-link-2" onclick="writeText(this)"><span class="fa fa-copy"></span> copy</p>
+                </div>
+              </div>
+              <div class="row" style="margin: 15px 0">
+                <div class="col-xs-12" style="padding: 0">
+                  <h4 class="title" style="margin:10px 0;  text-align: left"> <span class="fa fa-shopping-cart"></span> Link Toko Replika</h4>
+                </div>
+                <div class="col-xs-12"  style="margin-bottom: 5px">
+                    <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ request.scheme }}://{{ default_host }}{% url 'storefront:product_all' %}{{ user.member.referal_code}}">
+                    <p style="background-color: #3b5998" class="btn btn-primary btn-xs"> 
+                      <span style="font-size: 110%" class="fa fa-facebook"></span> bagikan</p></a>
+                    <a target="_blank" href="http://twitter.com/share?text=Kunjungi%20Toko%20Saya%20di%20sini&url={{ request.scheme }}://{{ default_host }}{% url 'storefront:product_all' %}{{ user.member.referal_code}}">
+                      <p style="background-color: #36a9ff" class="btn btn-primary btn-xs"> 
+                      <span style="font-size: 110%" class="fa fa-twitter"></span> tweet</p></a>
+                </div>
+                {% comment %}
+                <div class="col-xs-10" style="padding-right:0">
+                  <input class="input-text" style="width:100%" id="ref-link-3" readonly type="text" value="{{ request.scheme }}://{{ default_host }}{% url 'storefront:product_all' %}{{ user.member.referal_code}}">
+                </div>
+                <div class="col-xs-2" style="padding:0; text-align: right">
+                    <p class="btn btn-primary btn-xs" data-input="ref-link-3" onclick="writeText(this)"><span class="fa fa-copy"></span> copy</p>
+                </div>
+              </div>
+              <div class="row" style="margin: 15px 0">
+                <div class="col-xs-12">
+                  <h5 class="desc cool" style="margin:0">
+                    Alternatif :
+                  </h5>
+                </div>
+                {% endcomment %}
+                <div class="col-xs-10" style="padding-right:0">
+                  <input class="input-text" style="width:100%" id="ref-link-4" readonly type="text" value="{{ request.scheme }}://{{ user.username }}.{{ default_host }}{% url 'storefront:product_all' %}">
+                </div>
+                <div class="col-xs-2" style="padding:0; text-align: right">
+                  <p class="btn btn-primary btn-xs" data-input="ref-link-4" onclick="writeText(this)"><span class="fa fa-copy"></span> copy</p>
+                </div>
+              </div>
+            </div>
+          <div class="col-xs-12 col-sm-5" style="padding: 0">
+                <div class="col-xs-12 col-lg-12" style="margin-bottom:0px;display:block;height:auto">
+                  <h4 class="title" style="margin:10px 0;  text-align: left"> <span class="fa fa-user"></span> Data Pribadi</h4>
+                    <div class="row" style="margin: 0">
+                      <div class="col-xs-12" style="min-height:0;margin:5px 0;">
+                        <h5 class="desc cool" style="margin:0"><strong>Nomor Rekening</strong></h5></div>
+                      <div class="col-xs-12" style="min-height:0;margin:5px 0;">
+                        <h5 class="desc" style="margin:0; padding:0">{{ user.member.bank_name }} - {{ user.member.bank_account_number }}</h5></div>
+                    </div>
+                    <div class="row" style="margin: 0">
+                      <div class="col-xs-12" style="min-height:0;margin:5px 0;">
+                        <h5 class="desc cool" style="margin:0"><strong>Alamat KTP</strong></h5></div>
+                      <div class="col-xs-12" style="min-height:0;margin:5px 0;">
+                        <h5 class="desc" style="margin:0; padding:0">{{ user.member.get_ktp_address }}</h5></div>
+                    </div>
+                    <div class="row" style="margin: 0">
+                      <div class="col-xs-12" style="min-height:0;margin:5px 0;">
+                        <h5 class="desc cool" style="margin:0"><strong>Alamat E-mail</strong></h5></div>
+                      <div class="col-xs-12" style="min-height:0;margin:5px 0;">
+                        <h5 class="desc" style="margin:0; padding:0">{{ user.email }}
+                        {% if user.member.is_email_verified %}
+                        <span style="font-size:8pt;" class="text-success"> Terverifikasi</span>
+                        {% else %}
+                        <span style="font-size:8pt;" class="text-danger"> Belum diverifikasi</span>
+                        {% endif %}
+                        </h5></div>
+                    </div>
+
+                    <div class="row" style="margin: 0">
+                        <div class="col-xs-12" style="min-height:0;margin:5px 0;">
+                          <h5 class="desc cool" style="margin:0"><strong>Nomor Telepon</strong></h5></div>
+                        <div class="col-xs-12" style="min-height:0;margin:5px 0;">
+                          <h5 class="desc" style="margin:0; padding:0">{{ user.member.phone_number }}
+                          {% if user.member.is_phone_verified %}
+                          <span style="font-size:8pt;" class="text-success"> Terverifikasi</span>
+                          {% else %}
+                          <span style="font-size:8pt;" class="text-danger"> Belum diverifikasi</span>
+                          {% endif %}
+                          </h5></div>
+                      </div>
+
+                    <div class="row" style="margin: 0">
+                      <div class="col-xs-12" style="min-height:0;margin:5px 0;">
+                        <h5 class="desc cool" style="margin:0"><strong>Alamat Rumah</strong></h5></div>
+                      <div class="col-xs-12" style="min-height:0;margin:5px 0;">
+                        {% if user.member.get_home_address != user.member.get_ktp_address %}
+                        <h5 class="desc" style="margin:0; padding:0">{{ user.member.get_home_address }}</h5>
+                        {% else %}
+                        <h5 class="desc" style="margin:0; padding:0">Sama dengan alamat KTP</h5>
+                        {% endif %}
+                      </div>
+                    </div>
+                  
+              {% if user == request.user %}
+                <div class="row" style="margin: 0">
+                  {% if user.member.ktp_photo%}
+                    <div class="col-xs-12 col-lg-6" style="min-height:0;margin:5px 0;">
+                      <h5 class="desc cool" style="margin:0"><strong>Foto KTP</strong></h5>
+                        <div style="margin:5px 0; background-repeat:no-repeat; background-size:100%; height:200px;overflow:hidden; background-position: top center; background-image: url('{{ user.member.get_ktp_url }}')">
+                      </div>
+                    </div>
+                  {% endif %}
+                  
+                  {% if user.member.bank_book_photo %}
+                    <div class="col-xs-12 col-lg-6" style="min-height:0;margin:5px 0;">
+                      <h5 class="desc cool" style="margin:0"><strong>Foto Buku Tabungan</strong></h5>
+                        <div style="margin:5px 0; background-repeat:no-repeat; background-size:100%; height:200px;overflow:hidden; background-position: top center; background-image: url('{{ user.member.get_bank_url }}')">
+                        </div>
+                      </div>
+                  {% endif %}
+                </div>
+            {% endif %} 
+          </div>   
+          </div>    
+          <div class="col-xs-12 col-sm-2" style="min-height:0;margin:5px 0;">
+            <div class="row" style="margin: 0">
+              <div class="col-xs-12" style="padding: 0">
+                <h4 class="title" style="margin:10px 0 0 0; padding: 0; text-align: left"> <span class="fa fa-shopping-cart"></span> Toko Replika</h4>
+                <p class="desc cool" style="margin: 0; text-align: left">Scan Barcode</p>
+              </div>
+              <div class="col-xs-12" style="padding: 0; text-align: center">
+                <img src="/{{ user.member.qrcode }}" style="width: 100%; height: auto; max-width: 220px;">
+                <p class="btn btn-primary" onclick="window.open('/{{ user.member.qrcode }}')" style="width: 100%; height: auto; max-width: 220px;">
+                  <span class="fa fa-save"></span> Simpan</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+      // A minimal polyfill for `navigator.clipboard.writeText()` that works most of the time in most modern browsers.
+      // Note that on Edge this may call `resolve()` even if copying failed.
+      // See https://github.com/lgarron/clipboard-polyfill for a more robust solution.
+      // License: public domain
+      function writeText(button) {
+        var str = document.getElementById(button.dataset.input).value;
+        var snackbar = document.getElementById('snackbar');
+        snackbar.innerHTML = '<p>'+'<span class="fa fa-check-circle" style="color:#0e0; font-size:400%"></span><br>'+str+'<br>'+'Berhasil di copy ke clipboard'+'</p>';
+        snackbar.className = "show";
+        return new Promise(function(resolve, reject) {
+          var success = false;
+          function listener(e) {
+            e.clipboardData.setData("text/plain", str);
+            e.preventDefault();
+            success = true;
+            setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 3000);
+          }
+          document.addEventListener("copy", listener);
+          document.execCommand("copy");
+          document.removeEventListener("copy", listener);
+          success ? resolve(): reject();
+        });
+      };
+    </script>
+{% endblock %}

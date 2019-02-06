@@ -1,0 +1,32 @@
+{% if request.user.is_authenticated %}
+    <div style="padding: 0 5px; text-align: right">
+    <p style="margin: 0;">
+        <a href="{% url 'membership:profile' %}"><strong>{{ request.user.username | title }}</strong></a><br>
+    {{ request.user.member.get_member_type_display | title }}<br>
+    <a href="{% url 'membership:logout' %}">Logout</a></p>
+    </div>
+    <div  class="profile-header" style="background-size: cover;
+    background-image: url('{% if request.user.member.profile_photo %}{{ request.user.member.get_profile_photo_url }}{% else %}/media/pictures/user.gif{% endif %}')">
+    </div>
+    <div style="margin:0 5px; 
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 22px; 
+    width: 30px; 
+    height: 30px;
+    color: #363836; ">
+        <span style="min-width: 10px;
+        position: absolute;
+        top: 1px;
+        right: 1px;
+        min-height: 10px;  
+        padding: 2px;
+        border-radius: 15px; 
+        background-color: #ff4545;"></span>
+        <span style="font-size: 21px;"
+        class="glyphicon glyphicon-bell"></span>
+    </div>
+{% else %}
+{% endif %}

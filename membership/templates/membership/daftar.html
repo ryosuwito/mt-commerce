@@ -1,0 +1,528 @@
+{% extends "keskei/base-full.html" %}
+{% load int_to_rupiah %}
+  {% block title %}
+    <title>Daftar | kei-partner.com</title>
+  {% endblock %}
+  {% block content %}
+    <div class="container container-header">
+      <div class="row" style="display: flex; justify-content: center; min-height: 110px;">
+        <div class="col-xs-12 col-lg-2" style="padding:0 5px; display: flex; align-items: center; justify-content: flex-start">
+          <img src="/media/pictures/logo.png" width="150" height="auto">
+        </div>
+        <div class="col-xs-12 col-lg-10" style="padding:0 5px; display: flex; align-items: center; justify-content: flex-end">
+          <div style="padding: 0 5px; text-align: right">
+            <p style="margin: 0;"><strong>Ryo Suwito</strong><br>
+            Distributor</p>
+          </div>
+          <div  class="profile-header" style="
+            background-image: url('/media/pictures/indah.jpg')">
+          </div>
+          <div style="margin:0 5px; 
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 22px; 
+          width: 30px; 
+          height: 30px;
+          color: #363836; ">
+              <span style="min-width: 10px;
+              position: absolute;
+              top: 1px;
+              right: 1px;
+              min-height: 10px;  
+              padding: 2px;
+              border-radius: 15px; 
+              background-color: #ff4545;"></span>
+              <span style="font-size: 21px;"
+              class="glyphicon glyphicon-bell"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+          <a class="navbar-brand" href="#">KEI-Partner</a>
+        </div>
+    
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span> <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Store</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Member Area</a></li>
+            <li><a href="#">Business Oportunity</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown dr-one">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-list"></span> Wishlist<span class="caret"></span></a>
+              <ul class="dropdown-menu dr-menu-one dropdown-cart" role="menu" style="padding-bottom: 0">
+                  <li>
+                      <span class="item">
+                        <span class="item-left">
+                            <img src="/media/pictures/indah.jpg" width="50" height="auto" alt="" />
+                            <span class="item-info">
+                                <span>Item name</span>
+                                <span>Rp. 245.500</span>
+                                <span>4 pcs</span>
+                            </span>
+                        </span>
+                        <span class="item-right">
+                            <button class="btn btn-xs btn-danger pull-right">x</button>
+                        </span>
+                    </span>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                      <span class="item">
+                        <span class="item-left">
+                            <img src="/media/pictures/indah.jpg" width="50" height="auto" alt="" />
+                            <span class="item-info">
+                                <span>Item name</span>
+                                <span>Rp. 245.500</span>
+                                <span>4 pcs</span>
+                            </span>
+                        </span>
+                        <span class="item-right">
+                            <button class="btn btn-xs btn-danger pull-right">x</button>
+                        </span>
+                    </span>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                      <span class="item">
+                        <span class="item-left">
+                            <img src="/media/pictures/indah.jpg" width="50" height="auto" alt="" />
+                            <span class="item-info">
+                                <span>Item name</span>
+                                <span>Rp. 245.500</span>
+                                <span>4 pcs</span>
+                            </span>
+                        </span>
+                        <span class="item-right">
+                            <button class="btn btn-xs btn-danger pull-right">x</button>
+                        </span>
+                    </span>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                      <span class="item">
+                        <span class="item-left">
+                            <img src="/media/pictures/indah.jpg" width="50" height="auto" alt="" />
+                            <span class="item-info">
+                                <span>Item name</span>
+                                <span>Rp. 245.500</span>
+                                <span>4 pcs</span>
+                            </span>
+                        </span>
+                        <span class="item-right">
+                            <button class="btn btn-xs btn-danger pull-right">x</button>
+                        </span>
+                    </span>
+                  </li>
+                  <li><a class="text-center" href="">View Wishlist</a></li>
+              </ul>
+            </li>
+          </ul> 
+          <ul class="nav navbar-nav navbar-right" style="margin-bottom: 0">
+            <li class="dropdown dr-two">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> 7 - Items<span class="caret"></span></a>
+              <ul class="dropdown-menu dr-menu-two dropdown-cart" role="menu" style="padding-bottom: 0">
+                  <li>
+                      <span class="item">
+                        <span class="item-left">
+                            <img src="/media/pictures/indah.jpg" width="50" height="auto" alt="" />
+                            <span class="item-info">
+                                <span>Item name</span>
+                                <span>Rp. 245.500</span>
+                                <span>4 pcs</span>
+                            </span>
+                        </span>
+                        <span class="item-right">
+                            <button class="btn btn-xs btn-danger pull-right">x</button>
+                        </span>
+                    </span>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                      <span class="item">
+                        <span class="item-left">
+                            <img src="/media/pictures/indah.jpg" width="50" height="auto" alt="" />
+                            <span class="item-info">
+                                <span>Item name</span>
+                                <span>Rp. 245.500</span>
+                                <span>4 pcs</span>
+                            </span>
+                        </span>
+                        <span class="item-right">
+                            <button class="btn btn-xs btn-danger pull-right">x</button>
+                        </span>
+                    </span>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                      <span class="item">
+                        <span class="item-left">
+                            <img src="/media/pictures/indah.jpg" width="50" height="auto" alt="" />
+                            <span class="item-info">
+                                <span>Item name</span>
+                                <span>Rp. 245.500</span>
+                                <span>4 pcs</span>
+                            </span>
+                        </span>
+                        <span class="item-right">
+                            <button class="btn btn-xs btn-danger pull-right">x</button>
+                        </span>
+                    </span>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                      <span class="item">
+                        <span class="item-left">
+                            <img src="/media/pictures/indah.jpg" width="50" height="auto" alt="" />
+                            <span class="item-info">
+                                <span>Item name</span>
+                                <span>Rp. 245.500</span>
+                                <span>4 pcs</span>
+                            </span>
+                        </span>
+                        <span class="item-right">
+                            <button class="btn btn-xs btn-danger pull-right">x</button>
+                        </span>
+                    </span>
+                  </li>
+                  <li><a class="text-center" href="">View Cart</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <div class="container container-form container-bg">
+      <h3 class="title" style="margin:15px">Selamat Datang di Kei-Partner.<br>
+        Silahkan isi form berikut ini untuk membuat akun.</h3>
+    <div class="hidden-xs col-sm-1 col-lg-2"></div>
+    <div class="col-xs-12 col-sm-10 col-lg-8" style="padding: 0">
+      <div class="col-xs-12 card-bottom card-bottom-form">
+        <form method="POST">
+            {% csrf_token %}
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div>
+            </div>
+          <fieldset id="membership-set" style="width: 100%;">
+              <legend>Data Membership :</legend>
+              <div class="col-xs-12" style="padding:0 15px 3px 15px;display:block;text-align:left">
+                <p style="font-size:8pt;margin-bottom:3px">Daftar akun sebagai :<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>
+                <input type="radio" name="member_type" id="member" value="member" onclick="show_detail()"> Member
+                <input type="radio" name="member_type" id="guest" value="guest" onclick="hide_detail()" checked> Guest</div>
+
+              <div id="member-type-set" class="col-xs-12 hidden" style="padding:3px 15px 20px 15px;display:block;text-align:left">
+                <p style="font-size:8pt;margin-bottom:3px">Pilih Jenis Member :<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>
+                <input type="radio" name="member_level" id="dropshiper" value="dropshiper" checked> Dropshiper
+                <input type="radio" name="member_level" id="reseller" value="reseller"> Reseller
+                <input type="radio" name="member_level" id="agen" value="agen"> Agen
+                <input type="radio" name="member_level" id="distributor" value="distributor"> Distributor</div>
+
+              <div class="col-xs-12">
+                <div><p style="font-size:8pt;margin-top:13px;text-align:left">Kode Sponsor *(kosongkan jika tidak ada)</p>  
+                  {{ form.sponsor_code }}
+                </div>
+              </div>
+          </fieldset>
+
+          <fieldset id="account-set" style="width: 100%;">
+              <legend>Data Akun :</legend>
+
+              <div class="row" style="margin: 0">
+                <div class="col-xs-12 col-sm-6">
+                  <div><p style="font-size:8pt;margin-bottom:3px;text-align:left">Username *(untuk login, maks 20 karakter tanpa spasi)<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>  
+                    {{ form.username }}  
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                  <div><p style="font-size:8pt;margin-bottom:3px;text-align:left">Email valid *(untuk konfimasi akun)<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>  
+                    {{ form.email }}  
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" style="margin: 0">
+                  <div class="col-xs-12 col-sm-6">
+                    <div><p style="font-size:8pt;margin-bottom:3px;text-align:left">Nama Lengkap *(sesuai dengan ktp)<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>  
+                      <input   style="width:100%" type="text" placeholder="Masukan Nama Lengkap" name="real-name"></div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6">
+                      <div><p style="font-size:8pt;margin-bottom:3px;text-align:left">Nomor HP/ Whatsapp <i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>  
+                        <input   style="width:100%" type="text" placeholder="Contoh : +628129999999 / 0812999999" name="phone"></div>
+                  </div>
+               </div>
+
+              <div class="row" style="margin: 0">
+                <div class="col-xs-12 col-sm-6">
+                  <div><p style="font-size:8pt;margin-bottom:3px;text-align:left">Kata Sandi (min 6 karakter)<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>
+                    {{ form.password }}  
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                  <div><p style="font-size:8pt;margin-bottom:3px;text-align:left">Masukan ulang kata sandi<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>
+                    <input   style="width:100%" type="password" placeholder="Ulangi Kata Sandi" name="psw2"></div>
+                </div>
+              </div>
+
+  
+          </fieldset>
+
+          <fieldset class="hidden" id="personal-set" style="width: 100%;">
+              <legend>Data Pribadi :</legend>
+              <div class="row" style="margin: 0">
+                <div class="col-xs-12 col-sm-6">
+                  <div><p style="font-size:8pt;margin-bottom:3px;text-align:left">Nomor KTP *(angka tanpa spasi)<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>  
+                    <input   style="width:100%" type="text" placeholder="Contoh : 3671081xxxxxxxxxx" name="nomor-ktp"></div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <div><p style="font-size:8pt;margin-bottom:3px;text-align:left">Nomor Rekening *(angka tanpa spasi)<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>  
+                      <input   style="width:100%" type="text" placeholder="Contoh : 7211XXCCCCCCDDF" name="nomor-bank"></div>
+                </div>
+              </div>
+          </fieldset>
+
+
+          <fieldset id="address-set" style="width: 100%;">
+              <legend>Data Alamat :</legend>
+
+              <div class="row" style="margin: 0;">
+                  <div class="col-xs-12 col-sm-6" style="padding:0 15px;display:block;text-align:left;z-index:3000">
+                    <p style="font-size:8pt;margin-bottom:3px;text-align:left">Provinsi :<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>
+                    {{ form.provinsi }}
+                    {% comment %}
+                    <select style="background-color:#f1f1f1;color:#888" name="Provinsi">
+                      <option value="aceh">DI Aceh</option>
+                      <option value="sumut">Sumatera Utara</option>
+                      <option value="sumbar">Sumatera Barat</option>
+                      <option value="bengkulu">Bengkulu</option>
+                      <option value="kepri">Kepulauan Riau</option>
+                      <option value="riau">Riau</option>
+                      <option value="jambi">Jambi</option>
+                      <option value="sumsel">Sumatera Selatan</option>
+                      <option value="lampung">Lampung</option>
+                      <option value="babel">Bangka Belitung</option>
+                      <option value="jakarta">DKI Jakarta</option>
+                      <option value="jabar">Jawa Barat</option>
+                      <option value="banten">Banten</option>
+                      <option value="jateng">Jawa Tengah</option>
+                      <option value="yogya">DI Yogyakarta</option>
+                      <option value="jatim">Jawa Timur</option>
+                      <option value="kalbar">Kalimantan Barat</option>
+                      <option value="kalteng">Kalimantan Tengah</option>
+                      <option value="kalsel">Kalimantan Selatan</option>
+                      <option value="kaltim">Kalimantan Timur</option>
+                      <option value="kaltara">Kalimantan Utara</option>
+                      <option value="bali">Bali</option>
+                      <option value="ntb">Nusa Tenggara Barat</option>
+                      <option value="ntt">Nusa Tenggara Timur</option>
+                      <option value="sulbar">Sulawesi Barat</option>
+                      <option value="sulut">Sulawesi Utara</option>
+                      <option value="sulteng">Sulawesi Tengah</option>
+                      <option value="sulsel">Sulawesi Selatan</option>
+                      <option value="sultra">Sulawesi Tenggara</option>
+                      <option value="gorontalo">Gorontalo</option>
+                      <option value="maluku">Maluku</option>
+                      <option value="malut">Maluku Utara</option>
+                      <option value="papbar">Papua Barat</option>
+                      <option value="papua">DK Papua</option>
+                      <option value="papbar">DK Papua Barat</option>
+                      <option value="telcen">Teluk Cendrawasih</option></select>
+                  {% endcomment %}
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6" style="padding:0 15px;display:block;text-align:left;z-index:3000">
+                    <p style="font-size:8pt;margin-bottom:3px;text-align:left">Kota/ Kabupaten :<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>
+                    
+                    <select style="background-color:#f1f1f1;color:#888" name="Provinsi">
+                      <option value="aceh">DI Aceh</option>
+                      <option value="sumut">Sumatera Utara</option>
+                      <option value="sumbar">Sumatera Barat</option>
+                      <option value="bengkulu">Bengkulu</option>
+                      <option value="kepri">Kepulauan Riau</option>
+                      <option value="riau">Riau</option>
+                      <option value="jambi">Jambi</option>
+                      <option value="sumsel">Sumatera Selatan</option>
+                      <option value="lampung">Lampung</option>
+                      <option value="babel">Bangka Belitung</option>
+                      <option value="jakarta">DKI Jakarta</option>
+                      <option value="jabar">Jawa Barat</option>
+                      <option value="banten">Banten</option>
+                      <option value="jateng">Jawa Tengah</option>
+                      <option value="yogya">DI Yogyakarta</option>
+                      <option value="jatim">Jawa Timur</option>
+                      <option value="kalbar">Kalimantan Barat</option>
+                      <option value="kalteng">Kalimantan Tengah</option>
+                      <option value="kalsel">Kalimantan Selatan</option>
+                      <option value="kaltim">Kalimantan Timur</option>
+                      <option value="kaltara">Kalimantan Utara</option>
+                      <option value="bali">Bali</option>
+                      <option value="ntb">Nusa Tenggara Barat</option>
+                      <option value="ntt">Nusa Tenggara Timur</option>
+                      <option value="sulbar">Sulawesi Barat</option>
+                      <option value="sulut">Sulawesi Utara</option>
+                      <option value="sulteng">Sulawesi Tengah</option>
+                      <option value="sulsel">Sulawesi Selatan</option>
+                      <option value="sultra">Sulawesi Tenggara</option>
+                      <option value="gorontalo">Gorontalo</option>
+                      <option value="maluku">Maluku</option>
+                      <option value="malut">Maluku Utara</option>
+                      <option value="papbar">Papua Barat</option>
+                      <option value="papua">DK Papua</option>
+                      <option value="papbar">DK Papua Barat</option>
+                      <option value="telcen">Teluk Cendrawasih</option></select></div>
+              </div>
+
+              <div class="row" style="margin: 0;">
+                  <div class="col-xs-12 col-sm-6" style="padding:0 15px;display:block;text-align:left;z-index:3000">
+                    <p style="font-size:8pt;margin-bottom:3px;text-align:left">Kecamatan/ Subdistrik :<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>
+                    
+                    <select style="background-color:#f1f1f1;color:#888" name="Provinsi">
+                      <option value="aceh">DI Aceh</option>
+                      <option value="sumut">Sumatera Utara</option>
+                      <option value="sumbar">Sumatera Barat</option>
+                      <option value="bengkulu">Bengkulu</option>
+                      <option value="kepri">Kepulauan Riau</option>
+                      <option value="riau">Riau</option>
+                      <option value="jambi">Jambi</option>
+                      <option value="sumsel">Sumatera Selatan</option>
+                      <option value="lampung">Lampung</option>
+                      <option value="babel">Bangka Belitung</option>
+                      <option value="jakarta">DKI Jakarta</option>
+                      <option value="jabar">Jawa Barat</option>
+                      <option value="banten">Banten</option>
+                      <option value="jateng">Jawa Tengah</option>
+                      <option value="yogya">DI Yogyakarta</option>
+                      <option value="jatim">Jawa Timur</option>
+                      <option value="kalbar">Kalimantan Barat</option>
+                      <option value="kalteng">Kalimantan Tengah</option>
+                      <option value="kalsel">Kalimantan Selatan</option>
+                      <option value="kaltim">Kalimantan Timur</option>
+                      <option value="kaltara">Kalimantan Utara</option>
+                      <option value="bali">Bali</option>
+                      <option value="ntb">Nusa Tenggara Barat</option>
+                      <option value="ntt">Nusa Tenggara Timur</option>
+                      <option value="sulbar">Sulawesi Barat</option>
+                      <option value="sulut">Sulawesi Utara</option>
+                      <option value="sulteng">Sulawesi Tengah</option>
+                      <option value="sulsel">Sulawesi Selatan</option>
+                      <option value="sultra">Sulawesi Tenggara</option>
+                      <option value="gorontalo">Gorontalo</option>
+                      <option value="maluku">Maluku</option>
+                      <option value="malut">Maluku Utara</option>
+                      <option value="papbar">Papua Barat</option>
+                      <option value="papua">DK Papua</option>
+                      <option value="papbar">DK Papua Barat</option>
+                      <option value="telcen">Teluk Cendrawasih</option></select></div>
+
+                  <div class="col-xs-12 col-sm-6" style="padding:0 15px;display:block;text-align:left;z-index:3000">
+                    <p style="font-size:8pt;margin-bottom:3px;text-align:left">Kelurahan/ Desa :<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>
+                    
+                    <select style="background-color:#f1f1f1;color:#888" name="Provinsi">
+                      <option value="aceh">DI Aceh</option>
+                      <option value="sumut">Sumatera Utara</option>
+                      <option value="sumbar">Sumatera Barat</option>
+                      <option value="bengkulu">Bengkulu</option>
+                      <option value="kepri">Kepulauan Riau</option>
+                      <option value="riau">Riau</option>
+                      <option value="jambi">Jambi</option>
+                      <option value="sumsel">Sumatera Selatan</option>
+                      <option value="lampung">Lampung</option>
+                      <option value="babel">Bangka Belitung</option>
+                      <option value="jakarta">DKI Jakarta</option>
+                      <option value="jabar">Jawa Barat</option>
+                      <option value="banten">Banten</option>
+                      <option value="jateng">Jawa Tengah</option>
+                      <option value="yogya">DI Yogyakarta</option>
+                      <option value="jatim">Jawa Timur</option>
+                      <option value="kalbar">Kalimantan Barat</option>
+                      <option value="kalteng">Kalimantan Tengah</option>
+                      <option value="kalsel">Kalimantan Selatan</option>
+                      <option value="kaltim">Kalimantan Timur</option>
+                      <option value="kaltara">Kalimantan Utara</option>
+                      <option value="bali">Bali</option>
+                      <option value="ntb">Nusa Tenggara Barat</option>
+                      <option value="ntt">Nusa Tenggara Timur</option>
+                      <option value="sulbar">Sulawesi Barat</option>
+                      <option value="sulut">Sulawesi Utara</option>
+                      <option value="sulteng">Sulawesi Tengah</option>
+                      <option value="sulsel">Sulawesi Selatan</option>
+                      <option value="sultra">Sulawesi Tenggara</option>
+                      <option value="gorontalo">Gorontalo</option>
+                      <option value="maluku">Maluku</option>
+                      <option value="malut">Maluku Utara</option>
+                      <option value="papbar">Papua Barat</option>
+                      <option value="papua">DK Papua</option>
+                      <option value="papbar">DK Papua Barat</option>
+                      <option value="telcen">Teluk Cendrawasih</option></select></div>
+              </div>
+          
+              <div class="row" style="margin: 0;">
+                  <div class="col-xs-12" style="text-align: left">
+                    <div><p style="font-size:8pt;margin-bottom:3px;text-align:left">Alamat Lengkap *(sesuai dengan KTP)<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>
+                    </div>
+                    <textarea placeholder="Contoh: Jl. Angkasa 1 Blok AF6 NO 18" id="alamat-lengkap" class="text" rows ="6" name="alamat-lengkap" form="register-form"></textarea>  
+                    <input type="checkbox" name="different-address" value="different-address" id="different-address" onchange="show_home_address()"><p style="display: inline-block; padding-left:10px; font-size:10pt">Alamat Rumah Berbeda dengan Alamat KTP</p>
+                  </div>
+              </div>
+              
+              <div id="home-address" class="row hidden" style="margin: 0;">
+                  <div class="col-xs-12">
+                    <div><p style="font-size:8pt;margin-bottom:3px;text-align:left">Alamat Rumah *(kosongkan jika sama dengan KTP)<i class="hot"style="font-size:150%;font-weight:normal;margin:0"> *</i></p>
+                    </div>
+                    <textarea placeholder="Contoh: Jl. Angkasa 1 Blok AF6 NO 18" id="alamat-lengkap" class="text" rows ="6" name="alamat-lengkap" form="register-form"></textarea>  
+                  </div>
+              </div>
+          </fieldset>
+
+          <fieldset class="hidden" id="verification-set" style="width: 100%;">
+              <legend>Data Verifikasi :</legend>
+
+              <div class="row" style="margin: 0;">
+                  <div class="col-xs-12"style="margin:0">  
+                      <h2 class="unggah" style="top:42%;right:-0.64%;"id="fakeBrowse" onclick="HandleBrowseClick();"/>&plus;</h2>
+                      <p style="margin-bottom:3px;text-align:left">Foto KTP<i style="font-size:80%"> *(.JPG/.JPEG/.PNG/.GIF)</i></p>
+                      <input type="file" id="browse" name="fileupload" style="display: none" onChange="Handlechange(event);"accept="image/*"/>
+                      <input type="text" id="filename" readonly="true"placeholder="Klik Tombol + untuk Mengunggah Foto"/>
+                  </div>
+                  <div class="col-xs-12"style="margin:0">  
+                      <h2 class="unggah" style="top:42%;right:-0.64%;"id="fakeBrowse" onclick="HandleBrowseClick();"/>&plus;</h2>
+                      <p style="margin-bottom:3px;text-align:left">Foto Buku Tabungan<i style="font-size:80%"> *(.JPG/.JPEG/.PNG/.GIF)</i></p>
+                      <input type="file" id="browse2" name="fileupload" style="display: none" onChange="Handlechange(event);"accept="image/*"/>
+                      <input type="text" id="filename2" readonly="true"placeholder="Klik Tombol + untuk Mengunggah Foto"/>
+                  </div>
+              </div>
+          </fieldset>
+           <div class="col-xs-12" style="margin:20px 0; display: flex; justify-content: center;"> 
+             <button class="daftar effect4" style="width:auto; min-width: 120px; margin: 0 auto">Batal</button>
+             <button class="daftar-cool effect4" style="width:auto; min-width: 120px; margin: 0 auto" type="submit">Kirim</button></div>
+         </form></div></div>
+    <div class="hidden-xs col-sm-1 col-lg-2"></div></div>
+    {% endblock %}

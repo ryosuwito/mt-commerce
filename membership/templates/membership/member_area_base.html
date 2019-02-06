@@ -1,0 +1,14 @@
+{% extends "keskei/base-full.html" %}
+{% load humanize %}
+{% block content %}
+<div class="container container-form container-bg" style="padding-bottom: 0"><!--Container#1 -->
+    <div class="row" style="padding: 0; margin: 0"><!-- Row#1 of Container#1 -->
+        <div class="col-xs-12 col-md-2" style="padding: 0; height:auto;">
+        {% include 'membership/sidebar_profile.html' %}
+        </div>
+        <div class="col-md-10 col-xs-12" style="padding: 0">
+        {% block main_content %}{% endblock main_content %}
+        </div>
+    </div>
+</div>}
+{% endblock %}

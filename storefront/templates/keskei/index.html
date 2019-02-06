@@ -1,0 +1,188 @@
+﻿{% extends 'keskei/base.html' %}
+{% load int_to_rupiah %}
+{% block local_script %}
+<script>
+
+    function setHeight(img){
+      img.style.minHeight = '0';
+      if(window.innerWidth>767){
+        if(img.classList.contains("main-photo") != false){
+          img.style.maxHeight = '440px';
+        } 
+        else if(img.classList.contains("main-large") != false){
+          img.style.maxHeight = 'none';
+        }else {
+          img.style.maxHeight = '220px';
+        }
+      }
+      if(img.classList.contains("product") != false){
+        img.style.width =  img.clientWidth+20+'px';
+      }
+      img.style.height = img.clientWidth+'px';
+      img.style.backgroundSize='auto 100%';
+      img.style.overflow='hidden';
+      img.style.objectFit='cover';
+    } 
+</script>
+{% endblock %}
+{% block sidebar %}
+  {% include "keskei/sidebar.html" %}
+{% endblock %}
+{% block content %}
+  <div class="content-page"> 
+    <div class="row" style="margin:0">
+      <div class="col-lg-6">
+          <!-- featured category -->
+          <div class="category-product" style="margin-top:0; padding:0">
+            <div class="product-bestseller" style="padding:0; margin:0">
+              <div class="product-bestseller-content">
+                <div class="product-bestseller-list">
+                  <div class="tab-container"> 
+                    <!-- tab product -->
+                    <div class="tab-panel active" id="tab-1">
+                      <div class="category-products">
+                        <ul class="products-grid">
+                          <li class="item col-lg-12 col-md-12 col-sm-12 col-xs-12" 
+                              style="padding:10px 0; padding-right: 0">
+                            <div class="item-inner">
+                              <div class="item-img">
+                                <div class="item-img-info"> 
+                                  <a class="product-image" href="{{ featured_products.get_detail_url }}"> 
+                                    <img alt="{{ featured_products.name | truncatechars:30 | title }}"  class="photo-user product main-large"   onLoad="setHeight(this)"  src="{{ featured_products.get_photo_url }}"> </a>
+                                </div>
+                              </div>
+                              {% comment %}
+                              <div class="item-info">
+                                <div class="info-inner">
+                                  <div class="item-title"> <a href="{{ featured_products.get_detail_url }}"> {{ featured_products.name | truncatechars:30 | title }}</a> </div>
+                                  <div class="item-content">
+                                    <div class="item-price">
+                                      <div class="price-box"> <span class="regular-price"> <span class="price">{{ featured_products.price  | int_to_rupiah }}</span> </span> </div>
+                                    </div>
+                                    <div class="action">
+                                        <button class="button btn-cart" onclick="window.open('{{ featured_products.get_detail_url }}', '_self')"><i class="fa fa-shopping-basket"></i></button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              {% endcomment %}
+                            </div>
+                            <!-- End  Item inner--> 
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+      </div>
+      <div class="col-lg-6" style="padding: 0">
+          <!-- featured category -->
+          <div class="category-product" style="margin-top:0; padding:0">
+            <div class="product-bestseller" style="padding:0; margin:0">
+              <div class="product-bestseller-content">
+                <div class="product-bestseller-list">
+                  <div class="tab-container"> 
+                    <!-- tab product -->
+                    <div class="tab-panel active" id="tab-1">
+                      <div class="category-products">
+                        <ul class="products-grid">
+                          {% for product in products %}
+                          <li class="item col-lg-6 col-md-6 col-sm-6 col-xs-6" 
+                              style="border: none; padding:10px">
+                            <div class="item-inner">
+                              <div class="item-img">
+                                <div class="item-img-info"> 
+                                  <a class="product-image" href="{{ product.get_detail_url }}"> 
+                                    <img alt="{{ product.name | truncatechars:30 | title }}"  class="photo-user product"   onLoad="setHeight(this)"  src="{{ product.get_photo_url }}"> </a>
+                                </div>
+                              </div>
+                              {% comment %}
+                              <div class="item-info">
+                                <div class="info-inner">
+                                  <div class="item-title"> <a href="{{ product.get_detail_url }}"> {{ product.name | truncatechars:30 | title }}</a> </div>
+                                  <div class="item-content">
+                                    <div class="item-price">
+                                      <div class="price-box"> <span class="regular-price"> <span class="price">{{ product.price  | int_to_rupiah }}</span> </span> </div>
+                                    </div>
+                                    <div class="action">
+                                        <button class="button btn-cart" onclick="window.open('{{ product.get_detail_url }}', '_self')"><i class="fa fa-shopping-basket"></i></button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              {% endcomment %}
+                            </div>
+                            <!-- End  Item inner--> 
+                          </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="row" style="margin:0">
+      <div class="col-lg-12" style="padding:0 10px">
+          <img src="/media/adsl.png" style="width:100%;height:auto;">
+      </div>
+    </div>
+    <div class="row" style="margin:10px 0">
+      <div class="col-lg-12" style="padding:0 10px">
+          <img src="/media/header1.jpg" style="width:100%;height:auto;">
+      </div>
+    </div>
+    <div class="row" style="margin:10px 0 40px 0">
+      <div class="col-lg-8" style="padding:0 10px;">
+        <div style="display: flex; width:100%; align-items: center; flex-direction: row">
+          <img src="/media/pictures/bpa.png" style="display:inline-block;width:20%;height:auto;">
+          <img src="/media/pictures/bpb.png" style="display:inline-block;width:20%;height:auto;">
+          <img src="/media/pictures/bpc.png" style="display:inline-block;width:20%;height:auto;">
+          <img src="/media/pictures/bpd.png" style="display:inline-block;width:20%;height:auto;">
+          <img src="/media/pictures/bpe.png" style="display:inline-block;width:20%;height:auto;">
+        </div>
+      </div>
+      <div class="col-lg-4" style="padding:0">
+        <div style="width:100%; display:block; background:#147D08; position: relative; min-height: 40px; height: auto;">
+          <img src="/media/pictures/emblem.png" style="
+              display:inline-block;
+              position: absolute;
+              top: -8px;
+              left: -8px;
+              width: 80px;
+              height:auto;
+              ">
+          <p style="margin:0;padding: 11px 68px;width: 100%;font-weight: bold;color:#fff;">
+            ACHIEVEMENT PARTNER
+          </p>
+        </div>
+        <div style="width:100%; padding:15px">
+            <ol>
+              <li>Mr. Alfred Rudolfo</li>
+              <li>Mrs. Siti Maemunah</li>
+              <li>Mr.Bedjo Guslan</li>
+            </ol>
+        </div>
+        <div style="width:100%; display:block; background:#147D08; min-height: 40px; height: auto;">
+          <p style="margin:0;padding: 15px 10px; text-align: center; width: 100%;font-weight: bold;color:#fff;">
+            Kiriman Blog Terbaru
+          </p>
+        </div>
+        <div style="width:100%; padding:0 15px; min-height: 150px; max-height: 150px; overflow-y: auto">
+            <ul>
+              {% for article in articles %}
+                  <li><a href="{{article.get_url}}">{{article.title | title}}</a></li>
+              {% endfor %}
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

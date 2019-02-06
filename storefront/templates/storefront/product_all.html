@@ -1,0 +1,100 @@
+{% extends "keskei/base.html" %}
+{% load int_to_rupiah %}
+  {% block title %}
+    <title>Store | kei-partner.com</title>
+  {% endblock %}
+  {% block local_script %}
+  <script>
+
+      function setHeight(img){
+        img.style.minHeight = '0';
+        if(window.innerWidth>767){
+          if(img.classList.contains("main-photo") != false){
+            img.style.maxHeight = '440px';
+          } else {
+            img.style.maxHeight = '220px';
+          }
+        }
+        if(img.classList.contains("product") != false){
+          img.style.width =  img.clientWidth+20+'px';
+        }
+        img.style.height = img.clientWidth+'px';
+        img.style.backgroundSize='auto 100%';
+        img.style.overflow='hidden';
+        img.style.objectFit='cover';
+      } 
+  </script>
+  {% endblock %}
+  {% block sidebar %}
+    {% include "keskei/sidebar.html" %}
+  {% endblock %}
+  {% block content %}
+    <div style="width:100%; min-height: 600px;">
+      <div class="col-lg-12" style="margin-top: 12px;">
+          <h4 class="title" style="font-size:20px">
+            {{product_title}}
+          </h4></div>
+      <!-- ====================================================================================================================================== --> 
+      <ul class="products-grid">
+        {% for product in products %}
+        <li class="item col-lg-3 col-md-3 col-sm-4 col-xs-6">
+          <div class="item-inner">
+            <div class="item-img">
+              <div class="item-img-info">
+                <a class="product-image"  href="{{ product.get_detail_url }}"> 
+                <img alt="{{ product.name | truncatechars:30 | title }}"  class="photo-user product" onLoad="setHeight(this)"  src="{{ product.get_photo_url }}"> </a>
+              </div>
+            </div>
+            <div class="item-info">
+              <div class="info-inner">
+                <div class="item-title"> <a  href="{{ product.get_detail_url }}">  {{ product.name | truncatechars:30 | title }}</a> </div>
+                <div class="item-content">
+                  <div class="item-price">
+                    <div class="price-box"> <span class="regular-price"> <span class="price">{{ product.price  | int_to_rupiah }}</span> </span> 
+                    </div>
+                  </div>
+                  <div class="action">
+                    <button class="button btn-cart" onclick="window.open('{{ product.get_detail_url }}', '_self')"><i class="fa fa-shopping-basket"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+<!-- ====================================================================================================================================== --> 
+    </div>
+    {% if products.has_other_pages %}
+    <div style="text-align: center; width:100%; margin: 15px 0 0 0">
+      <ul class="pagination">
+        {% if products.has_previous %}
+          <li><a href="?page={{ products.previous_page_number }}">&lt;&lt; Prev</a></li>
+        {% else %}
+          <li class="disabled"><a href="#">&lt;&lt; Prev</a></li>
+        {% endif %}
+        {% if not products.number == 1 %}
+          <li><a href="?page=1">First</a></li>
+        {% endif %}
+        {% for i in products.paginator.page_range %}
+          {% if products.number == i %}
+          <li class="active"><a href="#">{{ i }}</a></li>
+          {% elif i < max_page and i > min_page%}
+          <li><a href="?page={{ i }}">{{ i }}</a></li>
+          {% elif i == min_page or i == max_page %} 
+          <li class="disabled"><a href="#">...</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if not products.number == products.paginator.num_pages %}
+          <li><a href="?page={{products.paginator.count}}">Last</a></li>
+        {% endif %}
+        {% if products.has_next %}
+          <li><a href="?page={{ products.next_page_number }}">Next &gt;&gt;</a></li>
+        {% else %}
+          <li class="disabled"><a href="#">Next &gt;&gt;</a></li>
+        {% endif %}
+      </ul>
+    </div>
+    {% endif %}
+  {% include "membership/script.html" %}
+  {% endblock %}

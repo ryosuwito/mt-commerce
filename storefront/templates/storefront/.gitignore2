@@ -1,0 +1,16 @@
+*.pyc 
+secret.py
+db.sqlite3
+product_photo/
+bank_book_photo/
+profile_photo/
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.svg
+Picures/
+*.log
+static/admin/
+media/
+db.sqlite3-journal

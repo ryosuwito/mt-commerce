@@ -1,0 +1,12 @@
+{
+    "python.pythonPath": "/usr/local/bin/python3",
+    "python.autoComplete.extraPaths": [
+        "/home/ryo/Webproject/WebBuilder/ZeonWebBuilder/zeon-cms/",
+        "/home/ryo/Webproject/WebBuilder/venv/lib/python3.6/",
+        "/home/ryo/Webproject/WebBuilder/venv/lib/python3.6/site-packages/"
+     ],
+     "python.linting.pylintArgs": [
+        "--load-plugins=pylint_django"
+],
+"python.linting.pylintEnabled": false,
+}

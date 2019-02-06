@@ -1,0 +1,265 @@
+{% extends "keskei/base.html" %}
+{% load int_to_rupiah int_to_kilogram%}
+  {% block title %}
+    <title>Store | kei-partner.com</title>
+  {% endblock %}
+  {% block sidebar %}
+    {% include "keskei/sidebar.html" %}
+  {% endblock %}
+  {% block local_script %}
+  <script>
+      function setImage(image_id){
+        image_src = document.getElementById(image_id).src;
+        document.getElementById('mainPhoto').src = image_src;
+        document.getElementById('mainPhotoAlt').src = image_src;
+      }
+  </script>
+  <script>
+    function quantityChange(){
+      quantity = $('#id_quantity').val();
+      if(quantity >= 0){
+        harga = $('#productPrice').text();
+        berat = $('#productWeight').text();
+        jumlahBayar = quantity*harga;
+        jumlahBerat = quantity*berat;
+  
+        $('#jumlahBayar').text('Rp.'+jumlahBayar.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")+',-');
+        if(jumlahBerat<1000){
+          $('#jumlahBerat').text(''+jumlahBerat+' gram');
+        } else {
+          $('#jumlahBerat').text(''+jumlahBerat/1000+'kg');
+        }
+      } else {
+        $('#id_quantity').val(0)
+      }
+    }
+  </script>
+  {% include "membership/script.html" %}
+  {% endblock %}
+  {% block content %}
+  {% include "shopping_cart/setHeight.html" %}   
+      <div class="col-sm-12 col-xs-12" style="padding:10px 15px 0 15px">
+        <article class="col-main">
+          <div class="product-view">
+            <div class="product-essential">
+                <div class="product-img-box col-lg-5 col-sm-5 col-xs-12">
+                  <div class="product-image">
+                    <div class="product-full">
+                      <img onLoad="setHeight(this)" class="photo-user photo-article main-photo" id="product-zoom" src="{{ product.get_photo_url }}" data-zoom-image="{{ product.get_photo_url }}" alt="product-image"/> 
+                    </div>
+                    <div class="more-views">
+                      <div class="slider-items-products">
+                        <div id="gallery_01" class="product-flexslider hidden-buttons product-img-thumb">
+                          <div class="slider-items slider-width-col3 block-content">
+                            <div class="more-views-items"> 
+                              <a href="#" data-image="{{ product.get_photo_url }}" data-zoom-image="{{ product.get_photo_url }}"> 
+                                <img id="product-zoom0"  src="{{ product.get_photo_url }}" alt="product-image"/> 
+                              </a>
+                            </div>
+                            {% if product.photo_alt1 %}
+                            <div class="more-views-items"> 
+                              <a href="#" data-image="{{ product.get_photo_alt1_url }}" data-zoom-image="{{ product.get_photo_alt1_url }}"> 
+                                <img id="product-zoom1"  src="{{ product.get_photo_alt1_url }}" alt="product-image"/> 
+                              </a>
+                            </div>
+                            {% endif %}
+                            {% if product.photo_alt2 %}
+                            <div class="more-views-items"> 
+                              <a href="#" data-image="{{ product.get_photo_alt2_url }}" data-zoom-image="{{ product.get_photo_alt2_url }}"> 
+                                <img id="product-zoom2"  src="{{ product.get_photo_alt2_url }}" alt="product-image"/> 
+                              </a>
+                            </div>
+                            {% endif %}
+                            {% if product.photo_alt3 %}
+                            <div class="more-views-items"> 
+                              <a href="#" data-image="{{ product.get_photo_alt3_url }}" data-zoom-image="{{ product.get_photo_alt3_url }}"> 
+                                <img id="product-zoom3"  src="{{ product.get_photo_alt3_url }}" alt="product-image"/> 
+                              </a>
+                            </div>
+                            {% endif %}
+                            {% if product.photo_alt3 %}
+                            <div class="more-views-items"> 
+                              <a href="#" data-image="{{ product.get_photo_alt3_url }}" data-zoom-image="{{ product.get_photo_alt3_url }}"> 
+                                <img id="product-zoom3"  src="{{ product.get_photo_alt3_url }}" alt="product-image"/> 
+                              </a>
+                            </div>
+                            {% endif %}
+                            {% if product.photo_alt4 %}
+                            <div class="more-views-items"> 
+                              <a href="#" data-image="{{ product.get_photo_alt4_url }}" data-zoom-image="{{ product.get_photo_alt4_url }}"> 
+                                <img id="product-zoom4"  src="{{ product.get_photo_alt4_url }}" alt="product-image"/> 
+                              </a>
+                            </div>
+                            {% endif %}
+                            {% if product.photo_alt5 %}
+                            <div class="more-views-items"> 
+                              <a href="#" data-image="{{ product.get_photo_alt5_url }}" data-zoom-image="{{ product.get_photo_alt5_url }}"> 
+                                <img id="product-zoom5"  src="{{ product.get_photo_alt5_url }}" alt="product-image"/> 
+                              </a>
+                            </div>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end: more-images --> 
+                </div>
+                <div class="product-shop col-lg- col-sm-7 col-xs-12">
+                  <div class="product-name">
+                    <h1>{{ product.name | title }} </h1>
+                  </div>
+                  <div class="price-block">
+                    <div class="price-box">
+                      {% if discounted_price != 0 %}
+                      <p class="special-price"> 
+                        <span class="price-label">Special Price</span> 
+                        <span id="product-price-48" class="price"> {{ discounted_price | int_to_rupiah }} </span> </p>
+                      {% endif %}
+                      <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price"> {{ product.price | int_to_rupiah }} </span> </p>
+                    </div>
+                  </div>
+                    <div class="col-xs-12 col-md-12" style="padding: 0; border-top:1px #aaa dotted; border-bottom:1px #aaa dotted">
+                      <h4 class="title" style="text-align:left">Simulasi Total Pembelian</h4>
+                      <div class="row" style="padding:0">
+                        <div class="col-xs-6">
+                            {% if product.is_available %}
+                            <p class="hidden" id="productPrice">{{ discounted_price }}</p>
+                            <p class="hidden" id="productWeight">{{ product.unit_weight }}</p>
+                            <form class="form" method="POST" id="formQuantity">
+                              {% if form.errors %}
+                                  {% for field in form %}
+                                      {% for error in field.errors %}
+                                          <div class="alert alert-danger">
+                                              <strong>{{ error|escape }}</strong>
+                                          </div>
+                                      {% endfor %}
+                                  {% endfor %}
+                                  {% for error in form.non_field_errors %}
+                                      <div class="alert alert-danger">
+                                          <strong>{{ error|escape }}</strong>
+                                      </div>
+                                  {% endfor %}
+                              {% endif %}
+                              {% csrf_token %}
+                                <input type="hidden" name="method" value="cart">
+                                <div>
+                                    <p style="margin: 0">Banyaknya :</p>
+                                    {{ form.quantity }}
+                                </div>  
+                            <div class="add-to-box" style="margin-top:8px">
+                            <button style="margin:0" type="submit" form="formQuantity" class="button btn-cart">Beli</button>
+                            </div>
+                            {% else %}
+                                <p class="title hot">--Stok Kosong--</p>
+                            {% endif %} 
+                            </form>
+                        </div>
+                        <div class="col-xs-6">
+                          <p style="text-align:left;">
+                            Jumlah Bayar : <br>
+                            <span id="jumlahBayar" style="font-size: 150%">{{ discounted_price | int_to_rupiah }}</span>
+                          </p>
+                          <p style="text-align:left;">
+                            Jumlah Berat : <br>
+                            <span id="jumlahBerat" style="font-size: 150%">{{ product.unit_weight | int_to_kilogram }}</span>
+                          </p>
+                        </div>
+                        <div class="col-xs-12">
+                          <p>Berat Satuan : <span>{{ product.unit_weight | int_to_kilogram}}</span></p>
+                        </div>
+                        <div class="col-xs-12">
+                          <p>{{ product.summary | linebreaksbr }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  {% if not is_in_wishlist %}
+                  <div class="email-addto-box">
+                    <ul class="add-to-links">
+                    <li>
+                      <form class="form" method="POST" id="formWishlist">
+                          {% csrf_token %}
+                        <input type="hidden" name="method" value="wishlist">
+
+                        <button style="background:#cddfd1 !important" class="link-wishlist" type="submit" form="formWishlist">
+                          Add to wishlist
+                        </button>
+                      </form>
+                    </li>
+                    </ul>
+                  </div>
+                  {% endif %} 
+                  <div class="social" style="width:auto">
+                    <ul class="link">
+                      <li class="fb"><a href="#"></a></li>
+                      <li class="tw"><a href="#"></a></li>
+                    </ul>
+                  </div>
+
+                </div>
+            </div>
+            <div class="product-collateral">
+              <div class="add_info">
+                <ul id="product-detail-tab" class="nav nav-tabs product-tabs" style="border-radius:0">
+                  <li class="active"> 
+                    <a style="background: #cddfd1;
+                    border-radius: 0px;
+                    color: #353535;" href="#product_tabs_description" data-toggle="tab"> Product Description </a> </li>
+                </ul>
+                <div id="productTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="product_tabs_description">
+                    <div class="std">
+                    <p>{{ product.description | linebreaksbr }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article> 
+      </div>
+      
+      {% if other_product %}
+      <!-- Related Slider -->
+      <div class="related-pro col-xs-12 col-sm-12">
+          <div class="slider-items-products">
+            <div class="related-block">
+              <div class="home-block-inner">
+                <div class="block-title">
+                  <h2>Produk Menarik Lainnya</h2>
+                </div>
+              </div>
+              <div id="related-products-slider" class="product-flexslider hidden-buttons">
+                <div class="slider-items slider-width-col4 products-grid block-content">
+                  {% for p in other_product %}
+                  <div class="item">
+                    <div class="item-inner">
+                    <div class="item-img">
+                      <div class="item-img-info"> <a class="product-image"  href="{{ p.get_detail_url }}"> 
+                        <img style="max-width:240px" alt="Retis lapen casen" class="photo-user photo-article main-photo" onLoad="setHeight(this)" src="{{ p.get_photo_url }}"> </a>
+                      </div>
+                    </div>
+                    <div class="item-info">
+                      <div class="info-inner">
+                        <div class="item-title"> <a  href="{{ p.get_detail_url }}">
+                            {{ p.name | truncatechars:40 | title }}</a> </div>
+                        <div class="item-content">
+                          <div class="item-price">
+                            <div class="price-box"> <span class="regular-price"> <span class="price">{{p.price | int_to_rupiah}}</span> </span> </div>
+                          </div>
+                          <div class="action">
+                            <button class="button btn-cart" type="button" onclick="window.open('{{ p.get_detail_url }}','_self')"><i class="fa fa-shopping-basket"></i></button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      {% endif %}
+{% endblock %}

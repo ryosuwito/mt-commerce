@@ -1,0 +1,109 @@
+{% extends "keskei/base.html" %}
+{% load int_to_rupiah %}
+  {% block title %}
+    <title>{{ article.title | title }}</title>
+  {% endblock %}
+  {% block local_script %}
+  <script>
+
+      function setHeight(img){
+        img.style.minHeight = '0';
+        if(window.innerWidth>767){
+          if(img.classList.contains("main-photo") != false){
+            img.style.maxHeight = '440px';
+          } else {
+            img.style.maxHeight = '220px';
+          }
+        }
+        if(img.classList.contains("product") != false){
+          img.style.width =  img.clientWidth+20+'px';
+        }
+        img.style.height = img.clientWidth+'px';
+        img.style.backgroundSize='auto 100%';
+        img.style.overflow='hidden';
+        img.style.objectFit='cover';
+      } 
+  </script>
+  {% endblock %}
+  {% block sidebar %}
+    {% include "keskei/sidebar.html" %}
+  {% endblock %}
+  {% block content %}
+
+  <article>
+    <div class="col-xs-12 col-sm-12">
+        {% if article.featured_image %}
+        <div style="background-image:url('{{article.get_image_url}}');
+            width:100%; min-height:320px; background-position: center; 
+            background-repeat: no-repeat;
+            background-size: cover">
+        </div>
+        {% endif %}
+        <h1>{{ article.title | title }}</h1>
+        {% autoescape off %}
+        <p>{{ article.summary }}</p>
+        <p>{{ article.content }}</p>
+        {% endautoescape %}
+    </div>
+  </article>
+
+  {% if other_article %}
+  <div class="col-xs-12 col-sm-12">
+    <h2>Artikel Menarik Lainnya</h2>
+    <div class="row">
+    {% for article in other_article %}
+        <div onclick="window.open('{{article.get_url}}', '_parent')" class="col-xs-4" 
+        style="cursor:pointer">
+            <div style="padding:10px; border:1px solid #ddd">
+                <h4 style="font-weight:bold; color:#147D08">{{ article.title | title }}</h4>
+                <p>{{ article.summary | truncatechars:160 | linebreaksbr }}</p>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+  {% if other_product %}
+  <!-- Related Slider -->
+  <div class="related-pro col-xs-12 col-sm-12">
+      <div class="slider-items-products">
+        <div class="related-block">
+          <div class="home-block-inner">
+            <div class="block-title">
+              <h2>Produk Menarik Untuk Anda</h2>
+            </div>
+          </div>
+          <div id="related-products-slider" class="product-flexslider hidden-buttons">
+            <div class="slider-items slider-width-col4 products-grid block-content">
+              {% for p in other_product %}
+              <div class="item">
+                <div class="item-inner">
+                <div class="item-img">
+                  <div class="item-img-info"> <a class="product-image"  href="{{ p.get_detail_url }}"> 
+                    <img style="max-width:240px" alt="Retis lapen casen" class="photo-user photo-article main-photo" onLoad="setHeight(this)" src="{{ p.get_photo_url }}"> </a>
+                  </div>
+                </div>
+                <div class="item-info">
+                  <div class="info-inner">
+                    <div class="item-title"> <a  href="{{ p.get_detail_url }}">
+                        {{ p.name | truncatechars:40 | title }}</a> </div>
+                    <div class="item-content">
+                      <div class="item-price">
+                        <div class="price-box"> <span class="regular-price"> <span class="price">{{p.price | int_to_rupiah}}</span> </span> </div>
+                      </div>
+                      <div class="action">
+                        <button class="button btn-cart" type="button" onclick="window.open('{{ p.get_detail_url }}','_self')"><i class="fa fa-shopping-basket"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  {% endif %}
+  {% endblock %}
