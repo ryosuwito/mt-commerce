@@ -6,6 +6,7 @@ app_name = 'membership'
 
 urlpatterns = [
     path('profile/<str:uname>/', views.profile_page, name='profile'),
+    path('forgot/', views.forgot_password, name='forgot_password'),
     path('login/', views.login_page, name='login'),
     path('logout/', views.logout_page, name='logout'),
     # path('register/<str:referal_code>/', views.register_page, name='register'),

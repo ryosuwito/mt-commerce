@@ -11,6 +11,7 @@ from .models import Member
 from .forms import MemberLoginForm, MemberRegisterForm, GuestRegisterForm, MemberEditProfileForm
 from shopping_cart import carts, wishlists
 from reward_system.models import Reward
+from catalog.models import Store
 
 from django.core.mail import send_mail
 from settings.models import HeaderLink, FooterLink
@@ -113,74 +114,25 @@ def login_page(request):
         'form_messages': form_messages,
         'welcome_message': welcome_message})
 
-# def pre_register_page(request, *args, **kwargs):
-#     header_links = HeaderLink.objects.all()
-#     hlinks = {}
-#     for link in header_links :
-#         if not link.page:
-#             hlinks['%s'%link.pos] = {
-#                 'addr':link.addr, 
-#                 'name':link.name
-#             }
-#         else:
-#             hlinks['%s'%link.pos] = {
-#                 'addr':link.page.get_url(), 
-#                 'name':link.page.title
-#             }
-#     flinks = FooterLink.objects.all()
-#     cart = carts.get_cart(request)
-#     cart_object = cart['cart_object']
-#     wishlist = wishlists.get_wishlist(request)
-#     wishlist_object = wishlist['wishlist_object']
-#     referal_code = False
-#     link = {
-#         'member': reverse('membership:register', current_app='member_backend'),
-#         'guest': reverse('membership:register', current_app='guest_backend'),
-#     }
-#     if request.get_host() != settings.DEFAULT_HOST:
-#         referal_code = check_host(request, pass_variable=True)
-#         if not referal_code:
-#             return  HttpResponseRedirect(request.scheme+"://"+settings.DEFAULT_HOST + 
-#                         reverse('membership:pre_register', 
-#                             current_app=request.resolver_match.namespace))
-#     else:
-#         try:
-#             referal_code = kwargs['referal_code'].lower()    
-#             if referal_code:
-#                 link = {
-#                     'member': reverse('membership:register', current_app='member_backend', kwargs={'referal_code':referal_code.lower()}),
-#                     'guest': reverse('membership:register', current_app='guest_backend', kwargs={'referal_code':referal_code.lower()}),
-#                 }
-#         except:
-#             pass
-
-#     if request.user.is_authenticated:
-#         return HttpResponseRedirect(reverse('membership:profile'))
-
-#     next = request.GET.get('next') if request.GET.get('next') else False
-#     return render(request, 'membership/pre_register.html', 
-#         {'link':link, 
-#         'hlinks':hlinks,
-#         'flinks':flinks, 
-#         'wishlist': wishlist_object,
-#         'cart': cart_object,
-#         'next':next})
+def forgot_password(request):
+    if request.method == 'GET':
+        return render('kei_store/lupa.html')
 
 def register_page(request, *args, **kwargs): 
-    # header_links = HeaderLink.objects.all()
-    # hlinks = {}
-    # for link in header_links :
-    #     if not link.page:
-    #         hlinks['%s'%link.pos] = {
-    #             'addr':link.addr, 
-    #             'name':link.name
-    #         }
-    #     else:
-    #         hlinks['%s'%link.pos] = {
-    #             'addr':link.page.get_url(), 
-    #             'name':link.page.title
-    #         }
-    # flinks = FooterLink.objects.all()
+    header_links = HeaderLink.objects.all()
+    hlinks = {}
+    for link in header_links :
+        if not link.page:
+            hlinks['%s'%link.pos] = {
+                'addr':link.addr, 
+                'name':link.name
+            }
+        else:
+            hlinks['%s'%link.pos] = {
+                'addr':link.page.get_url(), 
+                'name':link.page.title
+            }
+    flinks = FooterLink.objects.all()
     cart = carts.get_cart(request)
     cart_object = cart['cart_object']
     wishlist = wishlists.get_wishlist(request)
@@ -395,12 +347,10 @@ def register_page(request, *args, **kwargs):
         #     })
     return render(request, 'kei_store/daftar.html',
         {'form': form, 
-        #  'hlinks':hlinks,
-        #  'flinks':flinks, 
+         'hlinks':hlinks,
+         'flinks':flinks, 
          'wishlist': wishlist_object,
          'cart': cart_object,
-        #  'threshold': threshold, 
-        #  'link_cancel':link_cancel
         })
 
 @login_required(login_url='/member/login')
@@ -419,86 +369,23 @@ def profile_page(request, uname='none'):
                 'name':link.page.title
             }
     flinks = FooterLink.objects.all()
-    target = 0
-    current_target = 0
-    member_target = 0
     cart = carts.get_cart(request)['cart_object']
     wishlist = wishlists.get_wishlist(request)['wishlist_object']
-    referal_code = False
-    default_host = settings.DEFAULT_HOST 
-
-    default_register_page = request.scheme+"://"+ default_host + \
-                                reverse('membership:profile', 
-                                    current_app=request.resolver_match.namespace)
-
-    if request.get_host() != settings.DEFAULT_HOST:
-        referal_code = check_host(request, pass_variable=True)
-        if not referal_code:
-            return  HttpResponseRedirect(default_register_page) 
-                        
-    namespace = request.resolver_match.namespace
-    member_type = namespace.split('_')[0]
     link_edit = ''
 
     if uname == 'none' or uname == request.user.username :
-        if request.user.member.get_member_type_display() != 'Guest' and \
-            request.resolver_match.namespace != 'member_backend':     
-                return HttpResponseRedirect(reverse('membership:profile', 
-                    current_app='member_backend'))
-        if request.user.member.get_member_type_display() == 'Guest' and \
-            request.resolver_match.namespace != 'guest_backend':     
-                return HttpResponseRedirect(reverse('membership:profile', 
-                    current_app='guest_backend'))
-
-        link_edit = reverse('membership:edit_profile', current_app=namespace)
+        link_edit = reverse('membership:edit_profile')
         user = request.user
     else :
         user = get_object_or_404(User, username=uname)
-        if user.member.get_member_type_display() != 'Guest' and \
-                request.resolver_match.namespace != 'member_backend':
-            return HttpResponseRedirect("%s%s"%(reverse('membership:profile', 
-                current_app='member_backend'),uname))
-        if user.member.get_member_type_display() == 'Guest' and \
-                request.resolver_match.namespace != 'guest_backend':
-            return HttpResponseRedirect("%s%s"%(reverse('membership:profile', 
-                current_app='guest_backend'),uname))
 
-    if user.member.get_member_type_display() != 'Guest':
-        current_target = user.member.reward.get_current_purchasing()
-        current_selling_target = user.member.reward.get_current_selling()
-        member_target = user.member.get_level()['TARGET']
-        member_selling_target = user.member.get_level()['TARGET']
-        target = round(current_target/member_target*100, 2)
-        selling_target = round(current_selling_target/member_selling_target*100, 2)
-        user.member.reward.get_purchasing_bonus(request)
-        user.member.reward.get_selling_bonus(request)
-    else:
-        target = 0
-        current_target = 0
-        member_target = 0
-        selling_target = 0
-        current_selling_target = 0
-        member_selling_target = 0
-    link_sponsor = ''
-    if user.member.sponsor:
-        sponsor = Member.objects.get(referal_code = user.member.sponsor_code)
-        link_sponsor = sponsor.get_absolute_url()
-
-    return render(request, 'membership/profile_member.html',
+    return render(request, 'kei_store/akun.html',
         {'user': user, 
-        'target': target,
-        'current_target': current_target,
-        'member_target': member_target,
-        'selling_target': selling_target,
-        'current_selling_target': current_selling_target,
-        'member_selling_target': member_selling_target,
         'cart':cart, 
         'hlinks':hlinks,
         'flinks':flinks, 
-        'default_host':default_host,
         'wishlist':wishlist,
-        'link_edit': link_edit, 
-        'link_sponsor': link_sponsor})
+        'link_edit': link_edit, })
 
 @login_required(login_url='/member/login')
 def edit_profile_page(request):

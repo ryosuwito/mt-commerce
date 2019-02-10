@@ -5,7 +5,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from shopping_cart.models import Cart, CartItem, WishListItem
 import shopping_cart.carts as carts
 import shopping_cart.wishlists as wishlists
-from membership.models import Member, Customer
+from membership.models import Member#, Customer
 from shipping_backend.shipping_check import get_courier, get_cost
 from django.middleware.csrf import get_token
 from shipping_backend.models import ShippingOrigin
@@ -16,7 +16,7 @@ from django.urls import reverse
 from database_wilayah.models import Provinsi, Kota, Kecamatan, Kelurahan
 from reward_system.my_point import count_point
 from reward_system.my_purchasing import check_purchasing_bonus
-from membership.forms import CustomerAddForm
+#from membership.forms import CustomerAddForm
 from settings.models import HeaderLink, FooterLink
 import datetime
 

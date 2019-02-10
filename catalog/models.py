@@ -3,9 +3,11 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_extensions.db.fields import AutoSlugField
 from django.urls import reverse
+from django.contrib.auth.models import User
 
-class Brand(models.Model):
+class Store(models.Model):
     name = models.CharField(db_index=True,
+            unique=True,
             max_length = 100,
             help_text="Nama Brand")
     slug = AutoSlugField(max_length=100, 
@@ -13,22 +15,23 @@ class Brand(models.Model):
             db_index=True,
             populate_from=('name',))
     description = models.TextField(blank=True,
-            help_text="Deskripsi Brand")
-    is_archived = models.BooleanField(default = False,
-            help_text="Centang untuk Menyembunyikan Kategori") 
-
-    class Meta:
-        verbose_name_plural = "Brands"
+            help_text="Deskripsi Brand")    
+    photo = models.ImageField(upload_to = 'store_photo',
+            null=True,
+            help_text="Foto/Logo Toko")
+    owner = models.OneToOneField(User,
+            on_delete=models.CASCADE)
 
 
     def __str__(self):
        return self.name
 
     def get_url(self):
-        return "/store/brand/%s/" % (self.pk)
+        return reverse('storefront:products_in_store', kwargs={'store_slug':self.slug})
 
 class Category(models.Model):
     name = models.CharField(db_index=True,
+            unique=True,
             max_length = 100,
             help_text="Nama Kategori")
     slug = AutoSlugField(max_length=100, 
@@ -55,12 +58,16 @@ class Product(models.Model):
     name = models.CharField(max_length = 200,
             db_index=True,
             help_text="Nama Produk")
+    brand = models.CharField(max_length = 200,
+            db_index=True,
+            default='',
+            help_text="Merk Produk")
     slug = AutoSlugField(max_length=100, 
             db_index=True,
             unique=True, 
             populate_from=('name',))
     description = models.TextField(null=True,help_text="Deskripsi Produk")
-    summary = models.TextField(null=True,help_text="Ringkasan Produk")
+    #summary = models.TextField(null=True,help_text="Ringkasan Produk")
     photo = models.ImageField(upload_to = 'product_photo',
             help_text="Foto Produk")
     photo_alt1 = models.ImageField(upload_to = 'product_photo', null=True, blank=True,
@@ -74,7 +81,7 @@ class Product(models.Model):
     photo_alt5 = models.ImageField(upload_to = 'product_photo', null=True, blank=True,
             help_text="Foto Produk Alternatif 5")
     price = models.PositiveIntegerField(null=True, help_text="Harga Produk", default=0)
-    point = models.PositiveIntegerField(null=True, help_text="Poin Produk", default=0)
+    #point = models.PositiveIntegerField(null=True, help_text="Poin Produk", default=0)
 
     unit_weight = models.PositiveIntegerField(null=True, help_text="Berat Satuan Produk dalam gram")
     is_available = models.BooleanField(default = True,
@@ -86,11 +93,11 @@ class Product(models.Model):
     categories = models.ManyToManyField(Category, 
             related_name="products_in_category",
             help_text="Kategori Produk")
-    brands = models.ForeignKey(Brand, 
-            on_delete=models.SET_NULL,
+    store = models.ForeignKey(Store, 
+            on_delete=models.CASCADE,
             null=True,
-            related_name="products_in_brand",
-            help_text="Brand Produk")
+            related_name="products_in_store",
+            help_text="Toko Produk")
 
     def get_details(self):
         details = {'name': self.name,

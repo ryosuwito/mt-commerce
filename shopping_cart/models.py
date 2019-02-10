@@ -1,6 +1,6 @@
 from django.db import models
 from catalog.models import Product
-from membership.models import Member, Customer
+from membership.models import Member#, Customer
 from django.contrib.auth.models import User
 import datetime
 
@@ -19,7 +19,7 @@ class Cart(models.Model):
     
 
     is_set_as_dropship = models.BooleanField(default=False)
-    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
+    #customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
 
 
     class Meta:

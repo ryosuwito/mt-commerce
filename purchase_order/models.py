@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from shopping_cart.models import Cart
 from catalog.models import Product
-from membership.models import Member, Customer
+from membership.models import Member#, Customer
 
 from django.utils.crypto import get_random_string
 from django.db.models.signals import post_save
@@ -32,7 +32,7 @@ class PurchaseOrder(models.Model):
     #payment_token = models.CharField(null=True, max_length=50, blank=True)
 
     is_set_as_dropship = models.BooleanField(default=False)
-    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
+    #customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
 
     def get_number():
         order_number_alpha = get_random_string(5, 

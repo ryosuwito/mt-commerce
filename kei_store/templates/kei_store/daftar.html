@@ -22,6 +22,8 @@
                                 <div class="form-group">
                                     {{ form.password }}
                                 </div>
+
+                                {% if form.email %}
                                 <div class="form-group">
                                     <div class="checkbox">
                                         <label for="terms" class="string optional">
@@ -32,16 +34,31 @@
                                         </label>
                                     </div>
                                 </div>
+                                {% else %}
+                                <p><a href="#">Lupa Password?</a></p>
+                                {% endif %}
                                 <div class="form-group">
-                                    <button class="btn btn-block btn-custom">Daftar</button>
+                                    <button class="btn btn-block btn-custom">
+                                    {% if form.email %}
+                                        Daftar
+                                    {% else %}
+                                        Masuk
+                                    {% endif %}
+                                    </button>
                                 </div>
                             </form>
                         </div>
                         <div class="panel-footer">
                             <p class="text-center pull-right"> 
-                                <a href="{% url 'membership:login' %}"> 
-                                Sudah punya akun?
-                                </a> 
+                                {% if form.email %}
+                                    <a href="{% url 'membership:login' %}"> 
+                                    Sudah punya akun?
+                                    </a> 
+                                {% else %}
+                                    <a href="{% url 'membership:register' %}">
+                                    Belum punya akun?
+                                    </a> 
+                                {% endif %}
                             </p>
                             <div style=" clear:both"></div>
                         </div>

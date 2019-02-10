@@ -1,0 +1,22 @@
+<div class="widget">
+    <div class="widget-header">
+        <h3>Menu Dashboard</h3>
+    </div>
+    <div class="widget-body">
+        <ul class="author-menus">
+            {% if not user.store %}
+            <li>
+                <a href="{% url 'storefront:create_new_store' %}">
+                    <button type="submit" class="btn btn-block btn-success">
+                        Buat Toko
+                    </button>
+                </a>
+            </li>
+            {% else %}
+            <li><a href="{{request.user.store.get_url}}">Toko Saya</a></li>
+            {% endif %}
+            <li><a href="{% url 'membership:profile' %}">Profil Saya</a></li>
+            <li><a href="{% url 'membership:logout' %}">Keluar</a></li>
+        </ul>
+    </div>
+</div>

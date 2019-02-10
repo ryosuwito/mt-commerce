@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import Brand, Category, Product
+from .models import Store, Category, Product
 
-class BrandAdmin(admin.ModelAdmin):
-    model = Brand
+class StoreAdmin(admin.ModelAdmin):
+    model = Store
     exclude = ['slug']
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -13,6 +13,6 @@ class ProductAdmin(admin.ModelAdmin):
     model = Product
     exclude = ['slug']
 
-admin.site.register(Brand, BrandAdmin)
+admin.site.register(Store, StoreAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)

@@ -12,45 +12,47 @@
 
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="new-ads"><a href="posting.html" class="btn btn-ads btn-block">Advertise</a></li>
+                <!-- <li class="new-ads"><a href="posting.html" class="btn btn-ads btn-block">Advertise</a></li> -->
                 {% if not request.user.is_authenticated %}
                 <li><a href="{% url 'membership:register' %}">Daftar</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-user"></i> <strong class="caret"></strong>&nbsp;</a>
                     <div class="dropdown-menu dropdown-login" style="padding:15px;min-width:250px">
-                        <form>                       
+                        <form action="{% url 'membership:login' %}" method="post">                       
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon addon-login"><i class="fa fa-user"></i></span>
-                                    <input type="text" placeholder="Username or email" required="required" class="form-control input-login">                                            
+                                    <input type="text" name="username" id="id_username" placeholder="Masukan Username" required="required" class="form-control input-login">                                            
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon addon-login"><i class="addon fa fa-lock"></i></span>
-                                    <input type="password" placeholder="Password" required="required" class="form-control input-login">                                            
+                                    <input type="password" name="password" id="id_password" placeholder="Password" required="required" class="form-control input-login">                                            
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="checkbox">
-                                    <label class="string optional" for="user_remember_me">
-                                        <input type="checkbox" id="user_remember_me" style="">
-                                        Remember me
-                                    </label>
-                                </div>
-                            </div>
-                            <input type="submit" class="btn btn-custom btn-block" value="Sign In">
-                            <a href="lupa.html" class="btn-block text-center">Forgot password?</a>
+                            <a href="lupa.html" class="btn-block text-center">Lupa password?</a>
+                            <input type="submit" class="btn btn-custom btn-block" value="Masuk">
                         </form>                                    
                     </div>
                 </li>
                 {% else %}
                 <li class="dropdown">
-                    <a class="dropdown-toggle" href="#" data-toggle="dropdown"><strong class="caret"></strong>&nbsp;Pages</a>
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="font-size: 26px"><span class="fa fa-user"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="akun.html">My Ads</a></li>
-                        <li><a href="posting.html">Create Ads</a></li>
-                        <li><a href="profile.html">My Profile</a></li>
+                        {% if not user.store %}
+                        <li>
+                            <a href="{% url 'storefront:create_new_store' %}">
+                                <button type="submit" class="btn btn-block btn-success">
+                                    Buat Toko
+                                </button>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li><a href="{{request.user.store.get_url}}">Toko Saya</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'membership:profile' %}">Profil Saya</a></li>
+                        <li><a href="{% url 'membership:logout' %}">Keluar</a></li>
                     </ul>
                 </li>
                 {% endif %}

@@ -139,8 +139,8 @@ ASSETS_URL = '/assets/'
 ASSETS_ROOT = os.path.join(BASE_DIR, 'static/assets/')
 
 #MEDIA_ROOT = '/home/ryo/Webproject/keskei/keskei/media/'
-MEDIA_ROOT = '/webapps/kei/media/'
-MEDIA_URL = os.path.join(BASE_DIR, 'logout/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = '/member/'
 LOGIN_URL = '/member/login/'

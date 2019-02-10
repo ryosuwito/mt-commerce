@@ -1,4 +1,4 @@
-{% extends 'kei_store/base.html' %}
+{% extends 'kei_store/base.html' %} 
 {% block content %}
 <div class="wrapper">
     {% include 'kei_store/header.html' %}
@@ -269,36 +269,39 @@
                 <div class="col-md-4 col-sm-4">
                     <div class="widget">
                         <div class="widget-header">
-                            <h3>Quick Signup</h3>
+                            <h3>Daftar Gratis</h3>
                         </div>
                         <div class="widget-body">
-                            <form >
+                            <form action="{% url 'membership:register' %}" method="post">
+                                {% csrf_token %}
                                 <div class="form-group">
-                                    <input type="text" class="form-control input-lg" placeholder="Name">
+                                    {{form.username}}
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control input-lg" placeholder="Email">
+                                    {{form.email}}
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control input-lg" placeholder="Password">
+                                    {{form.password}}
                                 </div>
                                 <div class="form-group">
                                     <div class="checkbox">
                                         <label class="string optional" for="terms">
                                             <input type="checkbox" id="terms" style="">
-                                            <a href="#">I Agree with Term and Conditions</a>
+                                            <span style="font-size:8pt">Saya setuju dengan <a href="#">
+                                                syarat dan ketentuan </a> companyname.com
+                                            </span>
                                         </label>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-block btn-custom">Sign Up</button>
+                                    <button type="submit" class="btn btn-block btn-custom">Daftar</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                     <div class="widget">
                         <div class="widget-header">
-                            <h3>Trends</h3>
+                            <h3>Paling Laris</h3>
                         </div>
                         <div class="widget-body">
                             <ul class="trends">
@@ -358,22 +361,22 @@
         <p>Butuh bantuan? Kontak kami di <strong>(002) 58474546</strong> - Email kami di: address@email.com</p>
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 top-footer-box">
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 top-footer-box">
                     <img src="/assets/img/icon/truck.svg" width="30%" height="auto">
                     <h5 class="title">Metode Pengiriman</h5>
                     <p>Companyname.com menyediakan berbagai pilihan jasa pengiriman dengan jangkauan nasional</p>
                 </div>
-                <div class="col-lg-3 top-footer-box">
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 top-footer-box">
                     <img src="/assets/img/icon/protected.svg" width="30%" height="auto">
                     <h5 class="title">Jaminan Keamanan 100%</h5>
                     <p>Companyname.com menjamin keamanan uang Anda dalam bertransaksi. <a href="#">Pelajari selengkapnya</a></p>
                 </div>
-                <div class="col-lg-3 top-footer-box">
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 top-footer-box">
                     <img src="/assets/img/icon/delivery.svg" width="30%" height="auto">
                     <h5 class="title">Kenyamanan Berbelanja</h5>
                     <p>Dapatkan keuntungan seperti akses ke komunitas Companyname.com serta tips dan trik berjualan online</p>
                 </div>
-                <div class="col-lg-3 top-footer-box">
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 top-footer-box">
                     <img src="/assets/img/icon/24-phone.svg" width="30%" height="auto">
                     <h5 class="title">24/7 Service Center</h5>
                     <p>Customer Support Companyname.com siap membantu Anda melalui email, media sosial, dan call center</p>

@@ -1,8 +1,9 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from catalog.models import Product, Category, Brand
+from catalog.models import Product, Category, Store
 from membership.models import Member
 from shopping_cart.models import Cart, CartItem, WishList, WishListItem
 from shopping_cart import carts, wishlists
@@ -11,15 +12,17 @@ from membership.views import check_host
 from membership.templatetags.int_to_rupiah import int_to_rupiah
 from settings.models import HeaderLink, HomeLink, FooterLink
 from blog_page.models import Article
+from membership.forms import MemberRegisterForm
 
 import datetime
 import random
 
-from .forms import ProductCartForm
+from .forms import ProductCartForm, AddProductForm, CreateNewStoreForm
 
 def home(request):
     header_links = HeaderLink.objects.all()
     articles = Article.objects.all().order_by('created_date')
+    form = MemberRegisterForm()
     if len(articles) > 5:
         articles = articles[:5]
     hlinks = {}
@@ -44,14 +47,15 @@ def home(request):
         products = {}
         featured_products = {}
     categories = Category.objects.all()
-    brands = Brand.objects.all()
+    stores = Store.objects.all()
     return render(request, 'kei_store/index.html', 
         {
+        'form':form,
         'articles':articles,
         'hlinks':hlinks,
         'flinks':flinks,
         'cart':cart_object, 
-        'brands':brands,
+        'stores':stores,
         'categories':categories,
         'products':products,
         'featured_products':featured_products})
@@ -92,7 +96,7 @@ def product_detail(request, product_pk, **kwargs):
     wishlist = wishlists.get_wishlist(request)
     wishlist_object = wishlist['wishlist_object']
     categories = Category.objects.all()
-    brands = Brand.objects.all()
+    stores = Store.objects.all()
     all_product = Product.objects.filter(is_archived=False).exclude(pk=product_pk)
     is_wishlist = False
     if len(all_product) >= 5:
@@ -173,7 +177,7 @@ def product_detail(request, product_pk, **kwargs):
             'cart':cart_object, 
             'wishlist':wishlist_object, 
             'form':form, 
-            'brands':brands,
+            'stores':stores,
             'categories':categories,
             'is_in_wishlist': is_in_wishlist,
             'discount': discount, 
@@ -218,16 +222,16 @@ def product_by_category(request, category_pk, **kwargs):
         product_title = 'Menampilkan Semua Produk %s' % (kategori.name.title())
     return paginate_results(request, product_list,product_title)
 
-def product_by_brand(request, brand_pk, **kwargs):
+def product_by_store(request, store_slug, **kwargs):
     try:
-        brand = Brand.objects.get(pk=brand_pk)
-        product_list = brand.products_in_brand.filter(is_archived=False)
+        store = Store.objects.get(slug=store_slug)
+        product_list = store.products_in_store.filter(is_archived=False)
     except:
         product_list=''
     if not product_list:
         product_title = 'Tidak Ada Produk'
     else:
-        product_title = 'Menampilkan Semua Produk %s' % (brand.name.title())
+        product_title = 'Menampilkan Semua Produk %s' % (store.name.title())
     return paginate_results(request, product_list,product_title)
 
 def product_by_price(request, start_price, end_price, **kwargs):
@@ -266,7 +270,7 @@ def paginate_results(request, product_list,product_title):
     wishlist = wishlists.get_wishlist(request)
     wishlist_object = wishlist['wishlist_object']
     categories = Category.objects.all()
-    brands = Brand.objects.all()
+    stores = Store.objects.all()
     max_page = 4
     min_page = 0
     products = ''
@@ -286,12 +290,12 @@ def paginate_results(request, product_list,product_title):
         except:
             pass
 
-    response = render(request, 'storefront/product_all.html', 
+    response = render(request, 'kei_store/kategori.html', 
         {
          'hlinks':hlinks,
          'flinks':flinks,
          'cart':cart_object,
-         'brands':brands,
+         'stores':stores,
          'categories':categories,
          'wishlist':wishlist_object, 
          'products':products,
@@ -301,30 +305,113 @@ def paginate_results(request, product_list,product_title):
          'min_page':min_page})
     return response
 
-def  redirect_referal_code(request, kwargs):
+@login_required(login_url='/member/login')
+def add_new_product(request):
     try:
-        referal_code = kwargs['referal_code']
-    except:
-        referal_code = ''
-
-    if request.get_host() != settings.DEFAULT_HOST:
-        if referal_code:
-            return {'code':referal_code, 'message':'redirect_to_referal'}
+        store = request.user.store
+    except:    
+        store = ''
+    if not store:
+        return HttpResponseRedirect(reverse('storefront:create_new_store'))
+    header_links = HeaderLink.objects.all()
+    hlinks = {}
+    for link in header_links :
+        if not link.page:
+            hlinks['%s'%link.pos] = {
+                'addr':link.addr, 
+                'name':link.name
+            }
         else:
-            referal_code = check_host(request, pass_variable=True)
-            if not referal_code:
-                return  {'code':'', 'message': 'redirect_to_default'}
-            
-    else :
-        if referal_code:
-            try:
-                referer_user = Member.objects.get(referal_code = referal_code)
-            except:
-                referer_user = ''
+            hlinks['%s'%link.pos] = {
+                'addr':link.page.get_url(), 
+                'name':link.page.title
+            }
+    flinks = FooterLink.objects.all()
+    cart = carts.get_cart(request)
+    cart_object = cart['cart_object']
+    wishlist = wishlists.get_wishlist(request)
+    wishlist_object = wishlist['wishlist_object']
+    if request.method == 'POST':
+        form = AddProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            data = form.cleaned_data
+            product_name = data.get('name')
+            product_price = data.get('price')
+            product_weight = data.get('unit_weight')
+            product_brand = data.get('brand')
+            product_description = data.get('description')
+            product_photo = data.get('photo')
+            product_photo_alt1 = data.get('photo_alt1')
+            product_photo_alt2 = data.get('photo_alt2')
 
-            if referer_user:
-                return {'code':referal_code, 'message':'redirect_to_referal'}
-            else:
-                return {'code':'', 'message': 'redirect_to_default'}
+            product = Product.objects.create(
+                store = store,
+                name = product_name,
+                price = product_price,
+                unit_weight = product_weight,
+                description = product_description,
+                photo = product_photo,
+                photo_alt1 = product_photo_alt1,
+                photo_alt2 = product_photo_alt2
+                )
 
-    return {'code':referal_code, 'message': 'do_nothing'}
+            if product:
+                return HttpResponseRedirect(reverse('membership:profile'))
+
+    elif request.method == 'GET': 
+        form = AddProductForm()
+
+    return render(request, 'kei_store/tambah_produk.html', 
+        {'form': form, 
+         'hlinks':hlinks,
+         'flinks':flinks, 
+         'wishlist': wishlist_object,
+         'cart': cart_object,
+        })
+
+@login_required(login_url='/member/login')
+def create_new_store(request):
+    header_links = HeaderLink.objects.all()
+    hlinks = {}
+    for link in header_links :
+        if not link.page:
+            hlinks['%s'%link.pos] = {
+                'addr':link.addr, 
+                'name':link.name
+            }
+        else:
+            hlinks['%s'%link.pos] = {
+                'addr':link.page.get_url(), 
+                'name':link.page.title
+            }
+    flinks = FooterLink.objects.all()
+    cart = carts.get_cart(request)
+    cart_object = cart['cart_object']
+    wishlist = wishlists.get_wishlist(request)
+    wishlist_object = wishlist['wishlist_object']
+    if request.method == 'POST':
+        form = CreateNewStoreForm(request.POST, request.FILES)
+        if form.is_valid():
+            data = form.cleaned_data
+            store_name = data.get('name')
+            store_description = data.get('description')
+            store_photo = data.get('photo')
+
+            store = Store.objects.create(
+                owner=request.user,
+                name=store_name,
+                description=store_description,
+                photo=store_photo
+                )
+            if store:
+                return HttpResponseRedirect(reverse('storefront:add_new_product'))
+    elif request.method == 'GET': 
+        form = CreateNewStoreForm()
+
+    return render(request, 'kei_store/buka_toko.html', 
+        {'form': form, 
+         'hlinks':hlinks,
+         'flinks':flinks, 
+         'wishlist': wishlist_object,
+         'cart': cart_object,
+        })
