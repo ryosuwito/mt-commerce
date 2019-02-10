@@ -27,7 +27,7 @@ import purchase_order.urls as order
 import shipping_backend.urls as shipping
 from shipping_backend.views import shipping_redirect
 from purchase_order.views import checkout, pay, history
-from storefront.views import home
+import storefront.views as store_views
 from blog_page.views import blog_index, page, article
 
 urlpatterns = [
@@ -37,6 +37,14 @@ urlpatterns = [
     path('page/<str:page_slug>/', page, name="page_detail"),
     path('member/', include(membership, namespace='member_backend')),
     # path('guest/', include(membership, namespace='guest_backend')),
+    #product-related url
+    path('produk/<int:product_pk>/', store_views.product_detail, name='product_detail'),
+    path('kategori/<int:category_pk>/', store_views.product_by_category, name='product_by_category'),
+    path('harga/<int:start_price>/<int:end_price>/', store_views.product_by_price, name='product_by_price'),
+    re_path(r'kategori/$', RedirectView.as_view(url='/store/')),
+    re_path(r'produk/$', RedirectView.as_view(url='/store/')),
+    re_path(r'harga/$', RedirectView.as_view(url='/store/')),
+    #end product-elated url
     path('wilayah/', include(wilayah, namespace='wilayah_backend')),
     path('cart/', include(cart, namespace='cart_backend')),
     path('checkout/', checkout, name="checkout"),
@@ -45,7 +53,7 @@ urlpatterns = [
     path('order/', include(order, namespace='order_backend')),
     path('shipping/', include(shipping, namespace='shipping_backend')),
     path('admin/', admin.site.urls),
-    re_path(r'^$', home, name="home"),
+    re_path(r'^$', store_views.home, name="home"),
     re_path(r'^blog/$', blog_index, name="blog_index"),
     re_path(r'^store/', include(storefront, namespace='store_backend')),
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),

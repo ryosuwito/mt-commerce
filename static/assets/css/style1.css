@@ -740,7 +740,7 @@ h2.product-title{
 	background-color: #FFF;
 	overflow: hidden !important;
 	position:relative;
-	min-height: 390px;
+	min-height: 300px;
 }
 
 .item-action-grid ul{

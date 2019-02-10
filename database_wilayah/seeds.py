@@ -1,15 +1,15 @@
 from database_wilayah.models import Provinsi, Kota, Kecamatan, Kelurahan
 
 
-with open('database_wilayah/database_indonesia.csv') as file:
+with open('database_indonesia.csv') as file:
     print('begin')
     provinsi = False
     kota = False
     kecamatan = False
-    plimit = 34
-    klimit = 100
-    kclimit = 20
-    kllimit = 20
+    plimit = 4
+    klimit = 10
+    kclimit = 3
+    kllimit = 3
     prov, kot, kec, kel = 0, 0, 0, 0
     for index, line in enumerate(file):
         print(index)

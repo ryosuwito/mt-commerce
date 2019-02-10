@@ -1,0 +1,142 @@
+{% extends 'kei_store/akun_base.html' %} 
+{% load int_to_kilogram int_to_rupiah int_to_quantity%}
+{% block account_main_content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">{{product_title}}</h4>
+        </div>
+        <div class="panel-body">
+            <div class="before-table">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <a href="{% url 'storefront:add_new_product' %}" class="btn btn-custom"><i class="fa fa-plus"></i> Tambah Produk</a>
+                    </div><!-- 
+                    <div class="col-xs-6">
+                        <form class="form-inline pull-right">
+                            <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" name="q" placeholder="Type keyword ..." class="form-control">
+                                        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                    </div>
+                            </div>
+                        </form>
+                    </div> -->
+                </div>
+            </div>
+            {% if products %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <!-- th><input id="checkAll" type="checkbox" /></th> -->
+                        <th>Foto</th>
+                        <th>Detail Produk</th>
+                        <th>Berat</th>
+                        <th>Harga</th>
+                        <th>Terjual</th>
+                        <th style="width:10%">Opsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <!-- <td><input type="checkbox"></td> -->
+                        <td><img alt="" class="thumb-img img-responsive" src="{{product.get_photo_url}}"></td>
+                        <td>
+                            <div class="item-title">
+                                <a href="{{product.get_detail_url}}" target="_blank">
+                                    <strong>{{product.name|title}}</strong>
+                                </a>
+                            </div>
+                            <div class="item-meta">
+                                <ul>
+                                    <li class="item-date"><i class="fa fa-clock-o"></i>
+                                        {% if product.date_created %}
+                                        {{product.date_created|date:"M d, Y"}} 
+                                        {% endif %}
+                                    </li>
+                                    <li class="item-location"><i class="fa fa-map-marker"></i> 
+                                        {{product.get_location}}</li>
+                                    <li class="item-type"><i class="fa fa-bookmark"></i> {{product.get_condition}}</li>
+                                </ul>
+                            </div>
+                            <div class="item-title">
+                                    <strong>Kategori</strong>
+                            </div>
+                            <div class="item-meta">
+                                <ul>
+                                    {% for category in product.categories.all %}
+                                    <li class="item-type">
+                                        <a href="{{category.get_url}}">
+                                        {{category.name}}
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </td>
+                        <td>{{product.unit_weight | int_to_kilogram}}</td>
+                        <td><strong>{{product.price | int_to_rupiah}}</strong></td>
+                        <td>{{product.amount_sold | int_to_quantity}}</td>
+                        <td>
+                            <ul class="actions-table">
+                                <li><a class="label label-success"><i class="fa fa-pencil"></i> edit</a></li>
+                                <li><a class="label label-warning"><i class="fa fa-close"></i> disable</a></li>
+                                <li><a href="#" class="label label-danger" onclick="return confirm('Remove this item?')"><i class="fa fa-trash"></i> delete</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="row">
+            <!--<div class="col-xs-3">
+                    <select class="form-control">
+                        <option selected="">Bulk Action</option>
+                        <option>Block</option>
+                        <option>Delete</option>
+                    </select>
+                </div> -->
+                <div class="col-xs-9 text-right">
+                    {% if products.has_other_pages %}
+                    <div style="text-align: center; width:100%; margin: 15px 0 0 0">
+                      <ul class="pagination table-pagination">
+                        {% if products.has_previous %}
+                          <li><a href="?page={{ products.previous_page_number }}">&lt;&lt; Prev</a></li>
+                        {% else %}
+                          <li class="disabled"><a href="#">&lt;&lt; Prev</a></li>
+                        {% endif %}
+                        {% if not products.number == 1 %}
+                          <li><a href="?page=1">First</a></li>
+                        {% endif %}
+                        {% for i in products.paginator.page_range %}
+                          {% if products.number == i %}
+                          <li class="active"><a href="#">{{ i }}</a></li>
+                          {% elif i < max_page and i > min_page%}
+                          <li><a href="?page={{ i }}">{{ i }}</a></li>
+                          {% elif i == min_page or i == max_page %} 
+                          <li class="disabled"><a href="#">...</a></li>
+                          {% endif %}
+                        {% endfor %}
+                        {% if not products.number == products.paginator.num_pages %}
+                          <li><a href="?page={{products.paginator.count}}">Last</a></li>
+                        {% endif %}
+                        {% if products.has_next %}
+                          <li><a href="?page={{ products.next_page_number }}">Next &gt;&gt;</a></li>
+                        {% else %}
+                          <li class="disabled"><a href="#">Next &gt;&gt;</a></li>
+                        {% endif %}
+                      </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>          
+            {% endif %}        
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $("#checkAll").change(function () {
+            $("input:checkbox").prop('checked', $(this).prop("checked"));
+        });
+    </script>
+{% endblock %}

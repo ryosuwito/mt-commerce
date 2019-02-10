@@ -4,6 +4,7 @@ from django.dispatch import receiver
 from django_extensions.db.fields import AutoSlugField
 from django.urls import reverse
 from django.contrib.auth.models import User
+from database_wilayah.models import Provinsi, Kota
 
 class Store(models.Model):
     name = models.CharField(db_index=True,
@@ -26,6 +27,8 @@ class Store(models.Model):
     def __str__(self):
        return self.name
 
+    def get_photo_url(self):
+        return "/media/%s" % (self.photo)
     def get_url(self):
         return reverse('storefront:products_in_store', kwargs={'store_slug':self.slug})
 
@@ -51,10 +54,24 @@ class Category(models.Model):
        return self.name
 
     def get_url(self):
-        return "/store/kategori/%s/" % (self.pk)
+        return reverse('product_by_category', kwargs={'category_pk':self.pk})
 
 
 class Product(models.Model):
+    NEW = 0
+    SECOND = 1
+    REFURBISHED = 2
+
+
+    CONDITION_CHOICES = (
+        (NEW, 'Baru'),
+        (SECOND, 'Bekas'),
+        (REFURBISHED, 'Refurbished'),
+    )
+    condition = models.PositiveSmallIntegerField(choices=CONDITION_CHOICES, default=NEW) #done
+    
+    date_created = models.DateTimeField(auto_now=True, blank=True, null=True)
+
     name = models.CharField(max_length = 200,
             db_index=True,
             help_text="Nama Produk")
@@ -99,6 +116,29 @@ class Product(models.Model):
             related_name="products_in_store",
             help_text="Toko Produk")
 
+    provinsi = models.ForeignKey(Provinsi, 
+            on_delete=models.SET_NULL,
+            blank=True,
+            null=True,
+            related_name="products_in_province",
+            help_text="Provinsi Produk")
+    kota = models.ForeignKey(Kota, 
+            on_delete=models.SET_NULL,
+            blank=True,
+            null=True,
+            related_name="products_in_city",
+            help_text="Kota Produk")
+    amount_sold = models.IntegerField(default=0)
+
+    def get_condition(self):
+        return self.CONDITION_CHOICES[self.condition][1].title()
+
+    def get_location(self):
+        if self.provinsi and self.kota:
+            return '-'.join((self.kota.name,self.provinsi.name,))
+        else:
+            return ''
+
     def get_details(self):
         details = {'name': self.name,
                    'weight' : self.unit_weight,
@@ -120,7 +160,7 @@ class Product(models.Model):
         return "/media/%s" % (self.photo_alt5)
 
     def get_detail_url(self):
-        return reverse('storefront:product_detail', kwargs={'product_pk':self.pk})
+        return reverse('product_detail', kwargs={'product_pk':self.pk})
 
     class Meta:
         verbose_name_plural = "Products"

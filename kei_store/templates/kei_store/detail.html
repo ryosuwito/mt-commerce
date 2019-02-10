@@ -1,423 +1,245 @@
-
-<!DOCTYPE html>
-<html>  
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="robots" content="index, follow">
-        <title>Dlapak - General Listing Template</title>
-        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:regular,700,600&amp;latin" type="text/css" />
-        <!-- Essential styles -->
-        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" type="text/css">
-        <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.css" type="text/css"> 
-
-        <!-- Dlapak styles -->
-        <link id="theme_style" type="text/css" href="assets/css/style1.css" rel="stylesheet" media="screen">
-
-
-        <!-- Favicon -->
-        <link href="assets/img/favicon.png" rel="icon" type="image/png">
-
-        <!-- Assets -->
-        <link rel="stylesheet" href="assets/plugins/owl-carousel/owl.carousel.css">
-        <link rel="stylesheet" href="assets/plugins/owl-carousel/owl.theme.css">
-        <link rel="stylesheet" href="assets/plugins/flexslider/flexslider.css" type="text/css" media="screen" />
-
-        <!-- JS Library -->
-        <script src="assets/js/jquery.js"></script>
-
-    </head>
-    <body>
-        <div class="wrapper">
-            <header  class="navbar navbar-default navbar-fixed-top navbar-top">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a href="index.html" class="navbar-brand"><span class="logo"><i class="fa fa-recycle"></i> Dlapak</span></a>
-                    </div>
-
-                    <div class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="new-ads"><a href="posting.html" class="btn btn-ads btn-block">Advertise</a></li>
-                            <li><a href="daftar.html">Signup</a></li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" href="#" data-toggle="dropdown"><strong class="caret"></strong>&nbsp;Pages</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="akun.html">My Ads</a></li>
-                                    <li><a href="posting.html">Create Ads</a></li>
-                                    <li><a href="profile.html">My Profile</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-user"></i> <strong class="caret"></strong>&nbsp;</a>
-                                <div class="dropdown-menu dropdown-login" style="padding:15px;min-width:250px">
-                                    <form>                       
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon addon-login"><i class="fa fa-user"></i></span>
-                                                <input type="text" placeholder="Username or email" required="required" class="form-control input-login">                                            
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon addon-login"><i class="addon fa fa-lock"></i></span>
-                                                <input type="password" placeholder="Password" required="required" class="form-control input-login">                                            
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="checkbox">
-                                                <label class="string optional" for="user_remember_me">
-                                                    <input type="checkbox" id="user_remember_me" style="">
-                                                    Remember me
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <input type="submit" class="btn btn-custom btn-block" value="Sign In">
-                                        <a href="lupa.html" class="btn-block text-center">Forgot password?</a>
-                                    </form>                                    
-                                </div>
-                            </li>
-
-                        </ul>
-                    </div>
+{% extends 'kei_store/base.html' %} 
+{% load int_to_rupiah int_to_kilogram %}
+{% block content %}
+<div class="wrapper">
+    {% include 'kei_store/header.html' %}
+    <section class="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="breadcrumb pull-left">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="kategori.html">kategori</a></li>
+                        <li>Detail Product</li>
+                    </ul>
                 </div>
-            </header>
-            <section class="main">
-                <div class="container">
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 col-sm-8">
                     <div class="row">
                         <div class="col-md-12">
-                            <ul class="breadcrumb pull-left">
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="kategori.html">kategori</a></li>
-                                <li>Detail Product</li>
+
+                            <div class="post">
+                                <!-- <div class="post-price">
+                                    {{product.price|int_to_rupiah}}
+                                </div> -->
+                                <div class="post-title">
+                                    <h2>{{product.name|title}}</h2>
+                                </div>
+                                <div class="post-meta">
+                                    <ul>
+                                        <li><i class="fa fa-clock-o"></i> {{product.date_created|date:"M d,Y"}}</li>
+                                        <li><i class="fa fa-map-marker"></i> <a href="kategori.html">
+                                        {{product.get_location}}</a></li>
+                                        <li><i class="fa fa-bookmark"></i> {{product.get_condition}}</li>
+                                    </ul>
+                                </div>
+                                <img alt="" src="{{product.get_photo_url}}" 
+                                width="100%" height="auto"/>
+                                <div class="post-body">
+                                    <h4><strong>Deskripsi</strong></h4>
+                                    <p>
+                                        {{product.description}}
+                                    </p>
+                                    <h4><strong>Harga</strong></h4>
+                                    <p>
+                                        {{product.price|int_to_rupiah}}
+                                    </p>
+                                    <h4><strong>Berat</strong></h4>
+                                    <p>
+                                        {{product.unit_weight|int_to_kilogram}}
+                                    </p>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-12" style="border-top:1px #aaa dotted;">
+                                      <h4 class="title" style="text-align:left">Simulasi Total Pembelian</h4>
+                                      <div class="row">
+                                        <div class="col-xs-6">
+                                          <p style="text-align:left;">
+                                            Jumlah Bayar : <br>
+                                            <span id="jumlahBayar" style="font-size: 150%">{{ product.price | int_to_rupiah }}</span>
+                                          </p>
+                                          <p style="text-align:left;">
+                                            Jumlah Berat : <br>
+                                            <span id="jumlahBerat" style="font-size: 150%">{{ product.unit_weight | int_to_kilogram }}</span>
+                                          </p>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            {% if product.is_available %}
+                                            <p class="hidden" id="productPrice">{{ product.price }}</p>
+                                            <p class="hidden" id="productWeight">{{ product.unit_weight }}</p>
+                                            <form class="form" method="POST" id="formQuantity">
+                                              {% if form.errors %}
+                                                  {% for field in form %}
+                                                      {% for error in field.errors %}
+                                                          <div class="alert alert-danger">
+                                                              <strong>{{ error|escape }}</strong>
+                                                          </div>
+                                                      {% endfor %}
+                                                  {% endfor %}
+                                                  {% for error in form.non_field_errors %}
+                                                      <div class="alert alert-danger">
+                                                          <strong>{{ error|escape }}</strong>
+                                                      </div>
+                                                  {% endfor %}
+                                              {% endif %}
+                                              {% csrf_token %}
+                                                <input type="hidden" name="method" value="cart">
+                                                <div>
+                                                    <p style="margin: 0">Banyaknya :</p>
+                                                    {{ form.quantity }}
+                                                </div>  
+                                            <div class="add-to-box" style="margin-top:8px">
+                                            <button style="margin:0" type="submit" form="formQuantity" class="btn btn-block btn-custom">
+                                                <span class="fa fa-shopping-cart"></span>
+                                            &nbsp;&nbsp;Beli</button>
+                                            </div>
+                                            {% else %}
+                                                <p class="title hot">--Stok Kosong--</p>
+                                            {% endif %} 
+                                            </form>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3>Toko</h3>
+                        </div>
+                        <div class="widget-body text-center">
+                            
+                            {% if product.store.photo %} 
+                            <img alt="avatar"
+                            src="{{product.store.get_photo_url}}"
+                            class="seller-avatar img-responsive"
+                            >
+                            {% else %}
+                            <img alt="avatar"
+                            src="/assets/img/general/user.png"
+                            class="seller-avatar img-responsive"
+                            >
+                            {% endif %}
+                            <h4 class="seller-name">{{product.store.name|title}}</h4>
+                            <p>Lokasi: <strong>{{product.get_location}}</strong><br/>
+                                Bergabung Sejak : <strong>{{product.store.owner.date_joined | date:"M d, Y"}}</strong></p>
+                        </div>
+                        <!-- <div class="widget-footer">
+                            <div class="row">
+                                <div class="col-sm-6">    
+                                    <button class="btn btn-info btn-block"><i class="fa fa-whatsapp"></i> 0823 4223 4234</button>
+                                </div>
+                                <div class="col-sm-6">
+                                    <button class="btn btn-warning btn-block" data-target="#sendMessageModal" data-toggle="modal"><i class="fa fa-envelope"></i> Send Message</button>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3>Browse by kategori</h3>
+                        </div>
+                        <div class="widget-body">
+                            <ul class="trends">
+                                {% for category in categories %}
+                                <li><a href="{{category.get_url}}">{{category.name | title}} &nbsp;<span class="item-numbers">({{category.products_in_category.all.count}})</span></a></li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="col-md-8 col-sm-8">
-                            <div class="row">
-                                <div class="col-md-12">
-
-                                    <div class="post">
-                                        <div class="post-price">
-                                            $ 95.45
-                                        </div>
-                                        <div class="post-title">
-                                            <h2>Lenovo Thinkpad X1 Carbon</h2>
-                                        </div>
-                                        <div class="post-meta">
-                                            <ul>
-                                                <li><i class="fa fa-clock-o"></i> 2 minutes ago</li>
-                                                <li><i class="fa fa-bars"></i> <a href="kategori.html">Electronic</a>,<a href="kategori.html">Laptop</a></li>
-                                                <li><i class="fa fa-map-marker"></i> <a href="kategori.html">Mountain View</a></li>
-                                                <li><i class="fa fa-bookmark"></i> Used</li>
-                                            </ul>
-                                        </div>
-                                        <div class="flexslider post-images">
-                                            <ul class="slides">
-                                                <li data-thumb="assets/img/products/item-1.jpg">
-                                                    <img alt="" src="assets/img/products/item-1.jpg" />
-                                                </li>
-                                                <li data-thumb="assets/img/products/item-2.jpg">
-                                                    <img alt="" src="assets/img/products/item-2.jpg" />
-                                                </li>
-                                                <li data-thumb="assets/img/products/item-3.jpg">
-                                                    <img alt="" src="assets/img/products/item-3.jpg" />
-                                                </li>
-                                                <li data-thumb="assets/img/products/item-4.jpg">
-                                                    <img alt="" src="assets/img/products/item-4.jpg" />
-                                                </li>
-                                            </ul>
-
-                                        </div>
-                                        <div class="post-body">
-                                            <h4><strong>Spesification</strong></h4>
-                                            <ul>
-                                                <li>Display : 14 inch Gorilla Glass</li>
-                                                <li>Processor : Intel Core i7</li>
-                                                <li>Memory : 4GB</li>
-                                                <li>Storage : 320 GB</li>
-                                                <li>Baterai : Good</li>
-                                            </ul>
-                                            <p>
-                                                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. 
-                                            </p>
-                                            <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur 
-                                            </p>
-                                        </div>
-                                        <div class="post-footer">
-                                            <div class="row">
-                                                <div class="col-xs-6">    
-                                                    <button class="btn btn-info"><i class="fa fa-whatsapp"></i> <span class="hidden-xs hidden-sm">0823 4223 4234</span></button>
-                                                    <button class="btn btn-warning" data-target="#sendMessageModal" data-toggle="modal"><i class="fa fa-envelope"></i> <span class="hidden-xs hidden-sm">Send Message</span></button>
-                                                </div>
-                                                <div class="col-xs-6">
-                                                    <div class="item-action pull-right">
-                                                        <ul>
-                                                            <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-success btn"><i class="fa fa-heart"></i></a></li>
-                                                            <li><a href="#" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-info btn"><i class="fa fa-share-alt"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="section-header">
-                                        <h2>More From John Doe</h2>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="item-ads-grid">
-                                                <div class="item-badge-grid featured-ads">
-                                                    <a href="#">Featured Ads</a>
-                                                </div>
-                                                <div class="item-img-grid">
-                                                    <img alt="" src="assets/img/products/product-1.jpg" class="img-responsive img-center">
-                                                </div>
-                                                <div class="item-title">
-                                                    <a href="detail.html"><h4>Lenovo A326 Black 4GB RAM</h4></a>
-                                                </div>
-                                                <div class="item-meta">
-                                                    <ul>
-                                                        <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                                        <li class="item-cat"><i class="fa fa-bars"></i> <a href="kategori.html">Electronics</a> , <a href="kategori.html">Smartphone</a></li>
-                                                        <li class="item-location"><a href="kategori.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                                                        <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="product-footer">
-                                                    <div class="item-price-grid pull-left">
-                                                        <h3>$ 100</h3>
-                                                        <span>Negotiable</span>
-                                                    </div>
-                                                    <div class="item-action-grid pull-right">
-                                                        <ul>
-                                                            <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                                            <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="item-ads-grid highlight-ads">
-                                                <div class="item-badge-grid hot-ads">
-                                                    <a href="#">Featured Ads</a>
-                                                </div>
-                                                <div class="item-img-grid">
-                                                    <img alt="" src="assets/img/products/product-2.jpg" class="img-responsive img-center">
-                                                </div>
-                                                <div class="item-title">
-                                                    <a href="detail.html"><h4>Samsung Galaxy Grand Prime 530 8GB Grey</h4></a>
-                                                </div>
-                                                <div class="item-meta">
-                                                    <ul>
-                                                        <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                                        <li class="item-cat"><i class="fa fa-bars"></i> <a href="kategori.html">Electronics</a> , <a href="kategori.html">Smartphone</a></li>
-                                                        <li class="item-location"><a href="kategori.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                                                        <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="product-footer">
-                                                    <div class="item-price-grid pull-left">
-                                                        <h3>$ 100</h3>
-                                                        <span>Negotiable</span>
-                                                    </div>
-                                                    <div class="item-action-grid pull-right">
-                                                        <ul>
-                                                            <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                                            <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="item-ads-grid">
-                                                <div class="item-badge-grid premium-ads">
-                                                    <a href="#">Featured Ads</a>
-                                                </div>
-                                                <div class="item-img-grid">
-                                                    <img alt="" src="assets/img/products/product-6.jpg" class="img-responsive img-center">
-                                                </div>
-                                                <div class="item-title">
-                                                    <a href="detail.html"><h4>Samsung Tab 3 V 116</h4></a>
-                                                </div>
-                                                <div class="item-meta">
-                                                    <ul>
-                                                        <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                                        <li class="item-cat"><i class="fa fa-bars"></i> <a href="kategori.html">Electronics</a> , <a href="kategori.html">Smartphone</a></li>
-                                                        <li class="item-location"><a href="kategori.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                                                        <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="product-footer">
-                                                    <div class="item-price-grid pull-left">
-                                                        <h3>$ 100</h3>
-                                                        <span>Negotiable</span>
-                                                    </div>
-                                                    <div class="item-action-grid pull-right">
-                                                        <ul>
-                                                            <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                                            <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-header">
+                        <h2>Product lainnya dari {{product.store.name | title}}</h2>
+                    </div>
+                </div>
+                {% for other in other_product %}
+                <div class="col-md-3">
+                    <div class="item-ads-grid">
+                        <div class="item-img-grid">
+                            <img alt="" src="{{other.get_photo_url}}" class="img-responsive img-center">
                         </div>
-                        <div class="col-md-4 col-sm-4">
-                            <div class="widget">
-                                <div class="widget-header">
-                                    <h3>Seller</h3>
-                                </div>
-                                <div class="widget-body text-center">
-                                    <img alt="avatar" src="assets/img/people/photo.jpg" class="seller-avatar img-responsive">
-                                    <h2 class="seller-name">John Doe</h2>
-                                    <p class="seller-detail">Location: <strong>Orlando</strong><br/>
-                                        Joined : <strong>21 June 2010</strong></p>
-                                </div>
-                                <div class="widget-footer">
-                                    <div class="row">
-                                        <div class="col-sm-6">    
-                                            <button class="btn btn-info btn-block"><i class="fa fa-whatsapp"></i> 0823 4223 4234</button>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <button class="btn btn-warning btn-block" data-target="#sendMessageModal" data-toggle="modal"><i class="fa fa-envelope"></i> Send Message</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="widget">
-                                <div class="widget-header">
-                                    <h3>Browse by kategori</h3>
-                                </div>
-                                <div class="widget-body">
-                                    <ul class="trends">
-                                        <li><a href="#">Smartphone &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                        <li><a href="#">Watch &amp; Jewelry &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                        <li><a href="#">Clothes &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                        <li><a href="#">Shoes &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                        <li><a href="#">Music &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                        <li><a href="#">Furniture &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                        <li><a href="#">Photography &nbsp;<span class="item-numbers">(242)</span></a></li>
-                                        <li><a href="#">Web Development &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="widget">
-                                <div class="widget-header">
-                                    <h3>Browse by Brand</h3>
-                                </div>
-                                <div class="widget-body">
-                                    <ul class="brands">
-                                        <li><label><input type="checkbox"> Apple</label></li>
-                                        <li><label><input type="checkbox"> Asus</label></li>
-                                        <li><label><input type="checkbox"> Acer</label></li>
-                                        <li><label><input type="checkbox"> Nexus</label></li>
-                                        <li><label><input type="checkbox"> Nokia</label></li>
-                                        <li><label><input type="checkbox"> Lenovo</label></li>
-                                        <li><label><input type="checkbox"> Samsung</label></li>
-                                    </ul>
-                                </div>  
+                        <div class="item-title">
+                            <a href="{{other.get_detail_url}}"><h4>{{other.name|title}}</h4></a>
+                        </div>
+                        <div class="item-meta">
+                            <ul>
+                                <li class="item-date"><i class="fa fa-clock-o"></i> {{other.date_created | date:"M d, Y"}}</li>\
+                                <li class="item-location"><a href="kategori.html"><i class="fa fa-map-marker"></i> {{other.get_location}}</a></li>
+                                <li class="item-type"><i class="fa fa-bookmark"></i> {{other.get_condition}}</li>
+                            </ul>
+                        </div>
+                        <div class="product-footer">
+                            <div class="item-price-grid pull-left">
+                                <h3>{{other.price | int_to_rupiah}}</h3>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-            <div class="footer">
-                <div class="container">
-                <ul class="pull-left footer-menu">
-                    <li>
-                        <a href="index.html"> Home </a>
-                        <a href="about.html"> Tentang kami </a>
-                        <a href="kontak.html"> Kontak kami </a>
-                    </li>
-                </ul>
-                <ul class="pull-right footer-menu">
-                    <li> &copy; 2015 Dlapak </li>
-                </ul>
-                </div>
+                {% endfor %}
             </div>
         </div>
+    </section>
+    {% include 'kei_store/footer.html' %}
+</div>
 
-        <!-- Send Message Modal -->
-        <div aria-labelledby="sendMessageModalLabel" role="dialog" tabindex="-1" id="sendMessageModal" class="modal fade in">
-            <div role="document" class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button aria-label="Close" data-dismiss="modal" class="close" type="button"><span aria-hidden="true">x</span></button>
-                        <h4 id="sendMessageModalLabel" class="modal-title">Send Message to Seller</h4>
+<!-- Send Message Modal -->
+<div aria-labelledby="sendMessageModalLabel" role="dialog" tabindex="-1" id="sendMessageModal" class="modal fade in">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-label="Close" data-dismiss="modal" class="close" type="button"><span aria-hidden="true">x</span></button>
+                <h4 id="sendMessageModalLabel" class="modal-title">Send Message to Seller</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="control-label">Name:</label>
+                        <input type="text" class="form-control input-lg" placeholder="Your name" required>
                     </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <label class="control-label">Name:</label>
-                                <input type="text" class="form-control input-lg" placeholder="Your name" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Email:</label>
-                                <input type="email" class="form-control input-lg" placeholder="Your email" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" for="message-text">Message:</label>
-                                <textarea id="message-text" class="form-control input-lg" placeholder="Your message" required></textarea>
-                            </div>
-                        </form>
+                    <div class="form-group">
+                        <label class="control-label">Email:</label>
+                        <input type="email" class="form-control input-lg" placeholder="Your email" required>
                     </div>
-                    <div class="modal-footer">
-                        <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
-                        <button class="btn btn-custom" type="button"><i class="fa fa-paper-plane"></i> Send</button>
+                    <div class="form-group">
+                        <label class="control-label" for="message-text">Message:</label>
+                        <textarea id="message-text" class="form-control input-lg" placeholder="Your message" required></textarea>
                     </div>
-                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                <button class="btn btn-custom" type="button"><i class="fa fa-paper-plane"></i> Send</button>
             </div>
         </div>
-        <!-- End Message Modal -->
-
-        <!-- Essentials -->
-        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/plugins/owl-carousel/owl.carousel.js"></script>
-        <script src="assets/plugins/counter/jquery.countTo.js"></script>
-        <script defer src="assets/plugins/flexslider/jquery.flexslider.js"></script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-
-                // ===============Flexslider=====================
-                $('.flexslider').flexslider({
-                    animation: "slide",
-                    controlNav: "thumbnails",
-                    directionNav: false,
-                    start: function (slider) {
-                        $('body').removeClass('loading');
-                    }
-                });
-
-                // ==========tooltip initial=================
-                $('[data-toggle="tooltip"]').tooltip();
-            });
-        </script>
-        <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-68907527-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
-    </body>
-</html> 
+    </div>
+</div>
+  <script>
+    function quantityChange(){
+      quantity = $('#id_quantity').val();
+      if(quantity >= 0){
+        harga = $('#productPrice').text();
+        berat = $('#productWeight').text();
+        jumlahBayar = quantity*harga;
+        jumlahBerat = quantity*berat;
+  
+        $('#jumlahBayar').text('Rp.'+jumlahBayar.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")+',-');
+        if(jumlahBerat<1000){
+          $('#jumlahBerat').text(''+jumlahBerat+' gram');
+        } else {
+          $('#jumlahBerat').text(''+jumlahBerat/1000+'kg');
+        }
+      } else {
+        $('#id_quantity').val(0)
+      }
+    }
+  </script>
+{% endblock %}

@@ -13,7 +13,8 @@ from membership.templatetags.int_to_rupiah import int_to_rupiah
 from settings.models import HeaderLink, HomeLink, FooterLink
 from blog_page.models import Article
 from membership.forms import MemberRegisterForm
-
+from django.middleware.csrf import get_token
+from database_wilayah.models import Provinsi, Kota
 import datetime
 import random
 
@@ -42,10 +43,8 @@ def home(request):
     cart_object = cart['cart_object']
     try:
         products = Product.objects.filter(is_archived=False).order_by('-pk')[:4]
-        featured_products = Product.objects.filter(is_featured=True).order_by('-pk')[0]
     except:
         products = {}
-        featured_products = {}
     categories = Category.objects.all()
     stores = Store.objects.all()
     return render(request, 'kei_store/index.html', 
@@ -57,9 +56,7 @@ def home(request):
         'cart':cart_object, 
         'stores':stores,
         'categories':categories,
-        'products':products,
-        'featured_products':featured_products})
-    #push error
+        'products':products,})
 
 def product_detail(request, product_pk, **kwargs):
     header_links = HeaderLink.objects.all()
@@ -76,35 +73,23 @@ def product_detail(request, product_pk, **kwargs):
                 'name':link.page.title
             }
     flinks = FooterLink.objects.all()
-    referal_code = redirect_referal_code(request, kwargs=kwargs)
-    if referal_code['code']:
-        referer = Member.objects.get(referal_code = referal_code['code'])
-    else:
-        referer = ''
-
-    if referal_code['message'] == "redirect_to_default":
-        return  HttpResponseRedirect(request.scheme+"://"+settings.DEFAULT_HOST + 
-                reverse('storefront:product_detail', kwargs={'product_pk':product_pk},
-                    current_app=request.resolver_match.namespace))
-    elif referal_code['message'] == 'redirect_to_referal':
-        return HttpResponseRedirect(request.scheme+"://"+referer.user.username+'.'+settings.DEFAULT_HOST + 
-                reverse('storefront:product_detail', kwargs={'product_pk':product_pk},
-                    current_app=request.resolver_match.namespace))
-
+    
     cart = carts.get_cart(request)
     cart_object = cart['cart_object']
     wishlist = wishlists.get_wishlist(request)
     wishlist_object = wishlist['wishlist_object']
     categories = Category.objects.all()
     stores = Store.objects.all()
-    all_product = Product.objects.filter(is_archived=False).exclude(pk=product_pk)
+    product = Product.objects.get(pk=product_pk)
+    all_product = Product.objects.filter(is_archived=False,
+        store= product.store
+        ).exclude(pk=product_pk)
     is_wishlist = False
     if len(all_product) >= 5:
         other_product = random.sample(list(all_product), 4)
     else:
         other_product = random.sample(list(all_product), len(all_product))
 
-    product = Product.objects.get(pk=product_pk)
     is_in_wishlist = False
 
     if request.method == 'POST':
@@ -150,15 +135,6 @@ def product_detail(request, product_pk, **kwargs):
 
     product = Product.objects.get(pk=product_pk)
 
-    discount = 0
-    discounted_price = product.price
-    
-    if request.user.is_authenticated:
-        if not request.user.member.member_type == Member.GUEST and \
-            not request.user.member.member_type == Member.NEW_MEMBER:
-            discount = request.user.member.get_level()['BENEFIT']
-            discounted_price = product.price * (100 - discount) / 100
-
     products_in_wishlist = [x.product.id for x in wishlist_object.item_in_wishlist.all()]
     for pk in products_in_wishlist:
         if product_pk == pk:
@@ -168,7 +144,7 @@ def product_detail(request, product_pk, **kwargs):
         response = HttpResponseRedirect(reverse("storefront:product_detail", kwargs=
             {'product_pk':product_pk})[:-1]+"#formQuantity")
     else:
-        response = render(request, 'storefront/product_detail.html', 
+        response = render(request, 'kei_store/detail.html', 
             {
             'hlinks':hlinks,
             'flinks':flinks,
@@ -179,27 +155,11 @@ def product_detail(request, product_pk, **kwargs):
             'form':form, 
             'stores':stores,
             'categories':categories,
-            'is_in_wishlist': is_in_wishlist,
-            'discount': discount, 
-            'discounted_price': int(discounted_price)})
+            'is_in_wishlist': is_in_wishlist,})
 
     return response
     
 def index(request, **kwargs):
-    referal_code = redirect_referal_code(request, kwargs=kwargs)
-    if referal_code['code']:
-        referer = Member.objects.get(referal_code = referal_code['code'])
-
-    if referal_code['message'] == "redirect_to_default":
-        return  HttpResponseRedirect(request.scheme+"://"+settings.DEFAULT_HOST + 
-                reverse('storefront:product_all', 
-                    current_app=request.resolver_match.namespace))
-    elif referal_code['message'] == 'redirect_to_referal':
-        return HttpResponseRedirect(request.scheme+"://"+referer.user.username+'.'+settings.DEFAULT_HOST + 
-                reverse('storefront:product_all', 
-                    current_app=request.resolver_match.namespace))
-
-
     try:
         product_list = Product.objects.filter(is_archived=False)
     except:
@@ -208,7 +168,10 @@ def index(request, **kwargs):
         product_title = 'Tidak Ada Produk'
     else:
         product_title = 'Menampilkan Semua Produk'
-    return paginate_results(request, product_list,product_title)
+    return paginate_results(request, 
+        product_list,
+        product_title,
+        'kei_store/kategori-grid.html')
     
 def product_by_category(request, category_pk, **kwargs):
     try:
@@ -220,7 +183,10 @@ def product_by_category(request, category_pk, **kwargs):
         product_title = 'Tidak Ada Produk'
     else:
         product_title = 'Menampilkan Semua Produk %s' % (kategori.name.title())
-    return paginate_results(request, product_list,product_title)
+    return paginate_results(request, 
+        product_list,
+        product_title,
+        'kei_store/kategori.html')
 
 def product_by_store(request, store_slug, **kwargs):
     try:
@@ -232,7 +198,10 @@ def product_by_store(request, store_slug, **kwargs):
         product_title = 'Tidak Ada Produk'
     else:
         product_title = 'Menampilkan Semua Produk %s' % (store.name.title())
-    return paginate_results(request, product_list,product_title)
+    return paginate_results(request, 
+        product_list,
+        product_title,
+        'kei_store/my_store.html')
 
 def product_by_price(request, start_price, end_price, **kwargs):
     try:
@@ -248,9 +217,12 @@ def product_by_price(request, start_price, end_price, **kwargs):
         product_title = 'Tidak Ada Produk'
     else:
         product_title = 'Menampilkan Semua Produk dari %s - %s' % (int_to_rupiah(start_price), int_to_rupiah(end_price))
-    return paginate_results(request, product_list,product_title)
+    return paginate_results(request, 
+        product_list,
+        product_title,
+        'kei_store/kategori.html')
 
-def paginate_results(request, product_list,product_title):
+def paginate_results(request, product_list,product_title, template_name):
     header_links = HeaderLink.objects.all()
     hlinks = {}
     for link in header_links :
@@ -290,7 +262,7 @@ def paginate_results(request, product_list,product_title):
         except:
             pass
 
-    response = render(request, 'kei_store/kategori.html', 
+    response = render(request, template_name, 
         {
          'hlinks':hlinks,
          'flinks':flinks,
@@ -343,7 +315,9 @@ def add_new_product(request):
             product_photo = data.get('photo')
             product_photo_alt1 = data.get('photo_alt1')
             product_photo_alt2 = data.get('photo_alt2')
-
+            product_categories = data.get('categories')
+            product_provinsi = data.get('provinsi')
+            product_kota = request.POST.get('kota')
             product = Product.objects.create(
                 store = store,
                 name = product_name,
@@ -356,7 +330,25 @@ def add_new_product(request):
                 )
 
             if product:
-                return HttpResponseRedirect(reverse('membership:profile'))
+                for cat in product_categories:
+                    try:
+                        category = Category.objects.get(name=cat)
+                        product.categories.add(category)
+                    except Exception as e:
+                        print(e)
+                        continue
+                try:
+                    product.provinsi = product_provinsi
+                except Exception as e:
+                    print(e)
+                    pass
+                try:
+                    product.kota = Kota.objects.get(pk=product_kota)
+                except Exception as e:
+                    print(e)
+                    pass
+                product.save()
+                return HttpResponseRedirect(store.get_url())
 
     elif request.method == 'GET': 
         form = AddProductForm()
@@ -365,6 +357,7 @@ def add_new_product(request):
         {'form': form, 
          'hlinks':hlinks,
          'flinks':flinks, 
+         'token':get_token(request),
          'wishlist': wishlist_object,
          'cart': cart_object,
         })

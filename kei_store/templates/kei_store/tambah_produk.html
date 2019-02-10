@@ -1,43 +1,26 @@
-{% extends 'kei_store/akun_base.html' %} 
-{% block account_main_content %}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">Toko Saya</h4>
-        </div>
-        <div class="panel-body">
-            <form method="post" enctype="multipart/form-data"> 
-                {% csrf_token %}
-                <div class="row">
-                {% for field in form %}
-                    {% if forloop.first or forloop.counter == 5 %}
-                        <div class="col-sm-6">
-                    {% endif %}
-                    <div class="form-group">
-                        <h6>{{ field.label }}
-                            {% if field.field.required %}
-                            <span class="text-danger">*</span>
-                            {% endif %}
-                        </h6>
-                        {% for error in field.errors %}
-                            <p class="alert alert-danger">{{error}}</p>
-                        {% endfor %}
-                        {{ field }}
-                        <p style="font-size: 10px; color: #777">{{ field.help_text }}</p>
-                    </div>
-                    {% if forloop.counter == 4  or forlopp.last %}
-                    </div>
-                    {% endif %}
-                {% endfor %}
-                </div>
-                <div class="row">
-                    <div class="col-sm-12 text-center">
-                    <hr>
-                        <button type="submit" style="width: auto;" class="btn btn-custom">
-                            Tambahkan
-                        </button>
-                    </div>
-                </div>
-            </form>
+{% extends 'kei_store/akun_base_form.html' %} 
+
+{% block panel_title %}
+<h4 class="panel-title">Toko Saya</h4>
+{% endblock %}
+{% block additional_form %}
+<div class="row">
+    <div class="row">
+        <div class="col-sm-12">
+            <hr>
         </div>
     </div>
+	<div class="col-sm-6">
+	    <h6>Provinsi</h6>
+		{{form.provinsi}}
+	</div>
+	<div class="col-sm-6">
+	    <div class="form-group">
+	        <h6>Kota</h6>
+			<select class="form-control" name="kota" style="width:100%;" id="id_kota">
+			  <option value="..."> </option>
+			</select>
+		</div>
+	</div>
+</div>
 {% endblock %}

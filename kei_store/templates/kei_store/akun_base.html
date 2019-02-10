@@ -36,21 +36,8 @@
                 </div>
             </div>
         </section>
-         <div class="footer">
-            <div class="container">
-            <ul class="pull-left footer-menu">
-                <li>
-                    <a href="index.html"> Home </a>
-                    <a href="about.html"> Tentang kami </a>
-                    <a href="kontak.html"> Kontak kami </a>
-                </li>
-            </ul>
-            <ul class="pull-right footer-menu">
-                <li> &copy; 2015 Dlapak </li>
-            </ul>
-            </div>
-        </div>
     </div>
+    {% include 'kei_store/footer.html' %}
     <script type="text/javascript">
         $("#checkAll").change(function () {
             $("input:checkbox").prop('checked', $(this).prop("checked"));

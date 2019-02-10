@@ -2,6 +2,24 @@
 <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="/assets/plugins/owl-carousel/owl.carousel.js"></script>
 <script src="/assets/plugins/counter/jquery.countTo.js"></script>
+<script defer src="/assets/plugins/flexslider/jquery.flexslider.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        // ===============Flexslider=====================
+        $('.flexslider').flexslider({
+            animation: "slide",
+            controlNav: "thumbnails",
+            directionNav: false,
+            start: function (slider) {
+                $('body').removeClass('loading');
+            }
+        });
+
+        // ==========tooltip initial=================
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -29,4 +47,33 @@
             }
         });
     });
+</script>
+
+<script>
+function getKota(id){
+    var selected_provinsi='';
+    if(id == 'id_provinsi'){
+        var myselect = document.getElementById("id_provinsi");
+        var kota = document.getElementById('id_kota');
+    } 
+    else{
+        var myselect = document.getElementById("id_provinsi_home");
+        var kota = document.getElementById('id_kota_home');
+    }
+    selected_provinsi=myselect.options[myselect.selectedIndex].text;
+    $.ajaxSetup({
+    headers : {
+        'CSRFToken' : "{{token}}",
+    }
+    });
+    $.ajax({url: '/wilayah/kota/'+ selected_provinsi +'/', success: function(result){
+    var options = '';
+    options += "<option value='0'>--pilih kota--</option>";
+    for(i=0; i<result['results'].length; i++){
+        options += "<option value='"+result['results'][i]['value']+"'>"+result['results'][i]['nama']+"</option>";
+        console.log(result['results'][i]['nama']);
+    }
+    kota.innerHTML=options;
+    }});
+}
 </script>

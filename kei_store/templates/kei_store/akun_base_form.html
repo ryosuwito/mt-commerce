@@ -1,0 +1,44 @@
+{% extends 'kei_store/akun_base.html' %} 
+{% block account_main_content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {% block panel_title %}
+            {% endblock panel_title %}
+        </div>
+        <div class="panel-body">
+            <form method="post" enctype="multipart/form-data"> 
+                {% csrf_token %}
+                <div class="row">
+                {% for field in form %}
+                    {% if not field.label in form.EXCLUDE %}
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <h6>{{ field.label }}
+                                {% if field.field.required %}
+                                <span class="text-danger">*</span>
+                                {% endif %}
+                            </h6>
+                            {% for error in field.errors %}
+                                <p class="alert alert-danger">{{error}}</p>
+                            {% endfor %}
+                            {{ field }}
+                            <p style="font-size: 10px; color: #777">{{ field.help_text }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+                {% block additional_form %}
+                {% endblock additional_form %}
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                    <hr>
+                        <button type="submit" style="width: auto;" class="btn btn-custom">
+                            Tambahkan
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
