@@ -25,8 +25,8 @@ SECRET_KEY = KEY.SECRET
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
-PORT = ':8080'
+ALLOWED_HOSTS = ['localhost', '188.166.91.50']
+PORT = ':8001'
 DEFAULT_HOST = ALLOWED_HOSTS[0]+ PORT
 
 # Application definition
