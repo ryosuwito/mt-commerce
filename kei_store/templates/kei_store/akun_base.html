@@ -4,6 +4,7 @@
     {% include 'kei_store/header.html' %}
         <section class="main no-padding">
             <div class="account-header">
+            {% if request.user.is_authenticated %}
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-4 col-md-3 col-lg-2">
@@ -23,6 +24,7 @@
                         </div>
                     </div> <!-- / .row -->
                 </div> <!-- / .container -->
+            {% endif %}
             </div>
             <div class="container">
                 <div class="row">

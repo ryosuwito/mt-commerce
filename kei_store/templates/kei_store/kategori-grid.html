@@ -1,6 +1,7 @@
 {% extends 'kei_store/base.html' %} 
 {% load int_to_rupiah %}
 {% block content %}
+{% include "shopping_cart/setHeight.html" %}
 <div class="wrapper">
     {% include 'kei_store/header.html' %}
     <div class="category-search">
@@ -89,13 +90,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="search-results-box">
+                    <!-- <div class="search-results-box">
                         <div class="row">
                             <div class="col-md-12 search-results">
                                 Keyword : <span>"Lenovo Thinkpad"</span>  Results : <span>23.452</span> items
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="list-results">
                         {% for product in products %}
                         {% if forloop.counter == 1 or forloop.counter == 4 or forloop.counter == 7 or forloop.counter == 10 %}
@@ -104,7 +105,7 @@
                             <div class="col-md-4">
                                 <div class="item-ads-grid">
                                     <div class="item-img-grid">
-                                        <img alt="" src="{{product.get_photo_url}}" class="img-responsive img-center">
+                                        <img onLoad="setHeight(this)"  src="{{product.get_photo_url}}" class="img-responsive img-center">
                                     </div>
                                     <div class="item-title">
                                         <a href="detail.html"><h4>{{product.name | title}}</h4></a>
@@ -130,37 +131,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 text-right">
-                            {% if products.has_other_pages %}
-                            <div style="text-align: center; width:100%; margin: 15px 0 0 0">
-                              <ul class="pagination table-pagination">
-                                {% if products.has_previous %}
-                                  <li><a href="?page={{ products.previous_page_number }}">&lt;&lt; Prev</a></li>
-                                {% else %}
-                                  <li class="disabled"><a href="#">&lt;&lt; Prev</a></li>
-                                {% endif %}
-                                {% if not products.number == 1 %}
-                                  <li><a href="?page=1">First</a></li>
-                                {% endif %}
-                                {% for i in products.paginator.page_range %}
-                                  {% if products.number == i %}
-                                  <li class="active"><a href="#">{{ i }}</a></li>
-                                  {% elif i < max_page and i > min_page%}
-                                  <li><a href="?page={{ i }}">{{ i }}</a></li>
-                                  {% elif i == min_page or i == max_page %} 
-                                  <li class="disabled"><a href="#">...</a></li>
-                                  {% endif %}
-                                {% endfor %}
-                                {% if not products.number == products.paginator.num_pages %}
-                                  <li><a href="?page={{products.paginator.count}}">Last</a></li>
-                                {% endif %}
-                                {% if products.has_next %}
-                                  <li><a href="?page={{ products.next_page_number }}">Next &gt;&gt;</a></li>
-                                {% else %}
-                                  <li class="disabled"><a href="#">Next &gt;&gt;</a></li>
-                                {% endif %}
-                              </ul>
-                            </div>
-                            {% endif %}
+                        {% include 'shopping_cart/pagination.html' %}
                         </div>
                     </div>
                 </div>  

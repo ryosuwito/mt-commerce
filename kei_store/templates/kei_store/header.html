@@ -1,3 +1,4 @@
+{% load int_to_rupiah int_to_kilogram int_to_quantity %}
 <header class="navbar navbar-default navbar-fixed-top navbar-top">
     <div class="container">
         <div class="navbar-header">
@@ -11,15 +12,45 @@
                 style="display: inline; margin-right: 5px; width: 35px; height: auto;"> 
             Toko Butuh</span></a>
         </div>
-
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <!-- <li class="new-ads"><a href="posting.html" class="btn btn-ads btn-block">Advertise</a></li> -->
                 <li><a href="{% url 'storefront:product_all' %}">Store</a></li>
                 {% if not request.user.is_authenticated %}
                 <li><a href="{% url 'membership:register' %}">Daftar</a></li>
+                <li class="new-ads">
+                    <a href="{% url 'cart:index' %}" style="min-width: 0; background: #fff; padding: 5px"><span style="font-size: 20px; color:#444" class="fa fa-shopping-cart">
+                   {% if cart.get_total_products > 0 %}
+                        <span style="min-width:8px;
+                        position: absolute;
+                        top: 6px;
+                        right: 5px;
+                        min-height: 8px;  
+                        padding: 6px;
+                        border-radius: 25px; 
+                        color:#fff;
+                        background-color: #ff4545;"></span>
+                    {% endif %}
+                    </span> 
+                    </a>
+                </li>
+                <li class="new-ads">
+                    <a href="{% url 'cart:wishlist_index' %}" style="min-width: 0; background: #fff; padding: 5px"><span style="font-size: 20px; color:#444" class="fa fa-heart">
+                   {% if wishlist.get_total_products > 0 %}
+                        <span style="min-width:8px;
+                        position: absolute;
+                        top: 6px;
+                        right: 5px;
+                        min-height: 8px;  
+                        padding: 6px;
+                        border-radius: 25px; 
+                        color:#fff;
+                        background-color: #ff4545;"></span>
+                    {% endif %}
+                    </span> 
+                    </a>
+                </li>
                 <li class="dropdown">
-                    <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-user"></i> <strong class="caret"></strong>&nbsp;</a>
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="background: #fff"><span style="font-size: 20px; color:#444" class="fa fa-user"> <strong class="caret"></strong>&nbsp;</a>
                     <div class="dropdown-menu dropdown-login" style="padding:15px;min-width:250px">
                         <form action="{% url 'membership:login' %}" method="post">                       
                             <div class="form-group">

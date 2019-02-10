@@ -1,0 +1,327 @@
+{% extends 'kei_store/akun_base.html' %} 
+{% load int_to_rupiah int_to_quantity int_to_kilogram %}
+{% block account_main_content %}
+    {% include "shopping_cart/setHeight.html" %}
+    <div class="modal hidden " id="myModal" style="box-shadow:none; background:rgba(44,44,44,0.4)">
+      <div class="modal-dialog" style="z-index: 4000;">
+        <div class="modal-content" style="box-shadow: none; filter:none">
+    
+          <div class="modal-header" style="background: #fff">
+            <div class="row" style="margin: 0">
+                <div class="col-xs-9" style="padding: 0">
+                    <h4 class="modal-title">Checkout</h4>
+                </div>
+                <div class="col-xs-3" style="padding: 0; text-align: right">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+          </div>
+    
+          <div id="modal-body" class="modal-body" style="background: #fff">
+            Modal body..
+          </div>
+
+          <div class="modal-footer" style="position: relative; z-index: 4000; background: #fff">
+              <a href="{% url 'pay' %}"><p class="btn btn-success" type="button" style="width: 100%">Bayar</p></a>
+          </div>
+    
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">            
+            {% if not cart.get_items_in_cart %}
+                <h4 class="panel-title" style="font-size:20px; text-align: center;">Tidak ada produk dalam keranjang <br>
+                <a href="{% url 'storefront:product_all' %}">Kembali ke toko</a></h4></div>
+            <!-- ====================================================================================================================================== --> 
+
+            {% else %}
+                <h4 class="panel-title" style="font-size:20px">Pesanan Pembelian</h4>
+            {% endif %}
+        </div>
+        {% if cart.get_items_in_cart %}
+        <div class="panel-body">  
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>
+                            No.
+                        </th>
+                        <th>
+                            Banyaknya
+                        </th>
+                        <th>
+                            Nama Barang
+                        </th>
+                        <th>
+                            Harga Satuan
+                        </th>
+                        <th>
+                            Jumlah
+                        </th>
+                    </tr>
+                    {% for item in products %}
+                    <tr>
+                            <td>
+                                {{ forloop.counter }}
+                            </td>
+                            <td>
+                                {{ item.quantity | int_to_quantity }}
+                            </td>
+                            <td>
+                                {{ item.product.name | title}}
+                            </td>
+                            <td>
+                                {{ item.product.price | int_to_rupiah }}
+                            </td>
+                            <td>
+                                {{ item.get_item_details.subtotal  | int_to_rupiah }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>      
+            {% include "shopping_cart/pagination.html" %} 
+            <div class="row"  style="margin: 0;">
+                <div class="col-xs-12 col-sm-12 col-md-7" style="padding: 0">
+                    <div class="row" style="margin: 0;">
+                        <div class="col-xs-4" style="padding: 0">
+                            <h6>Alamat Tujuan</h6> 
+                        </div>
+                        <div class="col-xs-8" style="padding: 0 15px 0 0">
+                            <h6 id="originalAddress">
+                                {% if not cart.is_set_as_dropship %}
+                                : {{request.user.member.get_home_address | title}}
+                                <br><br>
+                                <a href="{% url 'membership:edit_profile' %}">*(ubah alamat tujuan di profile)</a>
+                                {% else %}
+                                :  {{ cart.customer.name | title }}  <span class="label label-success">Dropship</span> <br><br> {{ cart.customer.get_home_address | title }}
+                                {% endif %}
+                            </h6>        
+                        </div>
+                    </div>
+                    <div class="row" style="margin: 0;">
+                        <hr>
+                        <div class="col-xs-4" style="padding: 0">
+                            <h6>Jumlah Barang</h6> 
+                        </div>
+                        <div class="col-xs-8" style="padding: 0">
+                            <h6 style="font-size: 110%">
+                                : {{ cart.get_total_items_in_cart | int_to_quantity}}
+                            </h6>        
+                        </div>
+                    </div>
+                    <div class="row" style="margin: 0;">
+                        <div class="col-xs-4" style="padding: 0">
+                            <h6>Jumlah Berat</h6> 
+                        </div>
+                        <div class="col-xs-8" style="padding: 0">
+                            <h6 style="font-size: 110%">
+                                : {{ cart.get_total_weight | int_to_kilogram}}
+                            </h6>        
+                        </div>
+                    </div>
+                    <div class="row" style="margin: 0;">
+                        <div class="col-xs-12 col-sm-12 col-md-4" style="padding: 0">
+                            <h6>Jasa Pengiriman</h6> 
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-8" style="padding: 0">
+                            <select id="courier" name="courier" style="width: auto; margin-bottom: 15px; padding: 7px 20px; display:block">
+                                {% for courier in couriers %}
+                                <option 
+                                {% if selected_service == courier %}
+                                selected = "selected"
+                                {% endif %}
+                                value="{{courier}}">{{courier | upper}}
+                                </option>
+                                {% endfor %}
+                            </select>    
+                            <button id="getServices"
+                            class="btn btn-primary" style="margin:auto;">
+                            {% if selected_service %}
+                                Cek Layanan Lainnya
+                            {% else %}
+                                Cek Layanan
+                            {% endif %}
+                            </button>
+                        </div>
+                    </div>
+                    <div id="selectServiceBox" class="row hidden" style="margin: 10px 0 0 0">
+                        <div class="col-xs-12 col-sm-12 col-md-2" style="padding: 0">
+                            <h6>Pilih Layanan</h6> 
+                        </div>
+                        <div id="selectService" class="col-xs-12 col-sm-12 col-md-10" style="padding: 0">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-5" style="padding: 0">
+                    <h4 class="title">Total Belanja</h4>
+                    <div class="row" style="margin: 0; border-bottom: 1px solid #aaa">
+                        <div class="col-xs-5">
+                            <h6>Total Pembelian</h6> 
+                        </div>
+                        <div class="col-xs-7">
+                            <h6>
+                                <strong>: {{ cart.get_total_price | int_to_rupiah }}</strong>
+                            </h6>        
+                        </div>
+                    </div>
+                    <div class="row" style="margin: 0; border-bottom: 1px solid #aaa">
+                        <div class="col-xs-5">
+                            <h6>Discount Member</h6> 
+                        </div>
+                        <div class="col-xs-7">
+                            <h6>
+                                <strong>: {{ discount | int_to_rupiah }}</strong>
+                            </h6>        
+                        </div>
+                    </div>
+                    <div class="row" style="margin: 0; border-bottom: 1px solid #aaa">
+                        <div class="col-xs-5">
+                            <h6>Ongkos Kirim</h6> 
+                        </div>
+                        <div class="col-xs-7">
+                            <h6>
+                                {% if not shipping_cost %}
+                                --
+                                {% else %}
+                                <strong>: {{ shipping_cost | int_to_rupiah }}</strong>
+                                {% endif %}
+                            </h6>        
+                        </div>
+                    </div>
+                    <div class="row" style="margin: 0; border-bottom: 1px solid #aaa">
+                        <div class="col-xs-5">
+                            <h6>Jumlah Bayar</h6> 
+                        </div>
+                        <div class="col-xs-7">
+                            <h6 style="font-size: 115%">
+                                <strong>: {{ discounted_price | int_to_rupiah }}</strong>
+                            </h6>        
+                        </div>
+                    </div>
+                    <div class="row" style="margin: 10px 0 0 0;">
+                        {% if not shipping_cost %}
+                        <p class="hot" style="font-size: 14px">Pilih Layanan Pengiriman Untuk Melanjutkan</p>
+                        <p  class="btn btn-block btn-primary disabled">
+                        {% else %} 
+                        <p onclick="checkout()" class="btn btn-block btn-primary">
+                        {% endif %}
+                        Lanjutkan Pembayaran</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    <p style="font-size: 8pt" class="panel-title" >Belanja Lagi?
+                    <a href="{% url 'storefront:product_all' %}">Kembali ke toko</a></p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+<script>
+    function cancelDropship(){
+        $('#setAsDropshipBox').removeClass('hidden');
+        $('#originalAddress').removeClass('hidden');
+        $('#formDropshipContainer').addClass('hidden');
+        $('#setAsDropship').prop('checked', false)
+    }
+    function setAsDropship(){
+        $('#setAsDropshipBox').addClass('hidden');
+        $('#originalAddress').addClass('hidden');
+        $('#formDropshipContainer').removeClass('hidden');
+    }
+</script>
+
+<script>
+    function checkout(){
+        cancelDropship();
+        $.post("{% url 'checkout' %}",
+            {
+                csrfmiddlewaretoken:"{{token}}",
+            },
+            function (data, status){         
+                if(data!=0){       
+                    var modal = $('#myModal');
+                    modal.removeClass('hidden');
+                    var modalBody = $('#modal-body')
+                    var results = "<div class='row' style='margin: 0;padding:5px 0'>";
+                        results += "<div class='col-xs-12' style='padding: 0'>";
+                        results += "<p><strong style='font-size: 120%'> Nomor Invoice : "+ data['order_number']+"</strong><br>";
+                        results += "<strong style='font-size: 220%'>";
+                        results += "Jumlah Tagihan: <br>"+data['total_payment'] + " </strong>";
+                        results += "<hr>Keterangan : <br></p></div>";
+                        results += "<div class='col-xs-4' style='padding: 0'>";
+                        results += "<p>Jumlah Belanja <br>";
+                        results += "Discount <br>";
+                        results += "Ongkos Kirim</p>";
+                        results += "<hr><p>Penyedia Jasa <br>";
+                        results += "Jenis Layanan <br>";
+                        results += "Alamat Tujuan </p>";
+                        results += "</div>";
+                        results += "<div class='col-xs-8' style='padding: 0'>";
+                        results += "<p>: "+data['total_price']+"<br>";
+                        results += ": "+data['discount']+"<br>";
+                        results += ": "+data['shipping_cost']+"</p>";
+                        results += "<hr><p>: "+data['service']+"<br>";
+                        results += ": "+data['sub_service']+"<br>";
+                        results += ": "+data['alamat_tujuan']+"</p>";
+                        results += "</div>";
+                        results += "</div>";
+                    modalBody.html(results);
+                    modal.modal('show');
+                }
+            },
+        );
+    }
+</script>
+<script>
+    $('#getServices').click(function(){
+        $("#getServices").addClass('disabled');
+        $('#getServices').text("Please Wait...");
+        $('#selectServiceBox').addClass('hidden');
+        var courier = $('#courier').find(":selected").val();
+        var selectService = $('#selectService');
+        var results = '';
+        $.post('',
+            {
+                csrfmiddlewaretoken:"{{token}}",
+                courier:courier,
+                method:'check_shipping'
+            },
+            function (data, status){         
+                if(data!=0){       
+                    for(var i=0; i < data.length; i++){
+                        results += "<div class='row' style='margin: 0;padding:5px 0'>";
+                        results += "<div class='col-xs-12' style='padding: 0'>";
+                        results += "<p> Kode Layanan :"+ data[i]['service']+" ";
+                        results += "<strong style='font-size: 120%'> <br>";
+                        results += "Ongkos Kirim : "+data[i]['cost'][0]['value'] + " </strong>";
+                        results += "<br>Keterangan : "+data[i]['description']+"<br></p></div>";
+                        results += "<br>";
+                        results += "<form method='post'>";
+                        results += "<input type='hidden' name='csrfmiddlewaretoken' value='{{token}}'>";
+                        results += "<input type='hidden' name='method' value='set_shipping'>";
+                        results += "<input type='hidden' name='service' value='"+ data[i]['service'] +"'>";
+                        results += "<button type='submit'";
+                        results += "class='btn btn-xs btn-primary' style='margin:auto;'>Pilih Layanan Ini</button>";
+                        results += "</form>";
+                        results += "</div></div>";
+                    }
+                    selectService.html(results);
+                }
+                else{
+                    selectService.html('<p style="padding-top:10px">Layanan ini tidak tersedia</p>')
+                }
+                $('#selectServiceBox').removeClass('hidden');
+                $("#getServices").removeClass('disabled');
+                $('#getServices').text('Cek Layanan Lain');
+            },
+        );
+    });
+</script>
+{% include "membership/get_area_script.html" %}
+{% endblock %}s

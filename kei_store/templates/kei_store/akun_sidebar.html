@@ -15,8 +15,13 @@
             {% else %}
             <li><a href="{{request.user.store.get_url}}">Toko Saya</a></li>
             {% endif %}
+            {% if request.user.is_authenticated %}
             <li><a href="{% url 'membership:profile' %}">Profil Saya</a></li>
             <li><a href="{% url 'membership:logout' %}">Keluar</a></li>
+            {% else %}
+            <li><a href="{% url 'membership:login' %}">Masuk</a></li>
+            <li><a href="{% url 'membership:register' %}">Daftar</a></li>
+            {% endif %}
         </ul>
     </div>
 </div>

@@ -69,17 +69,17 @@ def index(request):
 
     discounted_price = cart_object.get_total_price()
 
-    if request.user.is_authenticated:
-        if not request.user.member.member_type == Member.GUEST and \
-            not request.user.member.member_type == Member.NEW_MEMBER:
-            benefit = request.user.member.get_level()['BENEFIT']
-            discount = cart_object.get_total_price() * discount / 100
-            discounted_price = cart_object.get_total_price() * (100 - discount) / 100
-            if discount <= 0:
-                discount = int(discount)
-                discounted_price = int(discounted_price)
+    # if request.user.is_authenticated:
+    #     if not request.user.member.member_type == Member.GUEST and \
+    #         not request.user.member.member_type == Member.NEW_MEMBER:
+    #         benefit = request.user.member.get_level()['BENEFIT']
+    #         discount = cart_object.get_total_price() * discount / 100
+    #         discounted_price = cart_object.get_total_price() * (100 - discount) / 100
+    #         if discount <= 0:
+    #             discount = int(discount)
+    #             discounted_price = int(discounted_price)
 
-    return render(request, 'shopping_cart/cart_show_all.html', 
+    return render(request, 'kei_store/cart_index.html', 
         {'wishlist': wishlist_object,
         'cart':cart_object,
         'products':products,

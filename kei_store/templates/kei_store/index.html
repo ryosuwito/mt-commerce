@@ -1,6 +1,7 @@
 {% extends 'kei_store/base.html' %} 
 {% load int_to_rupiah %}
 {% block content %}
+{% include "shopping_cart/setHeight.html" %}
 <div class="wrapper">
     {% include 'kei_store/header.html' %}
     <section class="hero">
@@ -104,7 +105,7 @@
                                 <div class="col-sm-4">
                                     <div class="item-ads-grid">
                                         <div class="item-img-grid">
-                                            <img alt="" src="{{product.get_photo_url}}" class="img-responsive img-center">
+                                            <img onLoad="setHeight(this)"" src="{{product.get_photo_url}}" class="img-responsive img-center">
                                         </div>
                                         <div class="item-title">
                                             <a href="{{product.get_detail_url}}"><h4>{{product.name|title}}</h4></a>

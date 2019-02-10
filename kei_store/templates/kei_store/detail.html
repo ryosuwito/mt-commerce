@@ -3,6 +3,7 @@
 {% block content %}
 <div class="wrapper">
     {% include 'kei_store/header.html' %}
+    {% include "shopping_cart/setHeight.html" %}
     <section class="main">
         <div class="container">
             <div class="row">
@@ -35,7 +36,7 @@
                                         <li><i class="fa fa-bookmark"></i> {{product.get_condition}}</li>
                                     </ul>
                                 </div>
-                                <img alt="" src="{{product.get_photo_url}}" 
+                                <img onLoad="setHeight(this)" class="main-photo" src="{{product.get_photo_url}}" 
                                 width="100%" height="auto"/>
                                 <div class="post-body">
                                     <h4><strong>Deskripsi</strong></h4>
@@ -161,31 +162,32 @@
                         <h2>Product lainnya dari {{product.store.name | title}}</h2>
                     </div>
                 </div>
-                {% for other in other_product %}
-                <div class="col-md-3">
-                    <div class="item-ads-grid">
-                        <div class="item-img-grid">
-                            <img alt="" src="{{other.get_photo_url}}" class="img-responsive img-center">
-                        </div>
-                        <div class="item-title">
-                            <a href="{{other.get_detail_url}}"><h4>{{other.name|title}}</h4></a>
-                        </div>
-                        <div class="item-meta">
-                            <ul>
-                                <li class="item-date"><i class="fa fa-clock-o"></i> {{other.date_created | date:"M d, Y"}}</li>\
-                                <li class="item-location"><a href="kategori.html"><i class="fa fa-map-marker"></i> {{other.get_location}}</a></li>
-                                <li class="item-type"><i class="fa fa-bookmark"></i> {{other.get_condition}}</li>
-                            </ul>
-                        </div>
-                        <div class="product-footer">
-                            <div class="item-price-grid pull-left">
-                                <h3>{{other.price | int_to_rupiah}}</h3>
+            </div>
+            {% for other in other_product %}
+                {% if forloop.counter <= 6 %}
+                    {% if forloop.first %}
+                    <div class="row">
+                    {% endif %}
+                    <div class="col-md-2">
+                        <div class="item-ads-grid" style="min-height: 0">
+                            <div class="item-img-grid">
+                                <img onLoad="setHeight(this)" style="width: 100%; height: auto;" src="{{other.get_photo_url}}" class="img-responsive img-center">
+                            </div>
+                            <div class="item-title">
+                                <a href="{{other.get_detail_url}}"><h6>{{other.name|title}}</h6></a>
+                            </div>
+                            <div class="product-footer">
+                                <div class="item-price-grid pull-left">
+                                    <h6>{{other.price | int_to_rupiah}}</h6>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                {% endfor %}
-            </div>
+                    {% if forloop.last %}
+                    </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
         </div>
     </section>
     {% include 'kei_store/footer.html' %}

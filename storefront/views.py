@@ -118,13 +118,6 @@ def product_detail(request, product_pk, **kwargs):
                     cart_item.quantity = quantity
                 else :
                     cart_item.quantity += int(quantity)
-
-                if request.user.is_authenticated:
-                    if referer and not referer == request.user.member:
-                        cart_item.product_referal = referer
-                else: 
-                    if referer:
-                        cart_item.product_referal = referer
                     
                 cart_item.save()
             

@@ -22,8 +22,8 @@ import datetime
 
 @login_required
 def index(request):
-    if not request.user.member.is_email_verified:
-        return HttpResponseRedirect(reverse('membership:verify'))
+    # if not request.user.member.is_email_verified:
+    #     return HttpResponseRedirect(reverse('membership:verify'))
     header_links = HeaderLink.objects.all()
     hlinks = {}
     for link in header_links :
@@ -53,7 +53,7 @@ def index(request):
     products = cart_object.get_items_in_cart()
     discount = 0
     discounted_price = 0
-    shipping_origin = ShippingOrigin.objects.filter(is_default = True)[0]
+    shipping_origin = '' #ShippingOrigin.objects.filter(is_default = True)[0]
     if 'old_cart_weight' in request.session:
         if request.session['old_cart_weight'] != cart_object.get_total_weight():
             cart_object.shipping_cost = 0
@@ -141,14 +141,14 @@ def index(request):
         
     if request.user.is_authenticated:
         discounted_price = cart_object.get_total_price()
-        if not request.user.member.member_type == Member.GUEST and \
-            not request.user.member.member_type == Member.NEW_MEMBER:
-            benefit = request.user.member.get_level()['BENEFIT']
-            discount = cart_object.get_total_price() * discount / 100
-            discounted_price = cart_object.get_total_price() * (100 - discount) / 100
-            if discount <= 0:
-                discount = int(discount)
-                discounted_price = int(discounted_price)
+        # if not request.user.member.member_type == Member.GUEST and \
+        #     not request.user.member.member_type == Member.NEW_MEMBER:
+        #     benefit = request.user.member.get_level()['BENEFIT']
+        #     discount = cart_object.get_total_price() * discount / 100
+        #     discounted_price = cart_object.get_total_price() * (100 - discount) / 100
+        #     if discount <= 0:
+        #         discount = int(discount)
+        #         discounted_price = int(discounted_price)
 
     if shipping_cost:                
         discounted_price += shipping_cost
@@ -156,11 +156,11 @@ def index(request):
     couriers = get_courier()
     token = get_token(request)
 
-    customers = Customer.objects.filter(seller=request.user.member)
-    form = CustomerAddForm()
-    return render(request, 'purchase_order/select_shipping.html', 
+    # customers = Customer.objects.filter(seller=request.user.member)
+    # form = CustomerAddForm()
+    return render(request, 'kei_store/order.html', 
         {'wishlist': wishlist_object,
-        'customers':customers,
+        # 'customers':customers,
         'cart':cart_object,
         'products':products,
         'discount':discount,
@@ -173,7 +173,8 @@ def index(request):
         'shipping_origin':shipping_origin,
         'selected_service':selected_service,
         'token':token,
-        'form':form})
+        # 'form':form
+        })
 
 @login_required
 def checkout(request):

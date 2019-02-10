@@ -1,6 +1,7 @@
 {% extends 'kei_store/base.html' %} 
 {% load int_to_rupiah %}
 {% block content %}
+{% include "shopping_cart/setHeight.html" %}
 <div class="wrapper">
     {% include 'kei_store/header.html' %}
     <div class="category-search">
@@ -120,7 +121,7 @@
                                     <div class="row">
                                         <div class="col-sm-2 col-xs-3">
                                             <div class="item-img">
-                                                <img alt="" style="width: 100%; height: auto;" src="{{product.get_photo_url}}">
+                                                <img onLoad="setHeight(this)" style="width: 100%; height: auto;" src="{{product.get_photo_url}}">
                                             </div>
                                         </div>
                                         <div class="col-sm-7 col-xs-6">
@@ -155,57 +156,14 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 text-right">
-                            {% if products.has_other_pages %}
-                            <div style="text-align: center; width:100%; margin: 15px 0 0 0">
-                              <ul class="pagination table-pagination">
-                                {% if products.has_previous %}
-                                  <li><a href="?page={{ products.previous_page_number }}">&lt;&lt; Prev</a></li>
-                                {% else %}
-                                  <li class="disabled"><a href="#">&lt;&lt; Prev</a></li>
-                                {% endif %}
-                                {% if not products.number == 1 %}
-                                  <li><a href="?page=1">First</a></li>
-                                {% endif %}
-                                {% for i in products.paginator.page_range %}
-                                  {% if products.number == i %}
-                                  <li class="active"><a href="#">{{ i }}</a></li>
-                                  {% elif i < max_page and i > min_page%}
-                                  <li><a href="?page={{ i }}">{{ i }}</a></li>
-                                  {% elif i == min_page or i == max_page %} 
-                                  <li class="disabled"><a href="#">...</a></li>
-                                  {% endif %}
-                                {% endfor %}
-                                {% if not products.number == products.paginator.num_pages %}
-                                  <li><a href="?page={{products.paginator.count}}">Last</a></li>
-                                {% endif %}
-                                {% if products.has_next %}
-                                  <li><a href="?page={{ products.next_page_number }}">Next &gt;&gt;</a></li>
-                                {% else %}
-                                  <li class="disabled"><a href="#">Next &gt;&gt;</a></li>
-                                {% endif %}
-                              </ul>
-                            </div>
-                            {% endif %}
+                        {% include 'shopping_cart/pagination.html' %}
                         </div>
                     </div>
                 </div>  
             </div>
         </div>
     </section>
-    <div class="footer">
-        <div class="container">
-        <ul class="pull-left footer-menu">
-            <li>
-                <a href="index.html"> Home </a>
-                <a href="about.html"> Tentang kami </a>
-                <a href="kontak.html"> Kontak kami </a>
-            </li>
-        </ul>
-        <ul class="pull-right footer-menu">
-            <li> &copy; 2015 Dlapak </li>
-        </ul>
-        </div>
-    </div>
+    {% include 'kei_store/footer.html' %}
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
