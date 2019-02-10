@@ -1,4 +1,5 @@
 {% extends 'kei_store/base.html' %} 
+{% load int_to_rupiah %}
 {% block content %}
 <div class="wrapper">
     {% include 'kei_store/header.html' %}
@@ -55,18 +56,13 @@
                         </div>
                         <div class="widget-body">
                             <ul class="trends">
-                                <li><a href="#">Smartphone &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                <li><a href="#">Watch &amp; Jewelry &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                <li><a href="#">Clothes &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                <li><a href="#">Shoes &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                <li><a href="#">Music &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                <li><a href="#">Furniture &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                <li><a href="#">Photography &nbsp;<span class="item-numbers">(242)</span></a></li>
-                                <li><a href="#">Web Development &nbsp;<span class="item-numbers">(2,342)</span></a></li>
+                                {% for category in categories %}
+                                <li><a href="{{category.get_url}}">{{category.name | title}} &nbsp;<span class="item-numbers">({{category.products_in_category.all.count}})</span></a></li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
-                    <div class="widget">
+                    <<!-- div class="widget">
                         <div class="widget-header">
                             <h3>Browse by Brand</h3>
                         </div>
@@ -81,7 +77,7 @@
                                 <li><label><input type="checkbox"> Samsung</label></li>
                             </ul>
                         </div>  
-                    </div>
+                    </div> -->
                 </div>
                 <div class="col-md-9 col-sm-9">
                     <div class="category-header no-margin-bottom">
@@ -109,176 +105,87 @@
                             </div>
                         </div>
                     </div>
-                    <div class="search-results-box">
+                    <!-- <div class="search-results-box">
                         <div class="row">
                             <div class="col-md-12 search-results">
                                 Keyword : <span>"Lenovo Thinkpad"</span>  Results : <span>23.452</span> items
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="list-results">
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="item-ads highlight-ads">
-
-                                    <div class="row">
-
-                                        <div class="col-sm-2 col-xs-3">
-                                            <div class="item-badge featured-ads">
-                                                <a href="#">Featured Ads</a>
-                                            </div>
-                                            <div class="item-img">
-                                                <img alt="" src="assets/img/products/product-1.jpg">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-8 col-xs-6">
-                                            <div class="item-title">
-                                                <a href="detail.html"><h4>Lenovo A326 Black 4GB RAM</h4></a>
-                                            </div>
-                                            <div class="item-meta">
-                                                <ul>
-                                                    <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                                    <li class="item-cat hidden-xs"><i class="fa fa-bars"></i> <a href="kategori.html">Electronics</a> , <a href="kategori.html">Smartphone</a></li>
-                                                    <li class="item-location hidden-xs"><a href="kategori.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                                                    <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2 col-xs-3">
-                                            <div class="item-price">
-                                                <h3>$ 100</h3>
-                                                <span>Negotiable</span>
-                                            </div>
-                                            <div class="item-action">
-                                                <ul>
-                                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                                    <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                {% for product in products %}
                                 <div class="item-ads">
                                     <div class="row">
                                         <div class="col-sm-2 col-xs-3">
-                                            <div class="item-badge hot-ads">
-                                                <a href="#">Hot Ads</a>
-                                            </div>
                                             <div class="item-img">
-                                                <img alt="" src="assets/img/products/product-2.jpg">
+                                                <img alt="" style="width: 100%; height: auto;" src="{{product.get_photo_url}}">
                                             </div>
                                         </div>
-                                        <div class="col-sm-8 col-xs-6">
+                                        <div class="col-sm-7 col-xs-6">
                                             <div class="item-title">
-                                                <a href="detail.html"><h4>Samsung Galaxy Grand Prime 530 8GB Grey</h4></a>
+                                                <a href="{{product.get_detail_url}}"><h4>{{product.name|title}}</h4></a>
                                             </div>
                                             <div class="item-meta">
                                                 <ul>
-                                                    <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                                    <li class="item-cat hidden-xs"><i class="fa fa-bars"></i> <a href="kategori.html">Electronics</a> , <a href="kategori.html">Smartphone</a></li>
-                                                    <li class="item-location hidden-xs"><a href="kategori.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
+                                                    <li class="item-date"><i class="fa fa-clock-o"></i> {{product.date_created | date:"M d, Y"}}</li>
+                                                    <li class="item-location hidden-xs"><a href="kategori.html"><i class="fa fa-map-marker"></i> {{product.get_location}}</a></li>
 
-                                                    <li class="item-type"><i class="fa fa-bookmark"></i> Used</li>
+                                                    <li class="item-type"><i class="fa fa-bookmark"></i> {{product.get_condition}}</li>
                                                 </ul>
+                                                <p>
+                                                    {{product.description | truncatechars:200}}
+                                                </p>
                                             </div>
                                         </div>
-                                        <div class="col-sm-2 col-xs-3">
+                                        <div class="col-sm-3 col-xs-3">
                                             <div class="item-price">
-                                                <h3>$ 45</h3>
-                                                <span>Negotiable</span>
-                                            </div>
-                                            <div class="item-action">
-                                                <ul>
-                                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                                    <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
-                                                </ul>
+                                                <h6>{{product.price | int_to_rupiah}}</h6>
+                                                <button onclick="window.open('{{product.get_detail_url}}', '_parent')" class="btn btn-block btn-sm btn-custom">
+                                                    Beli
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="item-ads">
-                                    <div class="row">
-                                        <div class="col-sm-2 col-xs-3">
-                                            <div class="item-badge premium-ads">
-                                                <a href="#">Premium Ads</a>
-                                            </div>
-                                            <div class="item-img">
-                                                <img alt="" src="assets/img/products/product-6.jpg">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-8 col-xs-6">
-                                            <div class="item-title">
-                                                <a href="detail.html"><h4>Samsung Tab 3 V 116</h4></a>
-                                            </div>
-                                            <div class="item-meta">
-                                                <ul>
-                                                    <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                                    <li class="item-cat hidden-xs"><i class="fa fa-bars"></i> <a href="kategori.html">Electronics</a> , <a href="kategori.html">Smartphone</a></li>
-                                                    <li class="item-location hidden-xs"><a href="kategori.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                                                    <li class="item-type"><i class="fa fa-bookmark"></i> Used</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2 col-xs-3">
-                                            <div class="item-price">
-                                                <h3>$ 60</h3>
-                                                <span>Negotiable</span>
-                                            </div>
-                                            <div class="item-action">
-                                                <ul>
-                                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                                    <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item-ads highlight-ads">
-                                    <div class="row">
-                                        <div class="col-sm-2 col-xs-3">
-                                            <div class="item-img">
-                                                <img alt="" src="assets/img/products/product-7.jpg">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-8 col-xs-6">
-                                            <div class="item-title">
-                                                <a href="detail.html"><h4>Sony Experia Z2 LTE</h4></a>
-                                            </div>
-                                            <div class="item-meta">
-                                                <ul>
-                                                    <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                                    <li class="item-cat hidden-xs"><i class="fa fa-bars"></i> <a href="kategori.html">Electronics</a> , <a href="kategori.html">Smartphone</a></li>
-                                                    <li class="item-location hidden-xs"><a href="kategori.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                                                    <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2 col-xs-3">
-                                            <div class="item-price">
-                                                <h3>$ 75</h3>
-                                                <span>Negotiable</span>
-                                            </div>
-                                            <div class="item-action">
-                                                <ul>
-                                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                                    <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 text-right">
-                            <ul class="pagination">
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li class="active"><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                            </ul>
+                            {% if products.has_other_pages %}
+                            <div style="text-align: center; width:100%; margin: 15px 0 0 0">
+                              <ul class="pagination table-pagination">
+                                {% if products.has_previous %}
+                                  <li><a href="?page={{ products.previous_page_number }}">&lt;&lt; Prev</a></li>
+                                {% else %}
+                                  <li class="disabled"><a href="#">&lt;&lt; Prev</a></li>
+                                {% endif %}
+                                {% if not products.number == 1 %}
+                                  <li><a href="?page=1">First</a></li>
+                                {% endif %}
+                                {% for i in products.paginator.page_range %}
+                                  {% if products.number == i %}
+                                  <li class="active"><a href="#">{{ i }}</a></li>
+                                  {% elif i < max_page and i > min_page%}
+                                  <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                  {% elif i == min_page or i == max_page %} 
+                                  <li class="disabled"><a href="#">...</a></li>
+                                  {% endif %}
+                                {% endfor %}
+                                {% if not products.number == products.paginator.num_pages %}
+                                  <li><a href="?page={{products.paginator.count}}">Last</a></li>
+                                {% endif %}
+                                {% if products.has_next %}
+                                  <li><a href="?page={{ products.next_page_number }}">Next &gt;&gt;</a></li>
+                                {% else %}
+                                  <li class="disabled"><a href="#">Next &gt;&gt;</a></li>
+                                {% endif %}
+                              </ul>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>  

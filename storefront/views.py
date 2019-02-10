@@ -85,8 +85,8 @@ def product_detail(request, product_pk, **kwargs):
         store= product.store
         ).exclude(pk=product_pk)
     is_wishlist = False
-    if len(all_product) >= 5:
-        other_product = random.sample(list(all_product), 4)
+    if len(all_product) >= 6:
+        other_product = random.sample(list(all_product), 6)
     else:
         other_product = random.sample(list(all_product), len(all_product))
 
