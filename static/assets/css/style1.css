@@ -161,12 +161,12 @@ a:hover{
 /*===========Hero==================*/
 .hero{
 	min-height: 300px;
-	background: url("../img/background/hero.jpg") no-repeat center center / cover  rgba(0, 0, 0, 1);
+	background: url("/assets/img/banner.jpg") no-repeat center center / cover  rgba(0, 0, 0, 1);
 	color: #FFF;
 }
 
 .category-search{
-	background: url("../img/background/hero.jpg") no-repeat center center / cover  rgba(0, 0, 0, 1);
+	background: url("/assets/img/banner.jpg") no-repeat center center / cover  rgba(0, 0, 0, 1);
 	color: #FFF;
 	padding-top: 40px;
 	padding-bottom: 30px;
@@ -813,7 +813,7 @@ h2.product-title{
 }
 
 .item-count{
-	font-size: 60px;
+	font-size: 40px;
     font-weight: 700;
     margin-bottom: 20px;
     text-align: center;
@@ -850,6 +850,9 @@ h2.product-title{
     margin: 0;
     font-size: 10pt
 }
+.category-box{
+	width: 20%
+}
 .top-footer{
     width: 100%;
     padding: 30px 15px;
@@ -860,8 +863,8 @@ h2.product-title{
     font-size: 10pt
 }
 .top-footer-box{
-	padding:30px 15px;
-	min-height: 265px;
+	padding:15px 15px;
+	min-height: 200px;
 	border: 1px solid #ccc;
 }.top-footer-box > p {
 	font-size: 8pt;

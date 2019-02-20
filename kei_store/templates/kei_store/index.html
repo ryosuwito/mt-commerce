@@ -4,21 +4,22 @@
 {% include "shopping_cart/setHeight.html" %}
 <div class="wrapper">
     {% include 'kei_store/header.html' %}
-    <section class="hero">
-        <div class="container text-center">
-            <h2 class="hero-title">Find an Awesome Things Here</h2>
-            <p class="hero-description hidden-xs">Find all things you need on DLapak. We give you a simple way.</p>
+    <section class="hero" style="position: relative;">
+        <div class="container text-center" style="position: absolute; bottom: 20px">
+<!--             <h2 class="hero-title">Find an Awesome Things Here</h2>
+            <p class="hero-description hidden-xs">Find all things you need on DLapak. We give you a simple way.</p> -->
             <div class="row hero-search-box">
                 <form>
                     <div class="col-md-4 col-sm-4 search-input">
-                        <input type="text" class="form-control input-lg search-first" placeholder="I'm feeling lucky...">
+                        <input type="text" class="form-control input-lg search-first" placeholder="Mau Cari Apa ?">
                     </div>
                     <div class="col-md-4 col-sm-4 search-input">
                                 <select class="form-control input-lg search-second">
                                     <option selected="">All Location</option>
-                                    <option>New York</option>
-                                    <option>Washington</option>
-                                    <option>California</option>
+                                    <option>Jabodetabek</option>
+                                    <option>Jawa Barat</option>
+                                    <option>Jawa Tengah</option>
+                                    <option>Jawa Timur</option>
                                 </select>
                     </div>
                     <div class="col-md-4 col-sm-4 search-input">
@@ -33,61 +34,40 @@
             <div class="row">
                 <div class="col-md-8 col-sm-8">
                     <div class="row">
-                        <div class="col-xs-4 col-sm-3">
+                        <div class="col-xs-4 col-sm-3 category-box">
                             <div class="shortcut">
-                                <a href="{{hlinks.1.addr}}"><i class="fa fa-car shortcut-icon icon-blue"></i></a>
+                                <a href="{{hlinks.1.addr}}"><img src="/assets/img/mobil.png"></a>
                                 <a href="{{hlinks.1.addr}}"><h3>Mobil</h3></a>
                                 <span class="total-items">234,567</span>
                             </div>
                         </div>
-                        <div class="col-xs-4 col-sm-3">
+                        <div class="col-xs-4 col-sm-3 category-box">
                             <div class="shortcut">
-                                <a href="{{hlinks.2.addr}}"><i class="fa fa-motorcycle shortcut-icon icon-green"></i></a>
+                                <a href="{{hlinks.2.addr}}"><img src="/assets/img/motor.png"></a>
                                 <a href="{{hlinks.2.addr}}"><h3>Motor</h3></a>
                                 <span class="total-items">25,366</span>
                             </div>
                         </div>
-                        <div class="col-xs-4 col-sm-3">
+                        <div class="col-xs-4 col-sm-3 category-box">
                             <div class="shortcut">
-                                <a href="{{hlinks.3.addr}}"><i class="fa fa-home shortcut-icon icon-brown"></i></a>
+                                <a href="{{hlinks.3.addr}}"><img src="/assets/img/rumah.png"></a>
                                 <a href="{{hlinks.3.addr}}"><h3>Properti</h3></a>
                                 <span class="total-items">252,546</span>
                             </div>
                         </div>
-                        <div class="col-xs-4 col-sm-3">
+                        <div class="col-xs-4 col-sm-3 category-box">
                             <div class="shortcut">
-                                <a href="{{hlinks.4.addr}}"><i class="fa fa-female shortcut-icon icon-violet"></i></a>
-                                <a href="{{hlinks.4.addr}}"><h3>Fashion</h3></a>
+                                <a href="{{hlinks.4.addr}}"><img src="/assets/img/emas.png"></a>
+                                <a href="{{hlinks.4.addr}}"><h3>Emas</h3></a>
                                 <span class="total-items">52,546</span>
                             </div>
                         </div>
-                        <div class="col-xs-4 col-sm-3">
+                        <div class="col-xs-4 col-sm-3 category-box">
                             <div class="shortcut">
-                                <a href="{{hlinks.5.addr}}"><i class="fa fa-mobile-phone shortcut-icon icon-dark-blue"></i></a>
-                                <a href="{{hlinks.5.addr}}"><h3>Gadget</h3></a>
+                                <a href="{{hlinks.5.addr}}"><img src="/assets/img/tanah.png"></i></a>
+                                <a href="{{hlinks.5.addr}}"><h3>Tanah</h3></a>
                                 <span class="total-items">215,546</span>
                             </div>
-                        </div>
-                        <div class="col-xs-4 col-sm-3">
-                            <div class="shortcut">
-                                <a href="{{hlinks.6.addr}}"><i class="fa fa-soccer-ball-o shortcut-icon icon-orange"></i></a>
-                                <a href="{{hlinks.6.addr}}"><h3>Sport</h3></a>
-                                <span class="total-items">415,546</span>
-                            </div>  
-                        </div>
-                        <div class="col-xs-4 col-sm-3">
-                            <div class="shortcut">
-                                <a href="{{hlinks.7.addr}}"><i class="fa fa-gears shortcut-icon icon-light-blue"></i></a>
-                                <a href="{{hlinks.7.addr}}"><h3>Industri</h3></a>
-                                <span class="total-items">15,546</span>
-                            </div>  
-                        </div>
-                        <div class="col-xs-4 col-sm-3">
-                            <div class="shortcut">
-                                <a href="{{hlinks.8.addr}}"><i class="fa fa-wrench shortcut-icon icon-light-green"></i></a>
-                                <a href="{{hlinks.8.addr}}"><h3>Peralatan</h3></a>
-                                <span class="total-items">152,546</span>
-                            </div>  
                         </div>
                     </div>
                     
@@ -154,7 +134,7 @@
                                         <label class="string optional" for="terms">
                                             <input type="checkbox" id="terms" style="">
                                             <span style="font-size:8pt">Saya setuju dengan <a href="#">
-                                                syarat dan ketentuan </a> companyname.com
+                                                syarat dan ketentuan </a> TokoButuh.com
                                             </span>
                                         </label>
                                     </div>
@@ -219,28 +199,28 @@
         </div> <!-- / .counter -->
     </div>
     <div class="top-footer">
-        <p>Butuh bantuan? Kontak kami di <strong>(002) 58474546</strong> - Email kami di: address@email.com</p>
+        <p>Butuh bantuan? Kontak kami di <strong>(002) 58474546</strong> - Email kami di: info@tokobutuh.com</p>
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 top-footer-box">
-                    <img src="/assets/img/icon/truck.svg" width="30%" height="auto">
+                    <img src="/assets/img/icon/truck.svg" width="60px" height="auto">
                     <h5 class="title">Metode Pengiriman</h5>
-                    <p>Companyname.com menyediakan berbagai pilihan jasa pengiriman dengan jangkauan nasional</p>
+                    <p>TokoButuh.com menyediakan berbagai pilihan jasa pengiriman dengan jangkauan nasional</p>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 top-footer-box">
-                    <img src="/assets/img/icon/protected.svg" width="30%" height="auto">
+                    <img src="/assets/img/icon/protected.svg" width="60px" height="auto">
                     <h5 class="title">Jaminan Keamanan 100%</h5>
-                    <p>Companyname.com menjamin keamanan uang Anda dalam bertransaksi. <a href="#">Pelajari selengkapnya</a></p>
+                    <p>TokoButuh.com menjamin keamanan uang Anda dalam bertransaksi. <a href="#">Pelajari selengkapnya</a></p>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 top-footer-box">
-                    <img src="/assets/img/icon/delivery.svg" width="30%" height="auto">
+                    <img src="/assets/img/icon/delivery.svg" width="60px" height="auto">
                     <h5 class="title">Kenyamanan Berbelanja</h5>
-                    <p>Dapatkan keuntungan seperti akses ke komunitas Companyname.com serta tips dan trik berjualan online</p>
+                    <p>Dapatkan keuntungan seperti akses ke komunitas TokoButuh.com serta tips dan trik berjualan online</p>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 top-footer-box">
-                    <img src="/assets/img/icon/24-phone.svg" width="30%" height="auto">
+                    <img src="/assets/img/icon/24-phone.svg" width="60px" height="auto">
                     <h5 class="title">24/7 Service Center</h5>
-                    <p>Customer Support Companyname.com siap membantu Anda melalui email, media sosial, dan call center</p>
+                    <p>Customer Support TokoButuh.com siap membantu Anda melalui email, media sosial, dan call center</p>
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 {% load int_to_rupiah int_to_kilogram int_to_quantity %}
-<header class="navbar navbar-default navbar-fixed-top navbar-top">
+<header class="navbar navbar-default navbar-fixed-top navbar-top" style="background-color: #f39303">
     <div class="container">
         <div class="navbar-header">
             <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
@@ -8,9 +8,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="{% url 'home' %}" class="navbar-brand"><span class="logo"><img src="/assets/images/tb_logo.png"
-                style="display: inline; margin-right: 5px; width: 35px; height: auto;"> 
-            Toko Butuh</span></a>
+            <a href="{% url 'home' %}" class="navbar-brand" style="padding: 0"><img src="/assets/img/logo.png"
+                style="display: inline; margin-right: 5px; width: 275px; height: auto;"></a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -18,7 +17,7 @@
                 {% if not request.user.is_authenticated %}
                 <li><a href="{% url 'membership:register' %}">Daftar</a></li>
                 <li class="new-ads">
-                    <a href="{% url 'cart:index' %}" style="min-width: 0; background: #fff; padding: 5px"><span style="font-size: 20px; color:#444" class="fa fa-shopping-cart">
+                    <a href="{% url 'cart:index' %}" style="min-width: 0; padding: 5px; padding-left: 15px"><span style="font-size: 20px; color:#444" class="fa fa-shopping-cart">
                    {% if cart.get_total_products > 0 %}
                         <span style="min-width:8px;
                         position: absolute;
@@ -34,7 +33,7 @@
                     </a>
                 </li>
                 <li class="new-ads">
-                    <a href="{% url 'cart:wishlist_index' %}" style="min-width: 0; background: #fff; padding: 5px"><span style="font-size: 20px; color:#444" class="fa fa-heart">
+                    <a href="{% url 'cart:wishlist_index' %}" style="min-width: 0; padding: 5px; padding-left: 15px"><span style="font-size: 20px; color:#444" class="fa fa-heart">
                    {% if wishlist.get_total_products > 0 %}
                         <span style="min-width:8px;
                         position: absolute;
@@ -50,7 +49,7 @@
                     </a>
                 </li>
                 <li class="dropdown">
-                    <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="background: #fff"><span style="font-size: 20px; color:#444" class="fa fa-user"> <strong class="caret"></strong>&nbsp;</a>
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span style="font-size: 20px; color:#444" class="fa fa-user"> <strong class="caret"></strong>&nbsp;</a>
                     <div class="dropdown-menu dropdown-login" style="padding:15px;min-width:250px">
                         <form action="{% url 'membership:login' %}" method="post">                       
                             <div class="form-group">
