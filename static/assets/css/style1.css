@@ -859,6 +859,9 @@ h2.product-title{
 	.category-box{
 		width: 33.3%
 	}
+	.navbar-collapse{
+		background-color: #ffbe5d
+	}
 }
 .top-footer{
     width: 100%;
