@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '142.93.235.34']
 PORT = ':8001'
-DEFAULT_HOST = ALLOWED_HOSTS[0]+ PORT
+DEFAULT_HOST = ALLOWED_HOSTS[1]+ PORT
 
 # Application definition
 
